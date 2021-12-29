@@ -8206,6 +8206,7 @@ __metadata:
     mobx-react-lite: ^3.2.2
     mobx-state-tree: ^5.1.0
     react: 17.0.2
+    react-hook-form: ^7.22.5
     react-native: 0.66.4
     react-native-feather: ^1.1.2
     react-native-linear-gradient: ^2.5.6
@@ -8418,6 +8419,15 @@ __metadata:
   peerDependencies:
     react: ^17.0.0
   checksum: c746b9d369c77296c277626cf7dd5ff24d49657e2f16412d14f845d1b428588184c0009374119f7dec24be37ab8c134d15aa4ecd57360c874880af508dcc577b
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:^7.22.5":
+  version: 7.22.5
+  resolution: "react-hook-form@npm:7.22.5"
+  peerDependencies:
+    react: ^16.8.0 || ^17
+  checksum: 73c76e132f96f01cf9bd447817dda393c57e04ab65005946cefd96436f5b49bc5fa2b3e24d2d1fa737c7334f971e28aef4f617cf25dbf89d0d019d0cb0b0e41f
   languageName: node
   linkType: hard
 
