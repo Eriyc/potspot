@@ -8,6 +8,8 @@ import {useNavigation} from '@react-navigation/native';
 
 import {AuthRoute} from '../navigation';
 import {Background} from '../components';
+import {useMst} from '../../../store';
+import {observer} from 'mobx-react-lite';
 
 interface FormData {
   email: string;
@@ -17,8 +19,9 @@ interface FormData {
 
 const formStyle = tw`text-black bg-gray-100 rounded-md mb-2`;
 
-export const SignupScreen = () => {
+export const SignupScreen = observer(() => {
   const navigation = useNavigation<AuthRoute>();
+  const {user} = useMst();
   const {
     control,
     handleSubmit,
@@ -30,8 +33,8 @@ export const SignupScreen = () => {
   const passwordRef = useRef<string>('');
   passwordRef.current = watch('password', '');
 
-  const onSubmit = (data: any) => {
-    console.log('data', data);
+  const onSubmit = (data: FormData) => {
+    user.signUp(data.email, data.password);
   };
   const onError = () => {
     console.log('error', errors);
@@ -68,7 +71,7 @@ export const SignupScreen = () => {
               name="email"
             />
             <Text style={tw`text-red-500 mb-2`}>
-              {errors.email?.type === 'pattern' && 'Ange en giltig mailaddress'}
+              {errors.email && 'Ange en giltig mailaddress'}
             </Text>
 
             <Text style={tw`text-black`}>Lösenord</Text>
@@ -92,7 +95,7 @@ export const SignupScreen = () => {
               name="password"
             />
             <Text style={tw`text-red-500 mb-2`}>
-              {errors.password?.type === 'minLength' &&
+              {errors.password &&
                 'Lösenordet måste vara längre än 6 karaktärer'}
             </Text>
 
@@ -150,4 +153,4 @@ export const SignupScreen = () => {
       </ScrollView>
     </Background>
   );
-};
+});

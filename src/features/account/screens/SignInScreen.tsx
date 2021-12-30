@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {Pressable, ScrollView, Text, TextInput, View} from 'react-native';
 import tw from 'twrnc';
 
@@ -7,6 +7,8 @@ import {useNavigation} from '@react-navigation/native';
 import {Background} from '../components';
 import {AuthRoute} from '../navigation';
 import {Controller, useForm} from 'react-hook-form';
+import {observer} from 'mobx-react-lite';
+import {useMst} from '../../../store';
 
 interface FormData {
   email: string;
@@ -15,22 +17,18 @@ interface FormData {
 
 const formStyle = tw`text-black bg-gray-100 rounded-md mb-2`;
 
-export const SignInScreen = () => {
+export const SignInScreen = observer(() => {
   const navigation = useNavigation<AuthRoute>();
+  const {user} = useMst();
 
   const {
     control,
     handleSubmit,
-    watch,
-    reset,
     formState: {errors},
   } = useForm<FormData>();
 
-  const passwordRef = useRef<string>('');
-  passwordRef.current = watch('password', '');
-
-  const onSubmit = (data: any) => {
-    console.log('data', data);
+  const onSubmit = (data: FormData) => {
+    user.signIn(data.email, data.password);
   };
   const onError = () => {
     console.log('error', errors);
@@ -102,9 +100,7 @@ export const SignInScreen = () => {
                     pressed && 'bg-indigo-300',
                   )
                 }
-                onPress={() => {
-                  handleSubmit(onSubmit, onError);
-                }}>
+                onPress={handleSubmit(onSubmit, onError)}>
                 <Text style={tw`text-white`}>Logga in</Text>
               </Pressable>
               <Text style={tw`text-black text-center flex-1 ml-2`}>
@@ -123,4 +119,4 @@ export const SignInScreen = () => {
       </ScrollView>
     </Background>
   );
-};
+});

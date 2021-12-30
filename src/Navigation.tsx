@@ -1,19 +1,26 @@
-import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {observer} from 'mobx-react-lite';
+import React from 'react';
+import {ActivityIndicator, View} from 'react-native';
+import tw from 'twrnc';
 import {AuthNavigation} from './features/account';
+import {AppNavigation} from './features/app';
 import {useMst} from './store';
-import {Text} from 'react-native';
 
 const MainNavigation = observer(() => {
   const {user} = useMst();
 
-  console.log(user);
+  if (!user.isAuthenticated) {
+    return (
+      <View style={tw`flex flex-1 justify-center items-center bg-white`}>
+        <ActivityIndicator animating size="large" />
+      </View>
+    );
+  }
 
   return (
     <NavigationContainer>
-      <Text>{user.id}</Text>
-      <AuthNavigation />
+      {user.id ? <AppNavigation /> : <AuthNavigation />}
     </NavigationContainer>
   );
 });
