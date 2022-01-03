@@ -1,5 +1,5 @@
 import {ApiError, AuthSession, AuthUser, Provider} from '@supabase/supabase-js';
-import {flow, types} from 'mobx-state-tree';
+import {flow, getRoot, types} from 'mobx-state-tree';
 import {supabase} from '../../utils/supabase';
 
 type SupabaseResponse = {
@@ -13,15 +13,15 @@ type SupabaseResponse = {
 export const User = types
   .model({
     id: types.optional(types.string, ''),
-    isAuthenticated: types.optional(types.boolean, false),
+    isAuthenticated: types.maybe(types.optional(types.boolean, false)),
     needsVerifyEmail: types.optional(types.boolean, false),
     status: types.optional(
       types.enumeration(['pending', 'done', 'error']),
-      'done',
+      'pending',
     ),
   })
-  .actions(self => ({
-    signIn: flow(function* (email: string, password: string) {
+  .actions(self => {
+    const signIn = flow(function* (email: string, password: string) {
       self.status = 'pending';
       try {
         const response: SupabaseResponse = yield supabase.auth.signIn({
@@ -40,8 +40,8 @@ export const User = types
         self.status = 'error';
         self.isAuthenticated = false;
       }
-    }),
-    signUp: flow(function* (email: string, password: string) {
+    });
+    const signUp = flow(function* (email: string, password: string) {
       try {
         const response = yield supabase.auth.signUp({email, password});
         console.log('response', response);
@@ -57,11 +57,22 @@ export const User = types
         self.isAuthenticated = false;
         self.status = 'error';
       }
-    }),
-    signOut: () => {
+    });
+    const updateStatus = (status: 'pending' | 'done' | 'error') => {
+      self.status = status;
+    };
+    const checkStatus = flow(function* () {
+      console.log('check', getRoot(self));
+      new Promise(resolve => setTimeout(() => resolve, 2000)).then(() => {
+        updateStatus('done');
+      });
+    });
+    const signOut = () => {
       self.id = '';
 
       self.isAuthenticated = false;
       self.status = 'done';
-    },
-  }));
+    };
+
+    return {signIn, signOut, signUp, checkStatus};
+  });

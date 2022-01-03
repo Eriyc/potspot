@@ -1,15 +1,27 @@
-import {Instance, types} from 'mobx-state-tree';
+import {flow, Instance, types} from 'mobx-state-tree';
 import {createContext, useContext} from 'react';
 import {User} from './account/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import persist from 'mst-persist';
+import {ProfileModel} from './account/profile';
 
-const RootModel = types.model({
-  user: User,
-});
+const RootModel = types
+  .model({
+    user: User,
+    profile: ProfileModel,
+  })
+  .actions(self => ({
+    initialize: flow(function* () {
+      const user = yield self.user.checkStatus();
+      if (self.user.id) {
+        const profile = yield self.profile.getProfile(self.user.id);
+      }
+    }),
+  }));
 
 let initialState = RootModel.create({
   user: {},
+  profile: {},
 });
 
 persist('potspot-store', initialState, {
