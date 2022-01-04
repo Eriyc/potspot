@@ -8,11 +8,10 @@ import {AppNavigation} from './features/app';
 import {useMst} from './store';
 
 const MainNavigation = observer(() => {
-  const {user} = useMst();
+  const {initialize, user} = useMst();
 
   useEffect(() => {
-    user.checkStatus().then(console.log);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    initialize();
   }, []);
 
   if (user.status === 'pending') {

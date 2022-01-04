@@ -43,7 +43,7 @@ export const SignupScreen = observer(() => {
   return (
     <Background>
       <ScrollView
-        style={tw`flex flex-1`}
+        style={tw`flex flex-1 `}
         contentContainerStyle={tw`flex flex-grow `}
         bounces={false}
         horizontal={false}>
