@@ -1,0 +1,40 @@
+import {useMst} from '@/store';
+import {AuthSession, AuthUser} from '@supabase/supabase-js';
+import {useState, useEffect} from 'react';
+import {supabase} from './supabase';
+
+export const useAuthState = () => {
+  const {initialize} = useMst();
+  const [session, setSession] = useState<AuthSession | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
+
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowSplash(false);
+    }, 2000);
+
+    setSession(supabase.auth.session()); // will return the user object for scenario 1 // null for scenario 2
+    setUser(supabase.auth.user()); // will return the user object for scenario 1 // null for scenario 2
+
+    // for scenario 2, this will fire a SIGNED_IN event shortly after page load once the session has been loaded from the server.
+    const {data: authListener} = supabase.auth.onAuthStateChange(
+      async (event, s) => {
+        console.log(`Supbase auth event: ${event}`);
+        setSession(s);
+        setUser(s?.user ?? null);
+
+        if (s) {
+          await initialize();
+          setShowSplash(false);
+        }
+      },
+    );
+    return () => {
+      authListener?.unsubscribe();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return {user, session, showSplash};
+};

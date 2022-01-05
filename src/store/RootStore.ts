@@ -1,4 +1,4 @@
-import {Instance, types} from 'mobx-state-tree';
+import {flow, Instance, types} from 'mobx-state-tree';
 import {AuthStore} from './AuthStore';
 
 export const RootStore = types
@@ -8,9 +8,9 @@ export const RootStore = types
     }),
   })
   .actions(self => {
-    const initialize = () => {
-      self.authStore.getCurrentUser();
-    };
+    const initialize = flow(function* () {
+      yield self.authStore.getCurrentUser();
+    });
 
     return {initialize};
   })

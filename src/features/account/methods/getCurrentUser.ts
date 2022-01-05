@@ -1,4 +1,3 @@
-import {getToken} from '@/utils/auth.storage';
 import {supabase} from '@/utils/supabase';
 type ApiError = 'UNAUTHENTICATED';
 
