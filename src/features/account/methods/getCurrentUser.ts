@@ -8,8 +8,7 @@ type ApiSuccess = {
 };
 
 export const getCurrentUser = async (): Promise<ApiSuccess | ApiError> => {
-  const {body, error} = await supabase.from('accounts').select('*').single();
+  const {body} = await supabase.from('accounts').select('*').single();
 
-  console.log(body, error);
   return body;
 };

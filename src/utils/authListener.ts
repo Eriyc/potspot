@@ -11,9 +11,12 @@ export const useAuthState = () => {
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
+    // eslint-disable-next-line no-undef
+    let timer: NodeJS.Timeout;
+    timer = setTimeout(async () => {
+      await initialize();
       setShowSplash(false);
-    }, 2000);
+    }, 1000);
 
     setSession(supabase.auth.session()); // will return the user object for scenario 1 // null for scenario 2
     setUser(supabase.auth.user()); // will return the user object for scenario 1 // null for scenario 2
@@ -21,11 +24,13 @@ export const useAuthState = () => {
     // for scenario 2, this will fire a SIGNED_IN event shortly after page load once the session has been loaded from the server.
     const {data: authListener} = supabase.auth.onAuthStateChange(
       async (event, s) => {
-        console.log(`Supbase auth event: ${event}`);
+        console.log(event);
+
         setSession(s);
         setUser(s?.user ?? null);
 
         if (s) {
+          clearTimeout(timer);
           await initialize();
           setShowSplash(false);
         }
