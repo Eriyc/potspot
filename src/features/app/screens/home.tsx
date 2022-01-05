@@ -5,12 +5,12 @@ import tw from 'twrnc';
 import {useMst} from '../../../store';
 
 export const HomeScreen: FC = observer(() => {
-  const {user} = useMst();
+  const {authStore} = useMst();
 
   return (
     <View style={tw`flex flex-1 justify-center items-center`}>
       <Text>Home screen</Text>
-      <Pressable onPress={user.signOut} style={tw`bg-indigo-500 p-4`}>
+      <Pressable onPress={authStore.signOut} style={tw`bg-indigo-500 p-4`}>
         <Text>Sign Out</Text>
       </Pressable>
     </View>

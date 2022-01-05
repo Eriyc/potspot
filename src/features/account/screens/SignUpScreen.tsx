@@ -8,7 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import {AuthRoute} from '../navigation';
 import {Background} from '../components';
-import {useMst} from '../../../store';
+import {useMst} from '@/store';
 import {observer} from 'mobx-react-lite';
 
 interface FormData {
@@ -21,7 +21,7 @@ const formStyle = tw`text-black bg-gray-100 rounded-md mb-2`;
 
 export const SignupScreen = observer(() => {
   const navigation = useNavigation<AuthRoute>();
-  const {user} = useMst();
+  const {authStore} = useMst();
   const {
     control,
     handleSubmit,
@@ -34,7 +34,7 @@ export const SignupScreen = observer(() => {
   passwordRef.current = watch('password', '');
 
   const onSubmit = (data: FormData) => {
-    user.signUp(data.email, data.password);
+    authStore.signUp(data.email, data.password);
   };
   const onError = () => {
     console.log('error', errors);

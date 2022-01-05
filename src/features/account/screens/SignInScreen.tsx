@@ -19,7 +19,7 @@ const formStyle = tw`text-black bg-gray-100 rounded-md mb-2`;
 
 export const SignInScreen = observer(() => {
   const navigation = useNavigation<AuthRoute>();
-  const {user} = useMst();
+  const {authStore} = useMst();
 
   const {
     control,
@@ -28,7 +28,7 @@ export const SignInScreen = observer(() => {
   } = useForm<FormData>();
 
   const onSubmit = (data: FormData) => {
-    user.signIn(data.email, data.password);
+    authStore.signIn(data.email, data.password);
   };
   const onError = () => {
     console.log('error', errors);

@@ -1,8 +1,9 @@
+import 'react-native-url-polyfill/auto';
 import React from 'react';
 
 import tw, {useAppColorScheme, useDeviceContext} from 'twrnc';
 import {MainNavigation} from './Navigation';
-import {Provider, rootStore} from './store';
+import {StoreProvider} from './store';
 
 const Entrypoint = () => {
   // 1️⃣  opt OUT of listening to DEVICE color scheme events
@@ -10,9 +11,9 @@ const Entrypoint = () => {
   useAppColorScheme(tw, 'light');
 
   return (
-    <Provider value={rootStore}>
+    <StoreProvider>
       <MainNavigation />
-    </Provider>
+    </StoreProvider>
   );
 };
 
