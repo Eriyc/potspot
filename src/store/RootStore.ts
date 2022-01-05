@@ -8,11 +8,11 @@ export const RootStore = types
     }),
   })
   .actions(self => {
-    const afterCreate = () => {
+    const initialize = () => {
       self.authStore.getCurrentUser();
     };
 
-    return {afterCreate};
+    return {initialize};
   })
   .views(self => ({
     get isLoggedIn() {
