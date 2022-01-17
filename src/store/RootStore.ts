@@ -4,7 +4,7 @@ import {AuthStore} from './AuthStore';
 export const RootStore = types
   .model('RootStore', {
     authStore: types.optional(AuthStore, {
-      currentUser: undefined,
+      currentUser: null,
     }),
   })
   .actions(self => {
@@ -16,7 +16,7 @@ export const RootStore = types
   })
   .views(self => ({
     get isLoggedIn() {
-      return self.authStore.currentUser !== undefined;
+      return self.authStore.currentUser !== null;
     },
   }));
 

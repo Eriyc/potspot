@@ -16,7 +16,7 @@ export const User = types
 
 export const AuthStore = types
   .model('AuthStore', {
-    currentUser: types.maybe(User),
+    currentUser: types.maybeNull(User),
   })
   .actions(self => {
     const signIn = flow(function* (email: string, password: string) {
@@ -50,7 +50,7 @@ export const AuthStore = types
 
     const signOut = () => {
       eraseToken();
-      self.currentUser = undefined;
+      self.currentUser = null;
     };
 
     return {signUp, signOut, signIn, getCurrentUser};
