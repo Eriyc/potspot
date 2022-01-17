@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.potspot",
+    package = "dev.dgren.potspot",
 )
 
 android_resource(
     name = "res",
-    package = "com.potspot",
+    package = "dev.dgren.potspot",
     res = "src/main/res",
 )
 

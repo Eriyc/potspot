@@ -1,7 +1,8 @@
 import 'react-native-url-polyfill/auto';
 import React from 'react';
 
-import tw, {useAppColorScheme, useDeviceContext} from 'twrnc';
+import tw from '@/utils/tailwind';
+import {useAppColorScheme, useDeviceContext} from 'twrnc';
 import {MainNavigation} from './Navigation';
 import {StoreProvider} from './store';
 import MapboxGL from '@react-native-mapbox-gl/maps';

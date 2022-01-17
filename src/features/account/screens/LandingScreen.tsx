@@ -1,7 +1,7 @@
 import React from 'react';
 import {Pressable, Text, View} from 'react-native';
 import {ChevronRight} from 'react-native-feather';
-import tw from 'twrnc';
+import tw from '@/utils/tailwind';
 
 import {useNavigation} from '@react-navigation/native';
 

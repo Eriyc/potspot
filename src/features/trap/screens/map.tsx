@@ -1,7 +1,7 @@
 import React, {FC, useRef} from 'react';
 import {observer} from 'mobx-react-lite';
 import {View} from 'react-native';
-import tw from 'twrnc';
+import tw from '@/utils/tailwind';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
 const INITIAL_POS: [number, number] = [11.605112551760044, 57.637770511076575];
@@ -21,7 +21,7 @@ export const MapScreen: FC = observer(() => {
         <MapboxGL.UserLocation />
         <MapboxGL.Camera
           ref={cameraRef}
-          defaultSettings={{centerCoordinate: INITIAL_POS}}
+          defaultSettings={{centerCoordinate: INITIAL_POS, zoomLevel: 8}}
         />
         <MapboxGL.RasterSource {...openSeaMapTiles}>
           <MapboxGL.RasterLayer id="openseamapLayer" sourceID="openseamap" />

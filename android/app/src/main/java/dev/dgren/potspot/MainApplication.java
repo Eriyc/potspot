@@ -1,4 +1,4 @@
-package com.potspot;
+package dev.dgren.potspot;
 
 import android.app.Application;
 import android.content.Context;

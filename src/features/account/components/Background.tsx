@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import tw from 'twrnc';
+import tw from '@/utils/tailwind';
 
 export const Background: FC = ({children}) => (
   <LinearGradient

@@ -6,7 +6,7 @@ import {AppNavigation} from './features/app';
 import {useMst} from '@/store';
 import {useAuthState} from './utils/authListener';
 import {ActivityIndicator, View} from 'react-native';
-import tw from 'twrnc';
+import tw from '@/utils/tailwind';
 
 const MainNavigation = observer(() => {
   const {showSplash} = useAuthState();

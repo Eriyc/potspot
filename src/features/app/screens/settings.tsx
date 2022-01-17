@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {observer} from 'mobx-react-lite';
 import {View, Text, Pressable} from 'react-native';
-import tw from 'twrnc';
+import tw from '@/utils/tailwind';
 import {useMst} from '@/store';
 
 export const SettingsScreen: FC = observer(() => {

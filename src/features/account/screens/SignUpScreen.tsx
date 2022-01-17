@@ -2,7 +2,7 @@ import React, {useRef} from 'react';
 import {Pressable, ScrollView, Text, TextInput, View} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 
-import tw from 'twrnc';
+import tw from '@/utils/tailwind';
 
 import {useNavigation} from '@react-navigation/native';
 

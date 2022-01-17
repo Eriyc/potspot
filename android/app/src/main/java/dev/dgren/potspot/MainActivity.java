@@ -1,4 +1,4 @@
-package com.potspot;
+package dev.dgren.potspot;
 
 import com.facebook.react.ReactActivity;
 import android.os.Bundle;

@@ -1,7 +1,7 @@
 import React, {FC, useRef} from 'react';
 import {Animated} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
-import tw from 'twrnc';
+import tw from '@/utils/tailwind';
 
 const FadeInView: FC = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0

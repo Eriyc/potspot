@@ -1,6 +1,6 @@
 import React from 'react';
 import {Pressable, ScrollView, Text, TextInput, View} from 'react-native';
-import tw from 'twrnc';
+import tw from '@/utils/tailwind';
 
 import {useNavigation} from '@react-navigation/native';
 
