@@ -2253,6 +2253,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/tailwindcss@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@types/tailwindcss@npm:3.0.2"
+  checksum: 2e5be8f465ee57407bda3b49d64bda3a801ef946a815ea9affbae506517968fc584996a17a3d9c8fb712e73e855e91375ad11ca17d0e099f6bab0013c246dce3
+  languageName: node
+  linkType: hard
+
 "@types/websocket@npm:^1.0.3":
   version: 1.0.4
   resolution: "@types/websocket@npm:1.0.4"
@@ -8687,6 +8694,7 @@ __metadata:
     "@types/jest": ^26.0.23
     "@types/react-native": ^0.66.4
     "@types/react-test-renderer": ^17.0.1
+    "@types/tailwindcss": ^3.0.2
     "@typescript-eslint/eslint-plugin": ^5.7.0
     "@typescript-eslint/parser": ^5.7.0
     babel-jest: ^26.6.3

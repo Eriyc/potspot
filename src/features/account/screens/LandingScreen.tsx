@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, Text, View} from 'react-native';
+import {Image, Pressable, Text, View} from 'react-native';
 import {ChevronRight} from 'react-native-feather';
 import tw from '@/utils/tailwind';
 
@@ -19,7 +19,14 @@ export const LandingScreen = () => {
       <View style={tw`p-12`}>
         {/* Text */}
         <View>
-          <Text style={tw`text-white mt-[100%] text-center`}>
+          <Image
+            source={require('@/assets/logo-black.png')}
+            style={tw`w-full`}
+            resizeMode="contain"
+          />
+        </View>
+        <View>
+          <Text style={tw`text-white text-center`}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
             tempus turpis facilisis orci sodales mollis.
           </Text>
