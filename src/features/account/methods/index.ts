@@ -1,5 +1,5 @@
+import {getCurrentUser} from './getCurrentUser';
 import {signIn} from './signin';
 import {signUp} from './signup';
-import {getCurrentUser} from './getCurrentUser';
 
-export {signIn, signUp, getCurrentUser};
+export {getCurrentUser, signIn, signUp};

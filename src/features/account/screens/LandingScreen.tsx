@@ -1,19 +1,19 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Image, Pressable, Text, View} from 'react-native';
 import {ChevronRight} from 'react-native-feather';
+
 import tw from '@/utils/tailwind';
 
-import {useNavigation} from '@react-navigation/native';
-
-import {AuthRoute} from '../navigation';
 import {Background} from '../components';
+import {AuthRoute} from '../navigation';
 
 export const LandingScreen = () => {
   const navigation = useNavigation<AuthRoute>();
   return (
     <Background>
       {/* Header */}
-      <View style={tw`m-4 flex`}>
+      <View style={tw`flex m-4`}>
         <Text>POTSPOT</Text>
       </View>
       <View style={tw`p-12`}>
@@ -26,7 +26,7 @@ export const LandingScreen = () => {
           />
         </View>
         <View>
-          <Text style={tw`text-white text-center`}>
+          <Text style={tw`text-center text-white`}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
             tempus turpis facilisis orci sodales mollis.
           </Text>
@@ -41,7 +41,7 @@ export const LandingScreen = () => {
                 pressed && 'bg-gray-100',
               )
             }>
-            <Text style={tw`text-black `}>Skapa ett konto</Text>
+            <Text style={tw`text-black`}>Skapa ett konto</Text>
           </Pressable>
           <Pressable
             onPress={() => navigation.navigate('signin')}

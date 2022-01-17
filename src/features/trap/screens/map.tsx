@@ -1,12 +1,13 @@
-import React, {FC, useRef} from 'react';
-import {observer} from 'mobx-react-lite';
-import {FlatList, View} from 'react-native';
-import tw from '@/utils/tailwind';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import {CreateNewTrapButton} from '../components';
-import {useColorScheme} from '@/utils/colorScheme';
+import {observer} from 'mobx-react-lite';
+import React, {FC, useRef} from 'react';
+import {FlatList, View} from 'react-native';
 
-const INITIAL_POS: [number, number] = [11.605112551760044, 57.637770511076575];
+import {useColorScheme} from '@/utils/colorScheme';
+import tw from '@/utils/tailwind';
+
+import {INITIAL_POS} from '..';
+import {CreateNewTrapButton} from '../components';
 
 const openSeaMapTiles = {
   tileUrlTemplates: ['https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png'],
@@ -42,7 +43,7 @@ export const MapScreen: FC = observer(() => {
         horizontal
         ListHeaderComponent={<CreateNewTrapButton />}
         data={[]}
-        renderItem={() => <View></View>}
+        renderItem={() => <View />}
       />
     </View>
   );

@@ -1,9 +1,9 @@
-import 'react-native-url-polyfill/auto';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 import React from 'react';
+import 'react-native-url-polyfill/auto';
 
 import {MainNavigation} from './Navigation';
 import {StoreProvider} from './store';
-import MapboxGL from '@react-native-mapbox-gl/maps';
 import {ColorSchemeProvider} from './utils/colorScheme';
 
 MapboxGL.setAccessToken(

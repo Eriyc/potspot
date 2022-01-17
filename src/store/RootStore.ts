@@ -1,4 +1,5 @@
 import {flow, Instance, types} from 'mobx-state-tree';
+
 import {AuthStore} from './AuthStore';
 
 export const RootStore = types

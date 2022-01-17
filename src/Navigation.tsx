@@ -1,12 +1,14 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {observer} from 'mobx-react-lite';
 import React from 'react';
+import {ActivityIndicator, View} from 'react-native';
+
+import {useMst} from '@/store';
+import tw from '@/utils/tailwind';
+
 import {AuthNavigation} from './features/account';
 import {AppNavigation} from './features/app';
-import {useMst} from '@/store';
 import {useAuthState} from './utils/authListener';
-import {ActivityIndicator, View} from 'react-native';
-import tw from '@/utils/tailwind';
 
 const MainNavigation = observer(() => {
   const {showSplash} = useAuthState();

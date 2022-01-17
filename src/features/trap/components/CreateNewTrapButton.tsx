@@ -1,9 +1,11 @@
-import {useColorScheme} from '@/utils/colorScheme';
-import tw from '@/utils/tailwind';
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Pressable, Text} from 'react-native';
 import {Plus} from 'react-native-feather';
-import {useNavigation} from '@react-navigation/native';
+
+import {useColorScheme} from '@/utils/colorScheme';
+import tw from '@/utils/tailwind';
+
 import {TrapRoute} from '../navigator';
 
 const CreateNewTrapButton = () => {

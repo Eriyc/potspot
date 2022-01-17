@@ -1,15 +1,14 @@
+import {useNavigation} from '@react-navigation/native';
+import {observer} from 'mobx-react-lite';
 import React, {useRef} from 'react';
+import {Controller, useForm} from 'react-hook-form';
 import {Pressable, ScrollView, Text, TextInput, View} from 'react-native';
-import {useForm, Controller} from 'react-hook-form';
 
+import {useMst} from '@/store';
 import tw from '@/utils/tailwind';
 
-import {useNavigation} from '@react-navigation/native';
-
-import {AuthRoute} from '../navigation';
 import {Background} from '../components';
-import {useMst} from '@/store';
-import {observer} from 'mobx-react-lite';
+import {AuthRoute} from '../navigation';
 
 interface FormData {
   email: string;
@@ -17,7 +16,7 @@ interface FormData {
   confirm: string;
 }
 
-const formStyle = tw`text-black bg-gray-100 rounded-md mb-2`;
+const formStyle = tw`mb-2 text-black bg-gray-100 rounded-md`;
 
 export const SignupScreen = observer(() => {
   const navigation = useNavigation<AuthRoute>();
@@ -43,15 +42,15 @@ export const SignupScreen = observer(() => {
   return (
     <Background>
       <ScrollView
-        style={tw`flex flex-1 `}
-        contentContainerStyle={tw`flex flex-grow `}
+        style={tw`flex flex-1`}
+        contentContainerStyle={tw`flex flex-grow`}
         bounces={false}
         horizontal={false}>
         <View style={tw`m-8`}>
           <Text>POTSPOT</Text>
         </View>
         <View style={tw`flex flex-1 justify-center`}>
-          <View style={tw`bg-white m-4 rounded-xl p-8`}>
+          <View style={tw`p-8 m-4 bg-white rounded-xl`}>
             <Text style={tw`text-black`}>Email</Text>
             <Controller
               control={control}
@@ -70,7 +69,7 @@ export const SignupScreen = observer(() => {
               )}
               name="email"
             />
-            <Text style={tw`text-red-500 mb-2`}>
+            <Text style={tw`mb-2 text-red-500`}>
               {errors.email && 'Ange en giltig mailaddress'}
             </Text>
 
@@ -94,7 +93,7 @@ export const SignupScreen = observer(() => {
               )}
               name="password"
             />
-            <Text style={tw`text-red-500 mb-2`}>
+            <Text style={tw`mb-2 text-red-500`}>
               {errors.password &&
                 'Lösenordet måste vara längre än 6 karaktärer'}
             </Text>
@@ -111,7 +110,7 @@ export const SignupScreen = observer(() => {
               }}
               render={({field: {onChange, onBlur, value}}) => (
                 <TextInput
-                  style={tw`text-black bg-gray-100 rounded-md mb-2`}
+                  style={tw`mb-2 text-black bg-gray-100 rounded-md`}
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
@@ -122,7 +121,7 @@ export const SignupScreen = observer(() => {
               )}
               name="confirm"
             />
-            <Text style={tw`text-red-500 mb-2`}>{errors.confirm?.message}</Text>
+            <Text style={tw`mb-2 text-red-500`}>{errors.confirm?.message}</Text>
 
             <Pressable
               style={({pressed}) =>
@@ -146,7 +145,7 @@ export const SignupScreen = observer(() => {
               });
               navigation.navigate('signin');
             }}
-            style={tw`text-gray-200 text-lg text-center`}>
+            style={tw`text-lg text-center text-gray-200`}>
             Jag har redan ett konto
           </Text>
         </View>

@@ -1,4 +1,5 @@
 import React, {FC} from 'react';
+
 import {IStore, RootStore} from './RootStore';
 
 const store = RootStore.create({});

@@ -2117,7 +2117,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/geojson@npm:7946.0.8, @types/geojson@npm:^7946.0.7":
+"@types/geojson@npm:7946.0.8, @types/geojson@npm:^7946.0.7, @types/geojson@npm:^7946.0.8":
   version: 7946.0.8
   resolution: "@types/geojson@npm:7946.0.8"
   checksum: 6049a39b025cfe323d5cf87333d87c133ec963cdbd349c49295bee779827ee4b46a3041fd8bd2e7a4b02d6d1e26f3002968875928941bbed08477bfd5f6f9284
@@ -4615,6 +4615,15 @@ __metadata:
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
   checksum: 90293d0fd53bb1f735ffd32141cdd211fb1120c9f7bbe5342f9e923261a39e52a2b2575d4e46c9cd77d257f42db4a99b8b339689fc5b5c1c26048929f69b1784
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-simple-import-sort@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "eslint-plugin-simple-import-sort@npm:7.0.0"
+  peerDependencies:
+    eslint: ">=5.0.0"
+  checksum: 6aacb7179c213cd2081950630368d1f3b1dcb4f5674d8b989fe7839e7b317ee521d74761676e8b1a7cab49f20405dbcc9aac05358ae804e6bcba6cbf1daccb3d
   languageName: node
   linkType: hard
 
@@ -8691,6 +8700,7 @@ __metadata:
     "@react-navigation/native": ^6.0.6
     "@react-navigation/native-stack": ^6.2.5
     "@supabase/supabase-js": ^1.29.1
+    "@types/geojson": ^7946.0.8
     "@types/jest": ^26.0.23
     "@types/react-native": ^0.66.4
     "@types/react-test-renderer": ^17.0.1
@@ -8701,16 +8711,19 @@ __metadata:
     babel-plugin-module-resolver: ^4.1.0
     cross-env: ^7.0.3
     eslint: ^7.14.0
+    eslint-plugin-simple-import-sort: ^7.0.0
     jest: ^26.6.3
     metro-react-native-babel-preset: ^0.66.2
     mobx: ^6.3.10
     mobx-react-lite: ^3.2.2
     mobx-state-tree: ^5.1.0
     mst-persist: ^0.1.3
+    prettier-plugin-sort-class-names: ^3.0.1
     react: 17.0.2
     react-hook-form: ^7.22.5
     react-native: 0.66.4
     react-native-feather: ^1.1.2
+    react-native-keyboard-aware-scroll-view: ^0.9.5
     react-native-keychain: ^8.0.0
     react-native-linear-gradient: ^2.5.6
     react-native-safe-area-context: ^3.3.2
@@ -8744,6 +8757,15 @@ __metadata:
   dependencies:
     fast-diff: ^1.1.2
   checksum: 00ce8011cf6430158d27f9c92cfea0a7699405633f7f1d4a45f07e21bf78e99895911cbcdc3853db3a824201a7c745bd49bfea8abd5fb9883e765a90f74f8392
+  languageName: node
+  linkType: hard
+
+"prettier-plugin-sort-class-names@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "prettier-plugin-sort-class-names@npm:3.0.1"
+  peerDependencies:
+    prettier: 2.x
+  checksum: f3f66f3a5077271c26d6dc12f4600916a4926ecc193d49ec2fdd8677b724167e0c236e595269929670ce5dc37dfbe3887d32ec3a1f7986adfce79660e56132f4
   languageName: node
   linkType: hard
 
@@ -8825,7 +8847,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.7.2":
+"prop-types@npm:^15.6.2, prop-types@npm:^15.7.2":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -8983,6 +9005,27 @@ __metadata:
     react-native: ">=0.46"
     react-native-svg: ">=5.3"
   checksum: a83d421a4629d9f3afd54f96d90fe2370108e9dbc62b62e9ecc8db235533ccdd2a0edd063492f7070640666a62707b420dbd0e5eefc21b0172ded11e5a05b7b5
+  languageName: node
+  linkType: hard
+
+"react-native-iphone-x-helper@npm:^1.0.3":
+  version: 1.3.1
+  resolution: "react-native-iphone-x-helper@npm:1.3.1"
+  peerDependencies:
+    react-native: ">=0.42.0"
+  checksum: 024376646009a966e33e12fc2358751830818b0fb73b1c601a64eb5e490d2dc43eec23668991b985a8c412a84d087f20eb45bb9b593567c08b66e741b7bddda5
+  languageName: node
+  linkType: hard
+
+"react-native-keyboard-aware-scroll-view@npm:^0.9.5":
+  version: 0.9.5
+  resolution: "react-native-keyboard-aware-scroll-view@npm:0.9.5"
+  dependencies:
+    prop-types: ^15.6.2
+    react-native-iphone-x-helper: ^1.0.3
+  peerDependencies:
+    react-native: ">=0.48.4"
+  checksum: 5eec2aedb886213dfed4c8428a443b565dce80ba9fcf5897171e4c8829d4dd64c5011ac004d93f29adfc83ad6f88c2838d1a5b45255dc4a49bd1c0a169245800
   languageName: node
   linkType: hard
 

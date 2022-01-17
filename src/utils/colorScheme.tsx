@@ -1,6 +1,7 @@
 import React from 'react';
 import {createContext, FC, useContext, useState} from 'react';
 import {RnColorScheme, useAppColorScheme, useDeviceContext} from 'twrnc';
+
 import tw from './tailwind';
 
 type ColorSchemeContextValue = [boolean, () => void];

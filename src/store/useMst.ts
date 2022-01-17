@@ -1,6 +1,7 @@
 import React from 'react';
-import {IStore} from './RootStore';
+
 import {StoreContext} from './Provider';
+import {IStore} from './RootStore';
 
 export function useMst(): IStore {
   const store = React.useContext(StoreContext);

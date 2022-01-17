@@ -1,7 +1,8 @@
-import React from 'react';
 import {NavigationProp} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {LandingScreen, SignupScreen, SignInScreen} from './screens';
+import React from 'react';
+
+import {LandingScreen, SignInScreen, SignupScreen} from './screens';
 
 type Paths = {
   landing: undefined;

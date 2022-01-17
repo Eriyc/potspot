@@ -1,6 +1,8 @@
-import {useMst} from '@/store';
 import {AuthSession, AuthUser} from '@supabase/supabase-js';
-import {useState, useEffect} from 'react';
+import {useEffect, useState} from 'react';
+
+import {useMst} from '@/store';
+
 import {supabase} from './supabase';
 
 export const useAuthState = () => {

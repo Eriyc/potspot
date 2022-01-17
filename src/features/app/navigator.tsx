@@ -1,10 +1,12 @@
-import React from 'react';
-import {SettingsScreen} from './screens';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {TrapNavigation} from '../trap/navigator';
-import tw from '@/utils/tailwind';
-import {useColorScheme} from '@/utils/colorScheme';
+import React from 'react';
 import {Map, Settings} from 'react-native-feather';
+
+import {useColorScheme} from '@/utils/colorScheme';
+import tw from '@/utils/tailwind';
+
+import {SettingsScreen} from './screens';
+import {TrapNavigation} from '../trap/navigator';
 
 type Routes = {
   home: undefined;

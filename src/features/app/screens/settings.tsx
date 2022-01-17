@@ -1,9 +1,10 @@
-import React, {FC} from 'react';
 import {observer} from 'mobx-react-lite';
-import {View, Text, Pressable} from 'react-native';
-import tw from '@/utils/tailwind';
+import React, {FC} from 'react';
+import {Pressable, Text, View} from 'react-native';
+
 import {useMst} from '@/store';
 import {useColorScheme} from '@/utils/colorScheme';
+import tw from '@/utils/tailwind';
 
 export const SettingsScreen: FC = observer(() => {
   const {authStore} = useMst();
@@ -20,12 +21,12 @@ export const SettingsScreen: FC = observer(() => {
       </Text>
       <Pressable
         onPress={authStore.signOut}
-        style={tw`bg-primary-dark rounded-md p-4 mb-2`}>
+        style={tw`bg-primary-dark p-4 mb-2 rounded-md`}>
         <Text style={tw`text-white`}>Sign Out</Text>
       </Pressable>
       <Pressable
         onPress={toggleColorScheme}
-        style={tw`bg-primary-dark rounded-md p-4`}>
+        style={tw`bg-primary-dark p-4 rounded-md`}>
         <Text style={tw`text-white`}>Byt färgtema</Text>
       </Pressable>
     </View>

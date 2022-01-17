@@ -1,4 +1,5 @@
 import {flow, types} from 'mobx-state-tree';
+
 import * as userMethods from '@/features/account/methods';
 import {eraseToken, persistToken} from '@/utils/auth.storage';
 

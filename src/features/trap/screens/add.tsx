@@ -1,31 +1,53 @@
+import {useNavigation} from '@react-navigation/native';
+import React, {FC, useState} from 'react';
+import {Pressable, Text, TextInput, View} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
+import {CloseButton} from '@/components';
+
+import {INITIAL_POS} from '@/features/trap';
 import {useColorScheme} from '@/utils/colorScheme';
 import tw from '@/utils/tailwind';
-import {useNavigation} from '@react-navigation/native';
-import React, {FC} from 'react';
-import {Pressable, Text, View} from 'react-native';
-import {X} from 'react-native-feather';
+
+import {PickLocationMap} from '../components';
 import {TrapRoute} from '../navigator';
 
 export const AddTrapScreen: FC = () => {
   const navigation = useNavigation<TrapRoute>();
   const [dark] = useColorScheme();
+
+  const [name, setName] = useState('');
+  const [location, setLocation] = useState(INITIAL_POS);
+
   return (
-    <View style={tw.style('p-4')}>
-      <Pressable
-        style={tw.style(
-          'flex self-start flex-row items-center mb-2 p-2 rounded-sm<',
-          dark && 'bg-gray-700',
-        )}
-        onPress={() => navigation.goBack()}>
-        <X color={dark ? 'white' : 'black'} height={18} width={18} />
-        <Text style={tw.style('text-gray-500 ml-2', dark && 'text-gray-100')}>
-          Stäng
-        </Text>
-      </Pressable>
+    <KeyboardAwareScrollView
+      extraScrollHeight={60}
+      contentContainerStyle={tw.style('p-4 pb-16')}>
+      <CloseButton />
       <Text
         style={tw.style('text-2xl text-black font-bold', dark && 'text-white')}>
         Skapa ny tina
       </Text>
-    </View>
+
+      <PickLocationMap />
+
+      <View>
+        <Text
+          style={tw.style('text-gray-500 text-lg', dark && 'text-gray-100')}>
+          Namnge tinan
+        </Text>
+        <TextInput style={tw.style('bg-gray-700 rounded-sm text-white')} />
+      </View>
+
+      <Pressable
+        style={tw.style(
+          'bg-primary-light rounded-sm mt-4 p-2 flex flex-row items-center justify-center',
+          dark && 'bg-primary-dark',
+        )}>
+        <Text style={tw.style('text-white text-lg', dark && 'text-white')}>
+          Skapa
+        </Text>
+      </Pressable>
+    </KeyboardAwareScrollView>
   );
 };
