@@ -43,6 +43,7 @@ export const AuthStore = types
 
     const getCurrentUser = flow(function* () {
       const userResponse = yield userMethods.getCurrentUser();
+      console.log(userResponse);
 
       if (typeof userResponse !== 'string' && userResponse !== undefined) {
         self.currentUser = userResponse;

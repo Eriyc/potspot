@@ -16,6 +16,7 @@ export const useAuthState = () => {
     // eslint-disable-next-line no-undef
     let timer: NodeJS.Timeout;
     timer = setTimeout(async () => {
+      console.log('initialize 1');
       await initialize();
       setShowSplash(false);
     }, 1000);
@@ -33,6 +34,8 @@ export const useAuthState = () => {
 
         if (s) {
           clearTimeout(timer);
+          console.log('initialize 2');
+
           await initialize();
           setShowSplash(false);
         }

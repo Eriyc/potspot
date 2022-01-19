@@ -8,7 +8,13 @@ type ApiSuccess = {
 };
 
 export const getCurrentUser = async (): Promise<ApiSuccess | ApiError> => {
-  const {body} = await supabase.from('accounts').select('*').single();
+  const query = supabase.from('accounts').select('*').single();
+  const {body, error} = await query;
+  if (error && error.message === 'JWT expired') {
+    await supabase.auth.refreshSession();
+    const {body: retry} = await query;
+    return retry;
+  }
 
   return body;
 };

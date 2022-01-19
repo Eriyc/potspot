@@ -1,4 +1,9 @@
 const colors = require('tailwindcss/colors');
+delete colors.lightBlue; // <-----
+delete colors.blueGray; // <-----
+delete colors.coolGray; // <-----
+delete colors.trueGray; // <-----
+delete colors.warmGray; // <-----
 
 /** @type {import("@types/tailwindcss/tailwind-config").TailwindConfig } */
 module.exports = {

@@ -41,7 +41,9 @@ export const TrapStore = types
         },
       );
 
-      self.traps.push(Trap);
+      if (body) {
+        self.traps.push(body);
+      }
     }),
   }));
 
