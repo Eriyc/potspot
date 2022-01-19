@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import {Feature, Point} from 'geojson';
+import {Point} from 'geojson';
 import {observer} from 'mobx-react-lite';
 import React, {FC, useState} from 'react';
 import {
@@ -16,7 +16,6 @@ import {CloseButton} from '@/components';
 import {INITIAL_POS} from '@/features/trap';
 import {useMst} from '@/store';
 import {useColorScheme} from '@/utils/colorScheme';
-import {supabase} from '@/utils/supabase';
 import tw from '@/utils/tailwind';
 
 import {PickLocationMap} from '../components';
@@ -46,14 +45,14 @@ export const AddTrapScreen: FC = observer(() => {
       type: 'Point',
     };
 
-    await trapStore.new({
-      displayname: name,
+    const {error} = await trapStore.new({
+      displayname: name.trim() || 'Tina utan namn',
       pos,
     });
 
-    console.log(error);
-
-    if (true) return setStatus('error');
+    if (error) return setStatus('error');
+    setStatus('success');
+    return navigation.canGoBack() && navigation.goBack();
   };
 
   return (

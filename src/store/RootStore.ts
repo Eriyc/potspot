@@ -16,6 +16,7 @@ export const RootStore = types
   .actions(self => {
     const initialize = flow(function* () {
       yield self.authStore.getCurrentUser();
+      yield self.trapStore.getAll();
     });
 
     return {initialize};

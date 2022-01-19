@@ -2,37 +2,54 @@ import {Position} from 'geojson';
 import {useEffect, useState} from 'react';
 import Geolocation from 'react-native-geolocation-service';
 
-import {requestLocationPermissions} from '@/utils/permissions';
+import {useLocationPermission} from '@/hooks/useLocationPermission';
 
 import {INITIAL_POS} from '..';
 
 export const useLocation = (): [Position, boolean | undefined] => {
-  const [userLocationAllowed, setUserLocationAllowed] = useState<
-    boolean | undefined
-  >(undefined);
+  const [isMounted, setIsMounted] = useState(false);
   const [userLocation, setUserLocation] =
     useState<[number, number]>(INITIAL_POS);
+
+  const [granted] = useLocationPermission();
 
   useEffect(() => {
     let watchId: number;
 
     const getPosition = async () => {
-      await requestLocationPermissions().catch(() =>
-        setUserLocationAllowed(false),
-      );
-      watchId = Geolocation.watchPosition(
+      Geolocation.getCurrentPosition(
         info => {
-          setUserLocation([info.coords.longitude, info.coords.latitude]);
-          setUserLocationAllowed(true);
+          if (isMounted) {
+            setUserLocation([info.coords.longitude, info.coords.latitude]);
+          }
         },
         console.error,
-        {useSignificantChanges: true},
+        {enableHighAccuracy: true, timeout: 15000},
+      );
+
+      watchId = Geolocation.watchPosition(
+        info => {
+          if (isMounted) {
+            setUserLocation([info.coords.longitude, info.coords.latitude]);
+          }
+        },
+        console.error,
+        {useSignificantChanges: true, enableHighAccuracy: true},
       );
     };
 
-    getPosition();
-    return () => Geolocation.clearWatch(watchId);
+    if (granted) {
+      getPosition();
+    }
+    return () => {
+      Geolocation.clearWatch(watchId);
+    };
+  }, [isMounted, granted]);
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
   }, []);
 
-  return [userLocation, userLocationAllowed];
+  return [userLocation, granted];
 };

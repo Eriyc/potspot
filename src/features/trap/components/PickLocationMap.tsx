@@ -40,8 +40,13 @@ export const PickLocationMap: FC<PickLocationMapProps> = ({
   };
 
   const moveToUser = () => {
-    camera.current?.flyTo(userLocation);
-    camera.current?.zoomTo(11);
+    console.log(userLocation, camera.current);
+    camera.current?.setCamera({
+      centerCoordinate: userLocation,
+      animationDuration: 1000,
+      zoomLevel: 11,
+      animationMode: 'easeTo',
+    });
   };
 
   return (
@@ -50,26 +55,24 @@ export const PickLocationMap: FC<PickLocationMapProps> = ({
         <View
           style={tw`h-[30vh] rounded-sm`}
           pointerEvents={locked ? 'none' : 'auto'}>
-          {locationGranted !== undefined && (
-            <MapboxGL.MapView
-              styleURL={
-                dark
-                  ? 'mapbox://styles/mapbox/dark-v9'
-                  : 'mapbox://styles/mapbox/satellite-v9'
-              }
-              ref={map}
-              style={tw`flex-1`}
-              onRegionDidChange={handleLocationChange}>
-              <MapboxGL.UserLocation />
-              <MapboxGL.Camera
-                ref={camera}
-                defaultSettings={{
-                  zoomLevel: 9,
-                  centerCoordinate: userLocation,
-                }}
-              />
-            </MapboxGL.MapView>
-          )}
+          <MapboxGL.MapView
+            styleURL={
+              dark
+                ? 'mapbox://styles/mapbox/dark-v9'
+                : 'mapbox://styles/mapbox/satellite-v9'
+            }
+            ref={map}
+            style={tw`flex-1`}
+            onRegionDidChange={handleLocationChange}>
+            {locationGranted && <MapboxGL.UserLocation />}
+            <MapboxGL.Camera
+              ref={camera}
+              defaultSettings={{
+                zoomLevel: 9,
+                centerCoordinate: userLocation,
+              }}
+            />
+          </MapboxGL.MapView>
         </View>
         <Pressable
           onPress={() => setLocked(l => !l)}

@@ -8727,6 +8727,7 @@ __metadata:
     react-native-keyboard-aware-scroll-view: ^0.9.5
     react-native-keychain: ^8.0.0
     react-native-linear-gradient: ^2.5.6
+    react-native-permissions: ^3.2.0
     react-native-safe-area-context: ^3.3.2
     react-native-screens: ^3.10.1
     react-native-svg: ^12.1.1
@@ -9051,6 +9052,20 @@ __metadata:
   peerDependencies:
     react-native: ">=0.55"
   checksum: 7848eff1dfdb219123303de1b62daa6ba7e669700506985b770cff542052fb70815627fb42e5c189f5a6c9f17c740d0067c0d917cd2fab883f1b860419a2496d
+  languageName: node
+  linkType: hard
+
+"react-native-permissions@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "react-native-permissions@npm:3.2.0"
+  peerDependencies:
+    react: ">=16.13.1"
+    react-native: ">=0.63.3"
+    react-native-windows: ">=0.62.0"
+  peerDependenciesMeta:
+    react-native-windows:
+      optional: true
+  checksum: 4c4f873d256cc2c8daddfa406a77d8bdaeb51d71f78008fadfaa45f3358138964af481679457341e2a04075c7bd8db9051a6a604efae6fdfd816491c863de93a
   languageName: node
   linkType: hard
 
