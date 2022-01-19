@@ -1,10 +1,12 @@
-import React from 'react';
 import {NavigationProp} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {MapScreen} from './screens';
-import {AddTrapScreen} from './screens/add';
+import React from 'react';
+
 import {useColorScheme} from '@/utils/colorScheme';
 import tw from '@/utils/tailwind';
+
+import {MapScreen} from './screens';
+import {AddTrapScreen} from './screens/add';
 
 type Paths = {
   map: undefined;
