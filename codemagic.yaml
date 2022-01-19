@@ -1,0 +1,164 @@
+workflows:
+  react-native-android:
+    name: React Native Android
+    max_build_duration: 120
+    instance_type: mac_mini
+    cache:
+      cache_paths:
+        - $FCI_BUILD_DIR/node_modules
+    environment:
+      vars:
+        GCLOUD_SERVICE_ACCOUNT_CREDENTIALS: Encrypted(...) # <-- Put encrypted CONTENTS of your Gloud crendentials file here
+        PACKAGE_NAME: 'dev.dgren.bojapp' # <-- Put your package name here e.g. com.domain.myapp
+        CM_KEYSTORE: Encrypted(...) # <-- Put your encrypted keystore file here
+        CM_KEYSTORE_PASSWORD: Encrypted(...) # <-- Put your encrypted keystore password here
+        CM_KEY_ALIAS_PASSWORD: Encrypted(...) # <-- Put your encrypted keystore alias password here
+        CM_KEY_ALIAS_USERNAME: Encrypted(...) # <-- Put your encrypted keystore alias username here
+      node: latest
+    triggering:
+      events:
+        - push
+        - tag
+        - pull_request
+      branch_patterns:
+        - pattern: develop
+          include: true
+          source: true
+    scripts:
+      - name: Install npm dependencies
+        script: |
+          npm install
+      - name: Set Android SDK location
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$FCI_BUILD_DIR/android/local.properties"
+      - name: Set up keystore
+        script: |
+          echo $CM_KEYSTORE | base64 --decode > /tmp/keystore.keystore
+          cat >> "$FCI_BUILD_DIR/android/key.properties" <<EOF
+          storePassword=$CM_KEYSTORE_PASSWORD
+          keyPassword=$CM_KEY_ALIAS_PASSWORD
+          keyAlias=$CM_KEY_ALIAS_USERNAME
+          storeFile=/tmp/keystore.keystore
+          EOF
+      - name: Build Android release
+        script: |
+          # Set environment variable so it can be used to increment build number in android/app/build.gradle
+          # Note that tracks can be specified when retrieving latest build number from Google Play, for example:
+          # export NEW_BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME" --tracks=alpha) + 1))
+          export NEW_BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME") + 1))
+          cd android && ./gradlew assembleRelease
+    artifacts:
+      - android/app/build/outputs/**/*.apk
+    publishing:
+      # See the following link for details about email publishing - https://docs.codemagic.io/publishing-yaml/distribution/#email
+      email:
+        recipients:
+          - eric@dgren.dev
+        notify:
+          success: true # To not receive a notification when a build succeeds
+          failure: false # To not receive a notification when a build fails
+      # slack:
+      #   # See the following link about how to connect your Slack account - https://docs.codemagic.io/publishing-yaml/distribution/#slack
+      #   channel: "#channel-name"
+      #   notify_on_build_start: true # To receive a notification when a build starts
+      #   notify:
+      #     success: true # To not receive a notification when a build succeeds
+      #     failure: false # To not receive a notification when a build fails
+      google_play:
+        # See the following link for information regarding publishing to Google Play - https://docs.codemagic.io/publishing-yaml/distribution/#google-play
+        credentials: Encrypted(...) # <-- Put your encrypted google-services.json here
+        track: alpha
+  react-native-ios:
+    name: React Native iOS
+    max_build_duration: 120
+    instance_type: mac_mini
+    working_directory: packages/native
+    cache:
+      cache_paths:
+        - $FCI_BUILD_DIR/node_modules
+    environment:
+      vars:
+        # Env vars for automatic iOS code signing
+        # See the following link for more details - https://docs.codemagic.io/code-signing-yaml/signing-ios/
+        XCODE_WORKSPACE: 'bojapp.xcworkspace' # <-- Put the name of your Xcode workspace here
+        XCODE_SCHEME: 'bojapp' # <-- Put the name of your Xcode scheme here
+        APPLE_ID: Encrypted(Z0FBQUFBQmhDN296VVVkRE9pbnpwWUFIODd0eU9hZ1BLV0ZpUXU3ZzNfQnNKNW9ZZ0oxazM3WXQ1Z3B0WGlXeFBhcWVZSmtHeGNsSC1lSTdiajd1d0dzczMzRFFoaWtzUFdTX000Z2NKbWJQbTlfNjdzUER0VWc9) # <-- Put you encrypted Apple ID here
+        APP_SPECIFIC_PASSWORD: Encrypted(Z0FBQUFBQmhDN3BiTUc3VEN1Ml93VWt2TTZGUXVsdnRFaEY2WWIySDI1VXB0eklULXFYT1VEdEpNSDRYSjlVdlhaWlhYX3hYUGNCaENhZWgxb2gxSnllTGxNNEVFdmwtVmNMY2pEZUNCczc5Z1hhYXZDN21uVmM9) # <-- Put your encrypted App Specific Password here. For more information visit: https://support.apple.com/en-us/HT204397
+        # https://appstoreconnect.apple.com/access/api
+        APP_STORE_CONNECT_ISSUER_ID: Encrypted(Z0FBQUFBQmhDN1pVYkF1UTVsUmJ6ZUpVclA4REpOVVMyMVh1UTBjc2VYTUlDQ0ZyUFJ4LXpkNnF2YXcxRW9CRWRPam5UZGJtc0VkWGl1T1J6d1BoVmxTY3JTLUx5V0lEd085NWV2VW4yZGQ5Y014N3lOSEFZa3c1anc1bU1GcmNCUGRDRm9qY1ZiQkk=) # <-- Put your App Store Connect Issuer Id here
+        APP_STORE_CONNECT_KEY_IDENTIFIER: Encrypted(Z0FBQUFBQmhDN1Zja0k2OHFrR1hZREs5aC0xbHljcXdkZEpLdkRzUTN6UGNJbG9sVkRTcE9NajFkNHpDQkQwMTVmTlo2Q1VqelhsSmVDd1NxU3NNMkFlc281TjlOaXNZSXc9PQ==) # <-- Put your App Store Connect Key Identifier here
+        APP_STORE_CONNECT_PRIVATE_KEY: Encrypted(Z0FBQUFBQmhDN1llellQRDJ2Zmd0Qms2V0Uzb1diLTJSM3FmUllCeXQ4Wkh6bnlIV0lWb2Jhakxoc1FWNDFqa3o2MHRvZ0I5eHB2X0JJUnRVWjFxTWZBT3FoeVI1dkw2M2k5SkVTd1d2UThReVZTLUNSaGlPUjNIbEx4MVAyaUpNRUFZVFBhYjBCMTFCbXFOWW5XVEhUamVrU1Nadm5RN2ZVazc3cGt6dURORjRBUkppdXktYV85S3FfMDZiaUJCOEhlcVcwSkJLYmQwWXhsdXRiUVpWT1ZCSDdqX3ZXR05QNF9HVk9Bakl3ZHJaeTIyTnU2QlNLUllTaGpYN01wUFV4R3Z6eS00TXRqdDNfYTdEcmFOblNKTnlDenN5N2dNQ1M3TU41YWUtUURFMVBlWEhtRmlncnVlYUs5by10MmZIVkNvYVBkV3laUjRTUmhqM2stRlVNZFZMZzMtV3dpZ2FDWDFvQ09iN0h4UUp4UGZ6S1d0d2xaN0Zudm43SG9MRVhqUTNFWkgyQzF4Yk0yUm9vRTE5TjhPVTFPNHpaZDU4alRSTWx5bVJONXJxQzJ2ODEwMmduTT0=) # <-- Put your App Store Connect Private Key here
+        CERTIFICATE_PRIVATE_KEY: Encrypted(Z0FBQUFBQmhDOXVpcWNJd0M0LUprMk9rSDdXQm5haUNEdGJRaFJCVVNfR1BnblBHOXZ5UERoZzJIMUM4VFlfalNsUl9CRkpRZ3pDZEpqTVBPMHN1bmVHY0FrZjBTd1dMaTRIem9BYVpRUm9fZzF3N3l1MnpxZ0N2VkM4d19qdjNrVm1UZzFGQUlGa3NmaFJmSm1rN3pWeUhXNUZHS0U3VndMMmZoOHpqVDBxdUpGM0FjZkNqMjFQMWlla21CVl91X1JtdUU5WjFtZmpJelBQLWtvdE1MVHpqRnVlbW5DUlRySFJDQTh3UXFMRkdnOHVuMjl2aTVIaVdYLXNVbkZ0a0F3SU5zb1luMlFTU19UU2JIdEUzS19YVUxPQkdNVTNuZE9yaTRrdXQ2aVR3QjJpVjU3dVZiWGI2MXdWSi03dmtuSjFlYkVnb2JVRHhOa2Q5VlVhRjZMQ2RRY1Z0ak9DVkNva1VKakRtcW1tUUczUkE2ZzlwY21XTTRCeGtUYzN6VjMwTnN5Q0lYb0s0eFR1WTFsOUZMcHkyc0NOZlBKMFJ6Q3l2VDVGdDd2UVJ2MWlaZnNJZFRSYWNJaXVHbkMwN1JPTlUza3RZYXpCQUFXam1pWVlObTBqcGhHeTZkRVBjRGhEeG9ERDlIYzktY0RnMXltT3NZdTJweGZlV0hCQWIxWHgzeGt5VE1fdTg2d2lBNm4tZW5mbzdRNExZTkVZS3hNX2o4T3ZHN05NNklMTHFTTjVxVlBCOVY4WTltcGJULXh2bVZjZS11WlFRMmF2NDN1dWhoZlpaY0NjeFNieElreDUwdXo2dDVKRnQ5QUpNdmw4aHVsb1dGOVRxRXZIM19tQkk0ek9aUDY5bFZSdWVqRmpHQy1GbkQwZUh2WU9VNmMtNTFHbEE4OHB5bU5zSzk2cVNBQ0RSTGtsUUZrN295VC00T0tsQXoyWVNMQkZMYkdHTXEwcTVzaUxYenhCSzhBelhpY0JsQTZwbm5DaWg4SFJpZ2hZblB5OGFucEFFOWFJM3pUUHM4aWlOU1BKSTlSVmZLYTJYVnlya3d3dzJBUHJyZ2FteXJRNjlZT1lKUEZrd3NGWWM4aERKX0h3bC1udmR1VzgtQ2ZnZHhNbHBGVkxjVEFSSnhMcWtQeEVkM0lERUpkY01hWllCcXUxMVRjdEpMdVduQ3pZOXgtaUVqVmdOa2dqRGNiNWhPY2FMdk1oMGo2Z2JvWWkxTHc4NF83U2J3aExZME5OcjZJSDB3QmpSbGdiaDRmV3VpLVVGU0FCdlNyejF3bEIzSkoyVGM1bUtlT3lDeEFZNFpVSE9UczVxWlVkRU04Z091Um5kV2FGel9iRWVFb0ZTemxqNi02bFZzbk1JXzBiUkg0Y3dpUTE1Z1VsSTJSc3Z6aEpBVU9lMEtXNXBjZjNQOURqUW8xV3d5UWFmMnJaNXFoOXhSRm00TkEwTmtfMFVfc2tSdnM3VkwwcUVvVzRieWZIZ3gySHV1MFVhVFFVX1pURXVva1owcVhNd2R5anFUdnZ0LWIxWGFGRDViMS1rZHRoNXZjNnRMT3dWRnUzMmdVaDkzOFF5U3cwVk54XzA0ZUNkSUI0dktCVFd2NEdrSEJzNjI2eW9YTkdZRlR0MDI3dXN4T0xiWGZ2VVVmSVF1UElhcmFzdEpHQXhkUE5nb1pzVGF5d3BhY2t6S1VmcUJRZ0RRMjNtejZkVlhNWTVyaC1KdGI1MzVMMFZkbURvRUlpQVdhSG9QcElHNk5JX0pJUkhFdUhVakZuaGx2dVFWWEVFTzYxSEV2SjVmeDI5WUZ4T0Fla1lRTmk1X3F4VmsyS0w4N3dFSm4xWU1RVlluUTA1ODN6a2hOTFVsdFR4UnEtY2VvQVdhaFphMUZ0X2l6emZEejB1TG11bm9nVlk0SnpjbTN1WEVfekJUalRGWklkSEtVRXpDaWdiUXRSWWstZm81bzlwOVNDMTBLM0hpTE01Y3dMZzJYS2M1a205dWZKNkFhMTdwN3c3N2VIQ0VGNTNFRDdLVlVoTmhuSGJ4UVJ1VnlUMGg2SWtWdlJIcFpFSjcxb095eGNkb0YyNFpZcWk5cDBxSjUtSE9JZWhnNklJRkJUSld2ZWhuWno2YTJqT1BVSHNMOFNiRTkzVWppZGZKRURWNWVaTUFtM3VuMkdXMXhCQnMzVVNPZWtsOUc4c2VSQTUtN0F6MFRzODlGSTNBajgxNFI5MHVwVGNOMEFBem5TQV9oQTNpWG5qYUhVdU9LbUxuejhjaEZIQVpmbVZzamp4T2F5M2cyWVBPSVVDNWVJdVliUGhhTGpHa3c1aHBBSnNiQ0lvbTZxMk9nTTNMSEQ1UFVYQklNSFp2NnVVbkNyN3dUSDJGeS1mZU9UTmtCcUFTMHBhbW1zRDh0WUxoeUhPRlNaNEp3VUxkM1pudGVjaTllVGROazdpY2phZkFnU0lDcEZPaVdfejVVZVNraUFVYURNTndGdFRHa1ZFWDJScGg4MjVXb3pEUk9iZ0VWMDNwQW40UW5UTS1CODJ3aUZyTEMwS2FfLTFTSk4yMHY4TWZQaW1TVHozRVllb0FJa1FOMC1Eek1VQ29ZUm1HOWcydEV6Z25oWjhEWnRQLXV4emtpNTB6ZXpEcEd6RThqSlE2czFSeG94V1k2b2FYc0d5OEdnV1VKT0Z2V2xlX3pnc3k0cVB4Q1QtbjJVcGp5M1o5U2JBY2F6RUpua0o0RWswdjJaSldtUEh5Q3d0OHFMaVhGbkpKZnhPcUZPTHdlUHRVd0hMNkszQW9pVXZXNDFHWDZRMzVVTWZnUlRUXy1uMjQ1elFkNFFmM1RudVVBYXZyN2UteXFlZkEwWVhtbWVBWFRpZm1XU3cyQk5MQjdjMmF6MnJ6OWRlQ1pJWEcwUzZjbDNOTGlpdmE4dWg4cUFZU2U2R2dCYWtCbldWNUE4REJPSldjZWdRRkJVczFhN3JJckkxeXhGQXRLbDQwSnNoX2lsVzVlSHZWbVhpZEtId0VlYlNmT204TVVvUXI4WW5WV0JGNHBRa3pWSzdDaTNsSU1XZzlleklLMVZhMVhiaUhrbXBtRlR2) # <-- Put your Certificate Private key here
+        BUNDLE_ID: 'dev.dgren.potspot' # <-- Put your Bundle Id here e.g com.domain.myapp
+        APP_STORE_APP_ID: 1564566327 # <-- Put the app id number here. This is found in App Store Connect > App > General > App Information
+        MAPBOX_CREDS: Encrypted(Z0FBQUFBQmhETjd1bnYwNVhDbF8wTFpISEV5Xy1Kd1NKVjhsbVl2UFBmV0poY2NrVHVKVXVkLWxZQVFsa0pkUDJ4OWRKTklZS2RzVUtyQVlFRmQySEh5aDU2VHkxaXI5bzNURU55Z1hwVTVRelliUG9GYm83UV9jbmhwM3lxQ2lkMFQ0SWx3UERrcTlNRGNaMy1tN0EyQlB5VlBzVFhOUDlyNFlvYzRub3B5TWZrNmo5RVpKOFpmcGk3SE1DM2ZsSHpwX19BcjZTRTZndk5WT0ZpV3RSYldyWXdvUURwaHVMdWlOekdRSnd0SElzbmRUVUlRblczOXV3d0kwYnpEcm13dm1Kak9zU2pfXw==)
+      node: latest
+      xcode: 12.1
+      cocoapods: default
+    triggering:
+      events:
+        - push
+        - tag
+        - pull_request
+      branch_patterns:
+        - pattern: develop
+          include: true
+          source: true
+    scripts:
+      - name: Setup enviroment
+        script: |
+          echo $MAPBOX_CREDS > ~/.netrc
+      - name: Install yarn dependencies
+        script: |
+          yarn --verbose
+      - name: Install CocoaPods dependencies
+        script: |
+          cd ios && pod install
+      - name: Set up keychain to be used for codesigning using Codemagic CLI 'keychain' command
+        script: |
+          keychain initialize
+      - name: Fetch signing files
+        script: |
+          # For information about Codemagic CLI commands visit: https://github.com/codemagic-ci-cd/cli-tools/blob/master/docs/app-store-connect/README.md
+          # For details about the --type paramater below - https://github.com/codemagic-ci-cd/cli-tools/blob/master/docs/app-store-connect/fetch-signing-files.md#--typeios_app_adhoc--ios_app_development--ios_app_inhouse--ios_app_store--mac_app_development--mac_app_direct--mac_app_store--mac_catalyst_app_development--mac_catalyst_app_direct--mac_catalyst_app_store--tvos_app_adhoc--tvos_app_development--tvos_app_inhouse--tvos_app_store
+          app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_STORE --create
+      - name: Use system default keychain
+        script: |
+          keychain add-certificates
+      - name: Increment build number
+        script: |
+          #!/bin/sh
+          set -e
+          set -x
+          cd $FCI_BUILD_DIR/ios
+          # agvtool new-version -all $(($BUILD_NUMBER + 1))
+          agvtool new-version -all $(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_APP_ID") + 1))
+      - name: Set up code signing settings on Xcode project
+        script: |
+          xcode-project use-profiles --warn-only
+      - name: Build ipa for distribution
+        script: |
+          xcode-project build-ipa --workspace "$FCI_BUILD_DIR/ios/$XCODE_WORKSPACE" --scheme "$XCODE_SCHEME"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+    publishing:
+      # See the following link for details about email publishing - https://docs.codemagic.io/publishing-yaml/distribution/#email
+      email:
+        recipients:
+          - eric@dgren.dev
+        notify:
+          success: true # To not receive a notification when a build succeeds
+          failure: false # To not receive a notification when a build fails
+      # slack:
+      #   # See the following link about how to connect your Slack account - https://docs.codemagic.io/publishing-yaml/distribution/#slack
+      #   channel: "#channel-name"
+      #   notify_on_build_start: true # To receive a notification when a build starts
+      #   notify:
+      #     success: true # To not receive a notification when a build succeeds
+      #     failure: false # To not receive a notification when a build fails
+      app_store_connect:
+        apple_id: $APPLE_ID
+        password: $APP_SPECIFIC_PASSWORD
