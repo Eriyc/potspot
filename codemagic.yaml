@@ -107,10 +107,12 @@ workflows:
     scripts:
       - name: Setup enviroment
         script: |
+          #!/bin/sh
           echo $MAPBOX_CREDS > ~/.netrc
+          echo $MAPBOX_CREDS
       - name: Install yarn dependencies
         script: |
-          yarn --verbose
+          yarn
       - name: Install CocoaPods dependencies
         script: |
           cd ios && pod install
