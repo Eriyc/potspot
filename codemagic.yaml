@@ -76,6 +76,7 @@ workflows:
     cache:
       cache_paths:
         - $FCI_BUILD_DIR/node_modules
+        - $FCI_BUILD_DIR/ios/Pods
     environment:
       vars:
         # Env vars for automatic iOS code signing
@@ -108,6 +109,7 @@ workflows:
       - name: Setup enviroment
         script: |
           echo $MAPBOX_CREDS > ~/.netrc
+          echo $MAPBOX_CREDS
       - name: Install yarn dependencies
         script: |
           yarn --verbose
