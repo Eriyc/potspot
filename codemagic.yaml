@@ -109,7 +109,6 @@ workflows:
       - name: Setup enviroment
         script: |
           echo $MAPBOX_CREDS > ~/.netrc
-          echo $MAPBOX_CREDS
       - name: Install yarn dependencies
         script: |
           yarn --verbose
