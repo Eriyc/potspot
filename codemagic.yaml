@@ -72,16 +72,16 @@ workflows:
     name: React Native iOS
     max_build_duration: 120
     instance_type: mac_mini
-    working_directory: packages/native
     cache:
       cache_paths:
         - $FCI_BUILD_DIR/node_modules
+        - $HOME/Library/Caches/CocoaPods
     environment:
       vars:
         # Env vars for automatic iOS code signing
         # See the following link for more details - https://docs.codemagic.io/code-signing-yaml/signing-ios/
-        XCODE_WORKSPACE: 'bojapp.xcworkspace' # <-- Put the name of your Xcode workspace here
-        XCODE_SCHEME: 'bojapp' # <-- Put the name of your Xcode scheme here
+        XCODE_WORKSPACE: 'Potspot.xcworkspace' # <-- Put the name of your Xcode workspace here
+        XCODE_SCHEME: 'Potspot' # <-- Put the name of your Xcode scheme here
         APPLE_ID: Encrypted(Z0FBQUFBQmhDN296VVVkRE9pbnpwWUFIODd0eU9hZ1BLV0ZpUXU3ZzNfQnNKNW9ZZ0oxazM3WXQ1Z3B0WGlXeFBhcWVZSmtHeGNsSC1lSTdiajd1d0dzczMzRFFoaWtzUFdTX000Z2NKbWJQbTlfNjdzUER0VWc9) # <-- Put you encrypted Apple ID here
         APP_SPECIFIC_PASSWORD: Encrypted(Z0FBQUFBQmhDN3BiTUc3VEN1Ml93VWt2TTZGUXVsdnRFaEY2WWIySDI1VXB0eklULXFYT1VEdEpNSDRYSjlVdlhaWlhYX3hYUGNCaENhZWgxb2gxSnllTGxNNEVFdmwtVmNMY2pEZUNCczc5Z1hhYXZDN21uVmM9) # <-- Put your encrypted App Specific Password here. For more information visit: https://support.apple.com/en-us/HT204397
         # https://appstoreconnect.apple.com/access/api
@@ -107,10 +107,12 @@ workflows:
     scripts:
       - name: Setup enviroment
         script: |
+          #!/bin/sh
           echo $MAPBOX_CREDS > ~/.netrc
+          echo $MAPBOX_CREDS
       - name: Install yarn dependencies
         script: |
-          yarn --verbose
+          yarn
       - name: Install CocoaPods dependencies
         script: |
           cd ios && pod install
