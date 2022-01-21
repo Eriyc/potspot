@@ -28,10 +28,11 @@ export const MapScreen: FC = observer(() => {
 
   const handleScrollFinish = useCallback(
     ({viewableItems}: {viewableItems: ViewToken[]}) => {
-      console.log(viewableItems[0].item);
-      const viewing: ITrap = viewableItems[0].item;
+      if (viewableItems.length < 0) {
+        const viewing: ITrap = viewableItems[0].item;
 
-      cameraRef.current?.flyTo(viewing.pos);
+        cameraRef.current?.flyTo(viewing.pos);
+      }
     },
     [],
   );

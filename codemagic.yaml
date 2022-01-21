@@ -93,7 +93,7 @@ workflows:
         APP_STORE_APP_ID: 1564566327 # <-- Put the app id number here. This is found in App Store Connect > App > General > App Information
         MAPBOX_CREDS: Encrypted(Z0FBQUFBQmhETjd1bnYwNVhDbF8wTFpISEV5Xy1Kd1NKVjhsbVl2UFBmV0poY2NrVHVKVXVkLWxZQVFsa0pkUDJ4OWRKTklZS2RzVUtyQVlFRmQySEh5aDU2VHkxaXI5bzNURU55Z1hwVTVRelliUG9GYm83UV9jbmhwM3lxQ2lkMFQ0SWx3UERrcTlNRGNaMy1tN0EyQlB5VlBzVFhOUDlyNFlvYzRub3B5TWZrNmo5RVpKOFpmcGk3SE1DM2ZsSHpwX19BcjZTRTZndk5WT0ZpV3RSYldyWXdvUURwaHVMdWlOekdRSnd0SElzbmRUVUlRblczOXV3d0kwYnpEcm13dm1Kak9zU2pfXw==)
       node: latest
-      xcode: 12.1
+      xcode: latest
       cocoapods: default
     triggering:
       events:
