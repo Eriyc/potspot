@@ -1,4 +1,4 @@
-import {flow, SnapshotOut} from 'mobx-state-tree';
+import {flow, Instance, SnapshotOut} from 'mobx-state-tree';
 import {types} from 'mobx-state-tree';
 
 import * as trapApi from '@/features/trap/methods';
@@ -14,10 +14,21 @@ export const Trap = types.model('Trap', {
   in_use: types.boolean,
 });
 
+const TrapByIdReference = types.maybeNull(
+  types.reference(Trap, {
+    get(identifier: string, parent: any) {
+      return parent.getOrLoadTrap(identifier);
+    },
+    set(value) {
+      return value.id;
+    },
+  }),
+);
+
 export const TrapStore = types
   .model('TrapStore', {
     traps: types.array(Trap),
-    selected: types.maybeNull(types.reference(Trap)),
+    selected: TrapByIdReference,
   })
   .actions(self => ({
     new: flow(function* (trap: NewTrap) {
@@ -41,6 +52,25 @@ export const TrapStore = types
         console.log(error);
       }
     }),
+    loadTrap: flow(function* (id: TrapSnapshot['id']) {
+      const {body}: SupabaseResponse<TrapSnapshot> = yield trapApi.getOne(id);
+
+      if (body) {
+        self.traps.push(body);
+      }
+    }),
+    select: (item: Instance<typeof Trap> | null) => {
+      self.selected = item;
+    },
+  }))
+  .views(self => ({
+    getOrLoadTrap: (id: TrapSnapshot['id']) => {
+      const user = self.traps.find(t => t.id === id) || null;
+      if (!user) {
+        setImmediate(() => self.loadTrap(id));
+      }
+      return user;
+    },
   }));
 
 export type TrapSnapshot = SnapshotOut<typeof Trap>;

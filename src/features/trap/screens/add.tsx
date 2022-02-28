@@ -74,7 +74,10 @@ export const AddTrapScreen: FC = observer(() => {
         </Text>
         <TextInput
           onChangeText={setName}
-          style={tw.style('bg-gray-700 rounded-sm text-white')}
+          style={tw.style(
+            'rounded-sm text-black',
+            dark ? 'bg-gray-700 text-white' : 'border border-gray-500',
+          )}
         />
       </View>
 

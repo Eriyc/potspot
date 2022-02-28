@@ -7,10 +7,16 @@ import tw from '@/utils/tailwind';
 
 import {MapScreen} from './screens';
 import {AddTrapScreen} from './screens/add';
+import {SetTrapScreen} from './screens/set';
+import {ViewTrapScreen} from './screens/view';
+import {VittjaTrapScreen} from './screens/vittja';
 
 type Paths = {
+  view: undefined;
   map: undefined;
   add: undefined;
+  vittja: undefined;
+  set: undefined;
 };
 
 export type TrapRoute = NavigationProp<Paths>;
@@ -30,6 +36,7 @@ export const TrapNavigation = () => {
           animation: 'fade',
         }}>
         <Stack.Screen name="map" component={MapScreen} />
+        <Stack.Screen name="view" component={ViewTrapScreen} />
         <Stack.Screen
           options={{
             animation: 'simple_push',
@@ -37,6 +44,22 @@ export const TrapNavigation = () => {
           }}
           name="add"
           component={AddTrapScreen}
+        />
+        <Stack.Screen
+          options={{
+            animation: 'simple_push',
+            presentation: 'modal',
+          }}
+          name="vittja"
+          component={VittjaTrapScreen}
+        />
+        <Stack.Screen
+          options={{
+            animation: 'simple_push',
+            presentation: 'modal',
+          }}
+          name="set"
+          component={SetTrapScreen}
         />
       </Stack.Group>
     </Stack.Navigator>

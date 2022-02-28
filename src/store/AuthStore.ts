@@ -25,8 +25,10 @@ export const AuthStore = types
         const userResponse = yield userMethods.signIn(email, password);
         console.log(userResponse);
 
+        if (typeof userResponse === 'string') {
+          return;
+        }
         persistToken(userResponse.token);
-
         self.currentUser = userResponse.user;
       } catch (error) {
         console.log(error);

@@ -2,6 +2,8 @@ import {TrapSnapshot} from '@/store/TrapStore';
 import {NewTrap, SupabaseResponse} from '@/store/types';
 import {supabase} from '@/utils/supabase';
 
+import {convertPositionFromDb} from '../lib/convertPosition';
+
 export const createTrap = async (
   trap: NewTrap,
 ): Promise<SupabaseResponse<TrapSnapshot>> => {
@@ -14,5 +16,7 @@ export const createTrap = async (
     })
     .single();
 
-  return {body, error};
+  const converted = convertPositionFromDb(body);
+
+  return {body: converted, error};
 };

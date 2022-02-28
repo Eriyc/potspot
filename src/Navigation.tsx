@@ -1,7 +1,7 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {observer} from 'mobx-react-lite';
 import React from 'react';
-import {ActivityIndicator, View} from 'react-native';
+import {ActivityIndicator, Image, View} from 'react-native';
 
 import {useMst} from '@/store';
 import tw from '@/utils/tailwind';
@@ -17,6 +17,11 @@ const MainNavigation = observer(() => {
   if (showSplash) {
     return (
       <View style={tw`flex flex-1 justify-center items-center bg-white`}>
+        <Image
+          style={tw`max-w-full`}
+          resizeMode="contain"
+          source={require('@/assets/logo-black.png')}
+        />
         <ActivityIndicator animating size="large" />
       </View>
     );

@@ -1,6 +1,6 @@
 import {supabase} from '@/utils/supabase';
 
-type ApiError =
+export type ApiError =
   | 'MISSING_CREDS'
   | 'WRONG_CREDS'
   | 'DEACTIVATED'
