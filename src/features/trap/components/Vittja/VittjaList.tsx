@@ -5,16 +5,12 @@ import {Text} from '@/components/Text';
 
 import tw from '@/utils/tailwind';
 
-import {RowValue} from './types';
+import {useVittja} from './ListContext';
 import {VittjaGroup} from './VittjaGroup';
 
-interface VittjaListProps {
-  rows: RowValue[];
-  editRow: (index: number) => (value: RowValue) => void;
-  addRow: () => void;
-}
+export const VittjaList = () => {
+  const {rows, addRow} = useVittja();
 
-export const VittjaList = ({rows, editRow, addRow}: VittjaListProps) => {
   return (
     <FlatList
       data={rows}
@@ -29,12 +25,7 @@ export const VittjaList = ({rows, editRow, addRow}: VittjaListProps) => {
         </View>
       }
       renderItem={({item, index}) => (
-        <VittjaGroup
-          index={index}
-          values={item}
-          updateValue={editRow(index)}
-          key={index}
-        />
+        <VittjaGroup index={index} values={item} key={item.id} />
       )}
     />
   );

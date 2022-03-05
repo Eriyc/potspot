@@ -3,4 +3,5 @@ export type RowValue = {
   amount: number;
   size: number;
   size_unit: 'cm' | 'kg';
+  id: string;
 };

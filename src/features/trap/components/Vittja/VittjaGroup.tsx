@@ -1,4 +1,4 @@
-import React, {FC, useRef, useState} from 'react';
+import React, {memo, useCallback, useRef, useState} from 'react';
 import {
   Animated,
   Easing,
@@ -8,13 +8,14 @@ import {
   UIManager,
   View,
 } from 'react-native';
-import {ChevronUp} from 'react-native-feather';
+import {ChevronUp, Trash2} from 'react-native-feather';
 
 import {Text} from '@/components/Text';
 
 import {useColorScheme} from '@/utils/colorScheme';
 import tw from '@/utils/tailwind';
 
+import {useVittja} from './ListContext';
 import {RowValue} from './types';
 import {VittjaRow} from './VittjaRow';
 
@@ -27,23 +28,28 @@ if (Platform.OS === 'android') {
 interface VittjaGroupProps {
   values: RowValue;
   index: number;
-  updateValue: (values: RowValue) => void;
 }
 
-export const VittjaGroup: FC<VittjaGroupProps> = ({
-  values,
-  updateValue,
-  index,
-}) => {
+export const VittjaGroup = memo<VittjaGroupProps>(({values, index}) => {
   const [dark] = useColorScheme();
   const [open, setOpen] = useState(true);
   const spinAnimation = useRef(new Animated.Value(0)).current;
 
-  const onValueUpdated = (key: keyof RowValue, value: string | number) => {
-    const updated = values;
-    (updated[key] as string | number) = value;
-    updateValue(updated);
-  };
+  const {editRow} = useVittja();
+
+  const [title, setTitle] = useState('');
+
+  const onValueUpdated = useCallback(
+    (key: keyof RowValue, value: string | number) => {
+      if (key === 'species') {
+        setTitle(value as string);
+      }
+
+      const updated = {...values, [key]: value};
+      editRow(updated);
+    },
+    [values, editRow],
+  );
 
   const handleToggle = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -65,8 +71,12 @@ export const VittjaGroup: FC<VittjaGroupProps> = ({
   return (
     <View style={tw.style('m-2 bg-gray-100 relative', dark && 'bg-gray-700')}>
       <Pressable onPress={handleToggle} android_ripple={{borderless: false}}>
-        <View style={tw`flex flex-row justify-between my-2 ml-2 font-bold`}>
-          <Text>Fångst {index + 1}</Text>
+        <View
+          style={tw`flex flex-row justify-between items-center my-2 ml-2 font-bold`}>
+          <Text style={tw`flex-1`}>
+            {title ? title : `Fångst ${index + 1}`}
+          </Text>
+          <Trash2 style={tw.style('text-gray-700')} height={16} width={16} />
           <Animated.View
             style={{
               transform: [
@@ -75,7 +85,7 @@ export const VittjaGroup: FC<VittjaGroupProps> = ({
                 },
               ],
             }}>
-            <ChevronUp style={tw.style(`text-gray-700 rotate-90`, {})} />
+            <ChevronUp style={tw.style(`text-gray-700`, {})} />
           </Animated.View>
         </View>
       </Pressable>
@@ -105,4 +115,4 @@ export const VittjaGroup: FC<VittjaGroupProps> = ({
       )}
     </View>
   );
-};
+});

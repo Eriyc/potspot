@@ -1,15 +1,17 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
-import {Map, Settings} from 'react-native-feather';
+import {Inbox, Map, Settings} from 'react-native-feather';
 
 import {useColorScheme} from '@/utils/colorScheme';
 import tw from '@/utils/tailwind';
 
 import {SettingsScreen} from './screens';
+import {FeedNavigation} from '../feed';
 import {TrapNavigation} from '../trap/navigator';
 
 type Routes = {
   home: undefined;
+  'feed-navigator': undefined;
   settings: undefined;
 };
 
@@ -41,6 +43,15 @@ export const AppNavigation = () => {
           name="home"
         />
         <AppStack.Screen
+          component={FeedNavigation}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({color, focused}) =>
+              focused ? <Inbox color={color} /> : <Inbox color={color} />,
+          }}
+          name="feed-navigator"
+        />
+        <AppStack.Screen
           component={SettingsScreen}
           options={{
             headerTitleStyle: {
@@ -49,7 +60,8 @@ export const AppNavigation = () => {
             headerStyle: {
               backgroundColor: dark
                 ? tw.color('primary-dark')
-                : tw.color('gray-50'),
+                : tw.color('white'),
+              ...tw`shadow-md`,
             },
             tabBarIcon: ({color}) => <Settings color={color} />,
           }}

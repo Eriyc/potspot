@@ -1,2 +1,2 @@
+export {Vittja} from './ListContext';
 export type {RowValue} from './types';
-export {VittjaList} from './VittjaList';

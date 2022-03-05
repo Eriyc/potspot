@@ -9,18 +9,18 @@ interface BaseVittjaRowProps {
   title: string;
   type: 'number' | 'choices' | 'text';
   unit?: 'cm' | 'kg';
-  value: string | number;
+  value?: string | number;
   onChange: (value: any) => any;
 }
 
 interface NumberVittjaRowProps extends BaseVittjaRowProps {
   type: 'number';
-  value: number;
+  value?: number;
   onChange: (value: number) => any;
 }
 interface TextVittjaRowProps extends BaseVittjaRowProps {
   type: 'text';
-  value: string;
+  value?: string;
   onChange: (value: string) => any;
 }
 
@@ -36,28 +36,25 @@ export const VittjaRow = ({
   let form: ReactElement;
 
   if (type === 'number') {
-    const callback = (num: number) => (onChange as (value: number) => any)(num);
+    const callback = (num: number) => onChange(num);
     form = (
       <View style={tw.style('flex flex-row items-center w-40')}>
         <TextInput
           placeholder="Skriv här"
-          value={`${value}`}
+          value={value ? value.toString() : ''}
           keyboardType="numeric"
           style={tw.style('flex-1')}
-          onChangeText={text =>
-            callback(parseFloat(text.replace(/[^A-Za-z]/g, '')))
-          }
+          onChangeText={text => callback(parseInt(text, 10))}
         />
         {unit && <Text>{unit}</Text>}
       </View>
     );
   } else {
-    const callback = (text: string) =>
-      (onChange as (value: string) => any)(text);
+    const callback = (text: string) => onChange(text);
     form = (
       <TextInput
         placeholder="Skriv här"
-        value={`${value}`}
+        value={value}
         style={tw.style('w-40')}
         onChangeText={text => callback(text)}
       />
