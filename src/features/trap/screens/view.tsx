@@ -6,6 +6,7 @@ import {Button, View} from 'react-native';
 import {Text} from '@/components/Text';
 
 import {ProfileCard} from '@/features/account/components/ProfileCard';
+import {CurrentBait} from '@/features/bait/components/current-bait';
 import {useMst} from '@/store';
 import tw from '@/utils/tailwind';
 
@@ -38,6 +39,7 @@ const ViewTrapScreen = observer(() => {
       <View style={tw`h-[12rem] bg-red-500`} />
       <View style={tw.style('p-4')}>
         <Text style={tw`text-lg font-bold`}>{selected.displayname}</Text>
+        <CurrentBait id={selected.bait} />
         <Text>Status: {selected.in_use ? 'I vattnet' : 'Inte i vattnet'}</Text>
       </View>
       <View style={tw.style('p-4')}>

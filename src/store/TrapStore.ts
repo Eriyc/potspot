@@ -12,6 +12,7 @@ export const Trap = types.model('Trap', {
   updated_at: types.string,
   displayname: types.optional(types.string, 'Tina utan namn'),
   in_use: types.boolean,
+  bait: types.integer,
 });
 
 const TrapByIdReference = types.maybeNull(
