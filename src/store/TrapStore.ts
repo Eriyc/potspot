@@ -58,11 +58,8 @@ export const TrapStore = types
 
       if (body) {
         const exists = self.traps.findIndex(trap => trap.id === body.id);
-        console.log(exists);
-
         if (exists !== -1) {
-          const result = self.traps.splice(exists, 1, body);
-          console.log(result);
+          self.traps.splice(exists, 1, body);
         } else {
           self.traps.push(body);
         }

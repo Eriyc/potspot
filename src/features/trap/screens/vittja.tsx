@@ -70,6 +70,7 @@ const VittjaTrapScreen = observer(() => {
 
     const {error} = await supabase.from('catch').insert({
       trap_id: selected.id,
+      bait_id: selected.bait,
       created_by: currentUser?.id,
       data: rows,
       position: convertPositionToDb(selected.pos.toJSON() as [number, number]),
