@@ -23,10 +23,9 @@ export const AuthStore = types
     const signIn = flow(function* (email: string, password: string) {
       try {
         const userResponse = yield userMethods.signIn(email, password);
-        console.log(userResponse);
 
         if (typeof userResponse === 'string') {
-          return;
+          return userResponse;
         }
         persistToken(userResponse.token);
         self.currentUser = userResponse.user;

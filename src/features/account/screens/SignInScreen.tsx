@@ -28,7 +28,8 @@ export const SignInScreen = observer(() => {
   } = useForm<FormData>();
 
   const onSubmit = (data: FormData) => {
-    authStore.signIn(data.email, data.password);
+    const result = authStore.signIn(data.email, data.password);
+    console.log(result);
   };
   const onError = () => {
     console.log('error', errors);

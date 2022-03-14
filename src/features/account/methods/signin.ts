@@ -25,12 +25,12 @@ export const signIn = async (
 
   const {user, error, session} = await supabase.auth.signIn({email, password});
 
-  if (error || !user) {
+  if (error) {
     return 'WRONG_CREDS';
   }
   const {body} = await supabase.from('accounts').select('active').single();
 
-  if (body) {
+  if (body && user) {
     if (!body.active) {
       return 'DEACTIVATED';
     }

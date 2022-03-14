@@ -10,13 +10,31 @@ import {Bait} from '../types';
 type BaitCardProps = {
   bait: Bait;
   onPress: (event: GestureResponderEvent) => void;
+  index?: number;
+  selected: boolean;
 };
 
-const BaitCard: FC<BaitCardProps> = ({bait, onPress}) => {
+const BaitCard: FC<BaitCardProps> = ({bait, onPress, selected}) => {
   return (
-    <Pressable onPress={onPress} style={tw.style('rounded-md shadow-md')}>
-      {bait.image_uri && <Image source={{uri: bait.image_uri}} />}
-      <Text>{bait.name}</Text>
+    <Pressable
+      disabled={selected}
+      onPress={onPress}
+      android_ripple={{borderless: false}}
+      style={() => ({
+        ...tw.style(
+          'rounded-md overflow-hidden flex flex-col items-center justify-center bg-white p-2 shadow-sm flex-1 max-w-1/2 m-2 h-40s',
+        ),
+      })}>
+      {bait.image_uri && (
+        <Image
+          height={16}
+          width={16}
+          source={{uri: bait.image_uri, height: 64, width: 64}}
+        />
+      )}
+      <Text>
+        {bait.name} {selected && '(vald)'}
+      </Text>
     </Pressable>
   );
 };

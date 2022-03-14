@@ -57,7 +57,15 @@ export const TrapStore = types
       const {body}: SupabaseResponse<TrapSnapshot> = yield trapApi.getOne(id);
 
       if (body) {
-        self.traps.push(body);
+        const exists = self.traps.findIndex(trap => trap.id === body.id);
+        console.log(exists);
+
+        if (exists !== -1) {
+          const result = self.traps.splice(exists, 1, body);
+          console.log(result);
+        } else {
+          self.traps.push(body);
+        }
       }
     }),
     select: (item: Instance<typeof Trap> | null) => {
