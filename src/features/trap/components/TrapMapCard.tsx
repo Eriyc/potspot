@@ -1,6 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {FC} from 'react';
 import {Dimensions, Pressable} from 'react-native';
+import {useAppColorScheme} from 'twrnc';
 
 import {Text} from '@/components/Text';
 
@@ -17,6 +18,7 @@ interface TrapMapCardProps {
 export const TrapMapCard: FC<TrapMapCardProps> = ({item}) => {
   const navigation = useNavigation<TrapNavigation>();
   const [dark] = useColorScheme();
+  useAppColorScheme(tw);
 
   const onPress = () => {
     navigation.navigate('view', {id: item.id});
@@ -28,9 +30,7 @@ export const TrapMapCard: FC<TrapMapCardProps> = ({item}) => {
       style={tw.style(
         `bg-white mr-[${
           Dimensions.get('screen').width * 0.05
-        }] p-4 rounded-md w-[80vw]`,
-
-        dark && 'bg-gray-700',
+        }] p-4 rounded-md w-[80vw] dark:bg-cyan-500`,
       )}>
       <Text style={tw.style(dark && 'text-white')}>{item.displayname}</Text>
     </Pressable>
