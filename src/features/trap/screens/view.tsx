@@ -1,32 +1,36 @@
-import {useNavigation} from '@react-navigation/native';
-import {observer} from 'mobx-react-lite';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useCallback} from 'react';
 import {Button, View} from 'react-native';
 
 import {Text} from '@/components/Text';
 
 import {ProfileCard} from '@/features/account/components/ProfileCard';
-import {CurrentBait} from '@/features/bait/components/current-bait';
-import {useMst} from '@/store';
+import {Bait, CurrentBait, useChangeBait} from '@/features/bait';
 import tw from '@/utils/tailwind';
 
-import {TrapRoute} from '../navigator';
+import {useTrap} from '../hooks/useTrap';
+import {TrapNavigation, ViewTrapRoute} from '../navigator';
 
-const ViewTrapScreen = observer(() => {
-  const {trapStore} = useMst();
-  const navigation = useNavigation<TrapRoute>();
+const ViewTrapScreen = () => {
+  const {params} = useRoute<ViewTrapRoute>();
+  const {data: trap, isLoading} = useTrap(params.id);
+  const changeBaitMutation = useChangeBait();
 
-  const selected = trapStore.selected;
+  const navigation = useNavigation<TrapNavigation>();
 
   const vittjaCallback = useCallback(() => {
-    navigation.navigate('vittja');
-  }, [navigation]);
+    navigation.navigate('vittja', {id: params.id});
+  }, [navigation, params.id]);
 
   const setCallback = useCallback(() => {
-    navigation.navigate('set');
-  }, [navigation]);
+    navigation.navigate('set', {id: params.id});
+  }, [navigation, params.id]);
 
-  if (!selected) {
+  const handleBaitChange = (bait: Bait) => {
+    changeBaitMutation.mutate({bait, trapId: params.id});
+  };
+
+  if (isLoading) {
     return (
       <View>
         <Text>Laddar...</Text>
@@ -34,16 +38,21 @@ const ViewTrapScreen = observer(() => {
     );
   }
 
+  if (!trap) return <View />;
+
   return (
     <View>
       <View style={tw`h-[12rem] bg-red-500`} />
       <View style={tw.style('p-4')}>
-        <Text style={tw`text-lg font-bold`}>{selected.displayname}</Text>
-        <CurrentBait id={selected.bait} />
-        <Text>Status: {selected.in_use ? 'I vattnet' : 'Inte i vattnet'}</Text>
+        <Text style={tw`text-lg font-bold`}>{trap.displayname}</Text>
+        <CurrentBait
+          onBaitChange={handleBaitChange}
+          id={changeBaitMutation.data?.bait || trap.bait}
+        />
+        <Text>Status: {trap.in_use ? 'I vattnet' : 'Inte i vattnet'}</Text>
       </View>
       <View style={tw.style('p-4')}>
-        {selected.in_use ? (
+        {trap.in_use ? (
           <Button title="Vittja" onPress={vittjaCallback} />
         ) : (
           <Button title="Sätt" onPress={setCallback} />
@@ -52,10 +61,10 @@ const ViewTrapScreen = observer(() => {
 
       <View style={tw.style('p-4')}>
         <Text>Ägare</Text>
-        <ProfileCard profileId={selected.created_by} />
+        <ProfileCard profile={trap.created_by} />
       </View>
     </View>
   );
-});
+};
 
 export {ViewTrapScreen};

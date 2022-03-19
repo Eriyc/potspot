@@ -1,13 +1,12 @@
 import {useNavigation} from '@react-navigation/native';
-import {observer} from 'mobx-react-lite';
 import React, {useRef} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {Pressable, ScrollView, Text, TextInput, View} from 'react-native';
 
-import {useMst} from '@/store';
 import tw from '@/utils/tailwind';
 
 import {Background} from '../components';
+import {useCreateUser} from '../hooks/useCreateUser';
 import {AuthRoute} from '../navigation';
 
 interface FormData {
@@ -18,9 +17,8 @@ interface FormData {
 
 const formStyle = tw`mb-2 text-black bg-gray-100 rounded-md`;
 
-export const SignupScreen = observer(() => {
+export const SignupScreen = () => {
   const navigation = useNavigation<AuthRoute>();
-  const {authStore} = useMst();
   const {
     control,
     handleSubmit,
@@ -29,11 +27,16 @@ export const SignupScreen = observer(() => {
     formState: {errors},
   } = useForm<FormData>();
 
+  const createUserMutation = useCreateUser();
+
   const passwordRef = useRef<string>('');
   passwordRef.current = watch('password', '');
 
   const onSubmit = (data: FormData) => {
-    authStore.signUp(data.email, data.password);
+    createUserMutation.mutate({
+      email: data.email,
+      password: data.password,
+    });
   };
   const onError = () => {
     console.log('error', errors);
@@ -152,4 +155,4 @@ export const SignupScreen = observer(() => {
       </ScrollView>
     </Background>
   );
-});
+};

@@ -2,12 +2,13 @@ import {observer} from 'mobx-react-lite';
 import React, {FC} from 'react';
 import {Pressable, Text, View} from 'react-native';
 
-import {useMst} from '@/store';
+import {useSignOut, useUser} from '@/features/account';
 import {useColorScheme} from '@/utils/colorScheme';
 import tw from '@/utils/tailwind';
 
 export const SettingsScreen: FC = observer(() => {
-  const {authStore} = useMst();
+  const signOutMutation = useSignOut();
+  const {data} = useUser();
   const [dark, toggleColorScheme] = useColorScheme();
 
   return (
@@ -17,10 +18,10 @@ export const SettingsScreen: FC = observer(() => {
         Settings
       </Text>
       <Text style={tw.style('text-gray-700', dark && 'text-gray-100')}>
-        {JSON.stringify(authStore.currentUser)}
+        {JSON.stringify({data})}
       </Text>
       <Pressable
-        onPress={authStore.signOut}
+        onPress={() => signOutMutation.mutate()}
         style={tw`bg-primary-dark p-4 mb-2 rounded-md`}>
         <Text style={tw`text-white`}>Sign Out</Text>
       </Pressable>

@@ -1,5 +1,5 @@
 export type Bait = {
   id: number;
   name: string;
-  image_uri?: string;
+  image_uri: string | null;
 };

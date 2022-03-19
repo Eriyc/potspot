@@ -1,14 +1,13 @@
-import React, {FC, useCallback, useEffect, useState} from 'react';
+import React, {FC} from 'react';
 import {View} from 'react-native';
 
 import {Text} from '@/components/Text';
 
-import {useMst} from '@/store';
-import {supabase} from '@/utils/supabase';
 import tw from '@/utils/tailwind';
 
 import {BaitCard} from './bait-card';
 import {GridList} from './grid-list';
+import {useBaits} from '../hooks/useBaits';
 import {Bait} from '../types';
 
 const BaitPickerHeader: FC = () => (
@@ -19,35 +18,14 @@ const BaitPickerHeader: FC = () => (
 );
 
 type BaitPickerProps = {
-  onSuccess: (newBait: Bait) => void;
+  handleBaitUpdate: (newBait: Bait) => void;
+  currentBait: number;
 };
 
-const BaitPicker: FC<BaitPickerProps> = ({onSuccess}) => {
-  const [bait, setBait] = useState<Bait[]>([]);
-  const {
-    trapStore: {selected},
-  } = useMst();
+const BaitPicker: FC<BaitPickerProps> = ({handleBaitUpdate, currentBait}) => {
+  const {data: bait} = useBaits();
 
-  const fetchBait = useCallback(async () => {
-    const {body} = await supabase.from('bait').select('*');
-    setBait(body || []);
-  }, []);
-
-  useEffect(() => {
-    fetchBait();
-  }, [fetchBait]);
-
-  const updateBait = useCallback(
-    async (item: Bait) => {
-      if (!selected?.id) return;
-      const {error, body} = await supabase
-        .from('traps')
-        .update({bait: item.id}, {returning: 'representation'})
-        .eq('id', selected.id);
-      console.log(error, body, selected.id);
-    },
-    [selected?.id],
-  );
+  if (!bait) return <View />;
 
   return (
     <GridList
@@ -56,9 +34,9 @@ const BaitPicker: FC<BaitPickerProps> = ({onSuccess}) => {
       renderItem={({item}) => (
         <BaitCard
           key={item.id}
-          selected={selected?.bait === item.id}
+          selected={currentBait === item.id}
           bait={item}
-          onPress={() => updateBait(item).then(() => onSuccess(item))}
+          onPress={() => handleBaitUpdate(item)}
         />
       )}
     />

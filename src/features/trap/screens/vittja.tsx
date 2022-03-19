@@ -1,5 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
-import {observer} from 'mobx-react-lite';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {nanoid} from 'nanoid';
 import React, {useState} from 'react';
 import {Alert, Pressable, View} from 'react-native';
@@ -7,13 +6,14 @@ import {CheckCircle} from 'react-native-feather';
 
 import {Text} from '@/components/Text';
 
-import {useMst} from '@/store';
+import {useUser} from '@/features/account';
 import {supabase} from '@/utils/supabase';
 import tw from '@/utils/tailwind';
 
 import {RowValue, Vittja} from '../components/Vittja';
+import {useTrap} from '../hooks/useTrap';
 import {convertPositionToDb} from '../lib/convertPosition';
-import {TrapRoute} from '../navigator';
+import {TrapNavigation, VittjaTrapRoute} from '../navigator';
 
 const createRow = (): RowValue => {
   return {
@@ -25,19 +25,16 @@ const createRow = (): RowValue => {
   };
 };
 
-const VittjaTrapScreen = observer(() => {
-  const {
-    trapStore: {selected},
-    authStore: {currentUser},
-  } = useMst();
+const VittjaTrapScreen = () => {
+  const {data: user} = useUser();
+  const {params} = useRoute<VittjaTrapRoute>();
+  const {data} = useTrap(params.id);
+  const navigation = useNavigation<TrapNavigation>();
+  const [rows, setRows] = useState<RowValue[]>([createRow()]);
 
-  const navigation = useNavigation<TrapRoute>();
-
-  if (!selected) {
+  if (!data) {
     return <View />;
   }
-
-  const [rows, setRows] = useState<RowValue[]>([createRow()]);
 
   const editRow = (newRow: RowValue) => {
     setRows(currentRows =>
@@ -69,17 +66,17 @@ const VittjaTrapScreen = observer(() => {
     }
 
     const {error} = await supabase.from('catch').insert({
-      trap_id: selected.id,
-      bait_id: selected.bait,
-      created_by: currentUser?.id,
+      trap_id: data.id,
+      bait_id: data.bait,
+      created_by: user?.id,
       data: rows,
-      position: convertPositionToDb(selected.pos.toJSON() as [number, number]),
+      position: convertPositionToDb(data.pos as [number, number]),
     });
 
     if (error) {
       console.log(error);
     } else {
-      navigation.navigate('view');
+      navigation.navigate('view', {id: data.id});
     }
   };
 
@@ -87,7 +84,7 @@ const VittjaTrapScreen = observer(() => {
     <View style={tw.style('flex')}>
       <View style={tw.style('p-4 flex flex-row items-center justify-between')}>
         <Text style={tw`text-lg font-bold`}>
-          Vittja fångst för tinan "{selected.displayname}"
+          Vittja fångst för tinan "{data.displayname}"
         </Text>
         <Pressable
           style={tw.style('')}
@@ -104,6 +101,6 @@ const VittjaTrapScreen = observer(() => {
       />
     </View>
   );
-});
+};
 
 export {VittjaTrapScreen};

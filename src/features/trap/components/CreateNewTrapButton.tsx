@@ -6,11 +6,11 @@ import {Plus} from 'react-native-feather';
 import {useColorScheme} from '@/utils/colorScheme';
 import tw from '@/utils/tailwind';
 
-import {TrapRoute} from '../navigator';
+import {TrapNavigation} from '../navigator';
 
 const CreateNewTrapButton = () => {
   const [dark] = useColorScheme();
-  const navigation = useNavigation<TrapRoute>();
+  const navigation = useNavigation<TrapNavigation>();
 
   return (
     <Pressable

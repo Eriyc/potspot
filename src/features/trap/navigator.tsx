@@ -1,4 +1,4 @@
-import {NavigationProp} from '@react-navigation/native';
+import {NavigationProp, RouteProp} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 
@@ -12,18 +12,22 @@ import {ViewTrapScreen} from './screens/view';
 import {VittjaTrapScreen} from './screens/vittja';
 
 type Paths = {
-  view: undefined;
+  view: {id: number};
   map: undefined;
   add: undefined;
-  vittja: undefined;
-  set: undefined;
+  vittja: {id: number};
+  set: {id: number};
 };
 
-export type TrapRoute = NavigationProp<Paths>;
+export type TrapNavigation = NavigationProp<Paths>;
+export type TrapRoute = RouteProp<Paths>;
+export type ViewTrapRoute = RouteProp<Paths, 'view'>;
+export type VittjaTrapRoute = RouteProp<Paths, 'vittja'>;
+export type SetTrapRoute = RouteProp<Paths, 'set'>;
 
 const Stack = createNativeStackNavigator<Paths>();
 
-export const TrapNavigation = () => {
+export const TrapNavigator = () => {
   const [dark] = useColorScheme();
 
   return (

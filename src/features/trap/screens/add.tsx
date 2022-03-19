@@ -1,6 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
 import {Point} from 'geojson';
-import {observer} from 'mobx-react-lite';
 import React, {FC, useState} from 'react';
 import {
   ActivityIndicator,
@@ -14,16 +13,16 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {CloseButton} from '@/components';
 
 import {INITIAL_POS} from '@/features/trap';
-import {useMst} from '@/store';
 import {useColorScheme} from '@/utils/colorScheme';
 import tw from '@/utils/tailwind';
 
 import {PickLocationMap} from '../components';
-import {TrapRoute} from '../navigator';
+import {useCreateTrap} from '../hooks/useCreateTrap';
+import {TrapNavigation} from '../navigator';
 
-export const AddTrapScreen: FC = observer(() => {
-  const {trapStore} = useMst();
-  const navigation = useNavigation<TrapRoute>();
+export const AddTrapScreen: FC = () => {
+  const createTrapMutation = useCreateTrap();
+  const navigation = useNavigation<TrapNavigation>();
   const [dark] = useColorScheme();
 
   const [status, setStatus] = useState<
@@ -45,16 +44,18 @@ export const AddTrapScreen: FC = observer(() => {
       type: 'Point',
     };
 
-    const {error} = await trapStore.new({
-      displayname: name.trim() || 'Tina utan namn',
-      pos,
-    });
-
-    if (error) return setStatus('error');
-    setStatus('success');
-    return navigation.canGoBack() && navigation.goBack();
+    createTrapMutation.mutate(
+      {
+        displayname: name.trim() || 'Tina utan namn',
+        pos,
+      },
+      {
+        onSuccess: () => {
+          navigation.canGoBack() && navigation.goBack();
+        },
+      },
+    );
   };
-
   return (
     <KeyboardAwareScrollView
       extraScrollHeight={60}
@@ -99,4 +100,4 @@ export const AddTrapScreen: FC = observer(() => {
       </Pressable>
     </KeyboardAwareScrollView>
   );
-});
+};

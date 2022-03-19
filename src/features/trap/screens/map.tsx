@@ -5,13 +5,12 @@ import {Dimensions, FlatList, View, ViewToken} from 'react-native';
 
 import {useLocationPermission} from '@/hooks/useLocationPermission';
 
-import {useMst} from '@/store';
-import {ITrap} from '@/store/types';
 import {useColorScheme} from '@/utils/colorScheme';
 import tw from '@/utils/tailwind';
 
 import {INITIAL_POS} from '..';
 import {CreateNewTrapButton, TrapMapCard} from '../components';
+import {Trap, useTraps} from '../hooks/useTraps';
 
 const openSeaMapTiles = {
   tileUrlTemplates: ['https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png'],
@@ -20,7 +19,7 @@ const openSeaMapTiles = {
 };
 
 export const MapScreen: FC = observer(() => {
-  const {trapStore} = useMst();
+  const {data: traps} = useTraps();
   const cameraRef = useRef<MapboxGL.Camera>(null);
   const [dark] = useColorScheme();
 
@@ -29,7 +28,7 @@ export const MapScreen: FC = observer(() => {
   const handleScrollFinish = useCallback(
     ({viewableItems}: {viewableItems: ViewToken[]}) => {
       if (viewableItems.length < 0) {
-        const viewing: ITrap = viewableItems[0].item;
+        const viewing: Trap = viewableItems[0].item;
 
         cameraRef.current?.flyTo(viewing.pos);
       }
@@ -55,16 +54,17 @@ export const MapScreen: FC = observer(() => {
         <MapboxGL.RasterSource {...openSeaMapTiles}>
           <MapboxGL.RasterLayer id="openseamapLayer" sourceID="openseamap" />
         </MapboxGL.RasterSource>
-        {trapStore.traps.map(trap => (
-          <MapboxGL.PointAnnotation
-            coordinate={trap.pos}
-            id={`marker-${trap.id}-${dark.valueOf()}`}
-            key={`marker-${trap.id}-${dark.valueOf()}`}>
-            <View
-              style={tw`w-4 h-4 bg-pink-500 rounded-full border-2 border-white`}
-            />
-          </MapboxGL.PointAnnotation>
-        ))}
+        {traps &&
+          traps.map(trap => (
+            <MapboxGL.PointAnnotation
+              coordinate={trap.pos}
+              id={`marker-${trap.id}-${dark.valueOf()}`}
+              key={`marker-${trap.id}-${dark.valueOf()}`}>
+              <View
+                style={tw`w-4 h-4 bg-pink-500 rounded-full border-2 border-white`}
+              />
+            </MapboxGL.PointAnnotation>
+          ))}
       </MapboxGL.MapView>
       <FlatList
         style={tw`absolute bottom-0`}
@@ -74,9 +74,9 @@ export const MapScreen: FC = observer(() => {
         snapToInterval={Dimensions.get('screen').width * 0.85}
         decelerationRate="fast"
         ListFooterComponent={<CreateNewTrapButton />}
-        data={trapStore.traps}
+        data={traps}
         keyExtractor={({id}) => id.toString()}
-        renderItem={({item}) => <TrapMapCard item={item as ITrap} />}
+        renderItem={({item}) => <TrapMapCard item={item} />}
         onViewableItemsChanged={handleScrollFinish}
         viewabilityConfig={{itemVisiblePercentThreshold: 50}}
       />

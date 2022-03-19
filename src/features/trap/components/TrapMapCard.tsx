@@ -1,29 +1,25 @@
 import {useNavigation} from '@react-navigation/native';
-import {observer} from 'mobx-react-lite';
 import React, {FC} from 'react';
 import {Dimensions, Pressable} from 'react-native';
 
 import {Text} from '@/components/Text';
 
-import {useMst} from '@/store';
-import {ITrap} from '@/store/types';
 import {useColorScheme} from '@/utils/colorScheme';
 import tw from '@/utils/tailwind';
 
-import {TrapRoute} from '../navigator';
+import {Trap} from '../hooks';
+import {TrapNavigation} from '../navigator';
 
 interface TrapMapCardProps {
-  item: ITrap;
+  item: Trap;
 }
 
-export const TrapMapCard: FC<TrapMapCardProps> = observer(({item}) => {
-  const {trapStore} = useMst();
-  const navigation = useNavigation<TrapRoute>();
+export const TrapMapCard: FC<TrapMapCardProps> = ({item}) => {
+  const navigation = useNavigation<TrapNavigation>();
   const [dark] = useColorScheme();
 
   const onPress = () => {
-    trapStore.select(item);
-    navigation.navigate('view');
+    navigation.navigate('view', {id: item.id});
   };
 
   return (
@@ -39,4 +35,4 @@ export const TrapMapCard: FC<TrapMapCardProps> = observer(({item}) => {
       <Text style={tw.style(dark && 'text-white')}>{item.displayname}</Text>
     </Pressable>
   );
-});
+};

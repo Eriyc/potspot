@@ -7,7 +7,7 @@ import tw from '@/utils/tailwind';
 
 import {SettingsScreen} from './screens';
 import {FeedNavigation} from '../feed';
-import {TrapNavigation} from '../trap/navigator';
+import {TrapNavigator} from '../trap/navigator';
 
 type Routes = {
   home: undefined;
@@ -34,7 +34,7 @@ export const AppNavigation = () => {
             : tw.color('primary-dark'),
         }}>
         <AppStack.Screen
-          component={TrapNavigation}
+          component={TrapNavigator}
           options={{
             headerShown: false,
             tabBarIcon: ({color, focused}) =>

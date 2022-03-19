@@ -1,12 +1,9 @@
 import {AuthSession, AuthUser} from '@supabase/supabase-js';
 import {useEffect, useState} from 'react';
 
-import {useMst} from '@/store';
-
 import {supabase} from './supabase';
 
-export const useAuthState = () => {
-  const {initialize} = useMst();
+export const useAuthState = (refetch: () => Promise<any>) => {
   const [session, setSession] = useState<AuthSession | null>(null);
   const [user, setUser] = useState<AuthUser | null>(null);
 
@@ -16,8 +13,7 @@ export const useAuthState = () => {
     // eslint-disable-next-line no-undef
     let timer: NodeJS.Timeout;
     timer = setTimeout(async () => {
-      console.log('initialize 1');
-      await initialize();
+      await refetch();
       setShowSplash(false);
     }, 1000);
 
@@ -36,7 +32,7 @@ export const useAuthState = () => {
           clearTimeout(timer);
           console.log('initialize 2');
 
-          await initialize();
+          await refetch();
           setShowSplash(false);
         }
       },

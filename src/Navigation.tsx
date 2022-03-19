@@ -1,20 +1,17 @@
 import {NavigationContainer} from '@react-navigation/native';
-import {observer} from 'mobx-react-lite';
 import React from 'react';
 import {ActivityIndicator, Image, View} from 'react-native';
 
-import {useMst} from '@/store';
 import tw from '@/utils/tailwind';
 
-import {AuthNavigation} from './features/account';
+import {AuthNavigation, useUser} from './features/account';
 import {AppNavigation} from './features/app';
-import {useAuthState} from './utils/authListener';
 
-const MainNavigation = observer(() => {
-  const {showSplash} = useAuthState();
-  const {isLoggedIn} = useMst();
+const MainNavigation = () => {
+  const {isLoading, data} = useUser();
+  const isLoggedIn = !!data?.id;
 
-  if (showSplash) {
+  if (isLoading) {
     return (
       <View style={tw`flex flex-1 justify-center items-center bg-white`}>
         <Image
@@ -32,6 +29,6 @@ const MainNavigation = observer(() => {
       {isLoggedIn ? <AppNavigation /> : <AuthNavigation />}
     </NavigationContainer>
   );
-});
+};
 
 export {MainNavigation};

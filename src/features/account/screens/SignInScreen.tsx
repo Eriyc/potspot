@@ -1,14 +1,15 @@
 import {useNavigation} from '@react-navigation/native';
-import {observer} from 'mobx-react-lite';
 import React from 'react';
-import {Controller, useForm} from 'react-hook-form';
-import {Pressable, ScrollView, Text, TextInput, View} from 'react-native';
+import {Controller, SubmitErrorHandler, useForm} from 'react-hook-form';
+import {Pressable, ScrollView, TextInput, View} from 'react-native';
+
+import {Text} from '@/components/Text';
 
 import tw from '@/utils/tailwind';
 
 import {Background} from '../components';
+import {useSignIn} from '../hooks/useSignIn';
 import {AuthRoute} from '../navigation';
-import {useMst} from '../../../store';
 
 interface FormData {
   email: string;
@@ -17,9 +18,10 @@ interface FormData {
 
 const formStyle = tw`mb-2 text-black bg-gray-100 rounded-md`;
 
-export const SignInScreen = observer(() => {
+export const SignInScreen = () => {
   const navigation = useNavigation<AuthRoute>();
-  const {authStore} = useMst();
+
+  const signInMutation = useSignIn();
 
   const {
     control,
@@ -27,12 +29,11 @@ export const SignInScreen = observer(() => {
     formState: {errors},
   } = useForm<FormData>();
 
-  const onSubmit = (data: FormData) => {
-    const result = authStore.signIn(data.email, data.password);
-    console.log(result);
+  const onSubmit = async (data: FormData) => {
+    signInMutation.mutate({email: data.email, password: data.password});
   };
-  const onError = () => {
-    console.log('error', errors);
+  const onError: SubmitErrorHandler<FormData> = ({email, password}) => {
+    console.log('error', email, password);
   };
 
   return (
@@ -47,11 +48,21 @@ export const SignInScreen = observer(() => {
         </View>
         <View style={tw`flex flex-1 justify-center`}>
           <View style={tw`p-8 m-4 bg-white rounded-xl`}>
+            <View style={tw`flex justify-center items-center`}>
+              <Text style={tw.style('text-red-500')}>
+                {signInMutation.error?.message}
+              </Text>
+            </View>
             <Text style={tw`text-black`}>Email</Text>
             <Controller
               control={control}
               rules={{
-                required: true,
+                required: 'Email är obligatoriskt',
+                pattern: {
+                  value:
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                  message: 'Ange en giltig email-address',
+                },
               }}
               render={({field: {onChange, onBlur, value}}) => (
                 <TextInput
@@ -65,14 +76,13 @@ export const SignInScreen = observer(() => {
               )}
               name="email"
             />
-            <Text style={tw`mb-2 text-red-500`}>
-              {errors.email?.type === 'pattern' && 'Ange en giltig mailaddress'}
-            </Text>
+            <Text style={tw`mb-2 text-red-500`}>{errors.email?.message}</Text>
             <Text style={tw`text-black`}>Lösenord</Text>
 
             <Controller
               control={control}
               rules={{
+                required: 'Lösenord är obligatoriskt',
                 minLength: 6,
               }}
               render={({field: {onChange, onBlur, value}}) => (
@@ -120,4 +130,4 @@ export const SignInScreen = observer(() => {
       </ScrollView>
     </Background>
   );
-});
+};
