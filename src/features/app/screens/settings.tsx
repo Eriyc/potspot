@@ -1,4 +1,3 @@
-import {observer} from 'mobx-react-lite';
 import React, {FC} from 'react';
 import {Pressable, Text, View} from 'react-native';
 
@@ -6,7 +5,7 @@ import {useSignOut, useUser} from '@/features/account';
 import {useColorScheme} from '@/utils/colorScheme';
 import tw from '@/utils/tailwind';
 
-export const SettingsScreen: FC = observer(() => {
+export const SettingsScreen: FC = () => {
   const signOutMutation = useSignOut();
   const {data} = useUser();
   const [dark, toggleColorScheme] = useColorScheme();
@@ -32,4 +31,4 @@ export const SettingsScreen: FC = observer(() => {
       </Pressable>
     </View>
   );
-});
+};

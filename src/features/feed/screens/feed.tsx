@@ -18,7 +18,7 @@ const CatchCard: FC<CatchCardProps> = ({item}) => {
   const date = new Date(item.created_at);
 
   return (
-    <View style={tw.style('p-2 ')}>
+    <View style={tw.style('px-2 py-4 bg-white rounded-sm')}>
       <Text>{date.toLocaleDateString()}</Text>
       <Text>av {creator?.username}</Text>
       <Text>{JSON.stringify(item.position.coordinates)}</Text>

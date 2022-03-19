@@ -1,9 +1,8 @@
-import {observer} from 'mobx-react-lite';
 import React from 'react';
 import {View} from 'react-native';
 
-const SetTrapScreen = observer(() => {
+const SetTrapScreen = () => {
   return <View />;
-});
+};
 
 export {SetTrapScreen};

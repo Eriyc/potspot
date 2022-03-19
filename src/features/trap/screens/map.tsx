@@ -1,5 +1,4 @@
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import {observer} from 'mobx-react-lite';
 import React, {FC, useCallback, useRef} from 'react';
 import {Dimensions, FlatList, View, ViewToken} from 'react-native';
 
@@ -18,7 +17,7 @@ const openSeaMapTiles = {
   id: 'openseamap',
 };
 
-export const MapScreen: FC = observer(() => {
+export const MapScreen: FC = () => {
   const {data: traps} = useTraps();
   const cameraRef = useRef<MapboxGL.Camera>(null);
   const [dark] = useColorScheme();
@@ -30,7 +29,9 @@ export const MapScreen: FC = observer(() => {
       if (viewableItems.length < 0) {
         const viewing: Trap = viewableItems[0].item;
 
-        cameraRef.current?.flyTo(viewing.pos);
+        console.log(viewing.pos);
+
+        cameraRef.current?.flyTo(viewing.pos.coordinates);
       }
     },
     [],
@@ -57,7 +58,7 @@ export const MapScreen: FC = observer(() => {
         {traps &&
           traps.map(trap => (
             <MapboxGL.PointAnnotation
-              coordinate={trap.pos}
+              coordinate={trap.pos as unknown as [number, number]}
               id={`marker-${trap.id}-${dark.valueOf()}`}
               key={`marker-${trap.id}-${dark.valueOf()}`}>
               <View
@@ -82,4 +83,4 @@ export const MapScreen: FC = observer(() => {
       />
     </View>
   );
-});
+};

@@ -1,3 +1,4 @@
+import {Point} from 'geojson';
 import {useQuery} from 'react-query';
 
 import {supabase} from '@/utils/supabase';
@@ -5,7 +6,7 @@ import {supabase} from '@/utils/supabase';
 export type Trap = {
   id: number;
   created_by: string; // Profile
-  pos: [number, number];
+  pos: Point;
   updated_at: Date;
   displayname: string;
   in_use: boolean;

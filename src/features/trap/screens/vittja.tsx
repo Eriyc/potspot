@@ -7,12 +7,11 @@ import {CheckCircle} from 'react-native-feather';
 import {Text} from '@/components/Text';
 
 import {useUser} from '@/features/account';
-import {supabase} from '@/utils/supabase';
 import tw from '@/utils/tailwind';
 
 import {RowValue, Vittja} from '../components/Vittja';
 import {useTrap} from '../hooks/useTrap';
-import {convertPositionToDb} from '../lib/convertPosition';
+import {useVittja} from '../hooks/useVittjaTrap';
 import {TrapNavigation, VittjaTrapRoute} from '../navigator';
 
 const createRow = (): RowValue => {
@@ -31,6 +30,8 @@ const VittjaTrapScreen = () => {
   const {data} = useTrap(params.id);
   const navigation = useNavigation<TrapNavigation>();
   const [rows, setRows] = useState<RowValue[]>([createRow()]);
+
+  const vittjaMutation = useVittja();
 
   if (!data) {
     return <View />;
@@ -65,19 +66,19 @@ const VittjaTrapScreen = () => {
       return;
     }
 
-    const {error} = await supabase.from('catch').insert({
+    if (!user) {
+      throw new Error('Not logged in?');
+    }
+
+    vittjaMutation.mutate({
       trap_id: data.id,
       bait_id: data.bait,
-      created_by: user?.id,
+      created_by: user.id,
       data: rows,
-      position: convertPositionToDb(data.pos as [number, number]),
+      position: data.pos,
     });
 
-    if (error) {
-      console.log(error);
-    } else {
-      navigation.navigate('view', {id: data.id});
-    }
+    navigation.navigate('view', {id: data.id});
   };
 
   return (

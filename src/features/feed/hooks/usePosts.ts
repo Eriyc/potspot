@@ -7,7 +7,8 @@ import {Catch} from '../types';
 const fetchPosts = async (): Promise<Catch[]> => {
   const {body, error} = await supabase
     .from<Catch>('catch')
-    .select('id, created_by, created_at, position');
+    .select('id, created_by, created_at, position')
+    .order('created_at', {ascending: false});
 
   if (error) throw new Error('Not found');
 
