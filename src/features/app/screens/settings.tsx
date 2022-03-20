@@ -33,12 +33,12 @@ export const SettingsScreen: FC = () => {
       <Text>{JSON.stringify({data})}</Text>
       <Pressable
         onPress={() => signOutMutation.mutate()}
-        style={tw(`bg-primary-dark mb-2 p-4 rounded-md`)}>
+        style={tw(`bg-violet-600 mb-2 p-4 rounded-md`)}>
         <Text style={tw(`text-white`)}>Sign Out</Text>
       </Pressable>
       <Pressable
         onPress={switchTheme}
-        style={tw(`bg-primary-dark p-4 rounded-md`)}>
+        style={tw(`bg-violet-600 p-4 rounded-md`)}>
         <Text style={tw(`text-white`)}>Byt färgtema</Text>
       </Pressable>
     </View>

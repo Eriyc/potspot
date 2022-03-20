@@ -31,7 +31,7 @@ export const TrapNavigator = () => {
   return (
     <Stack.Navigator
       initialRouteName="map"
-      screenOptions={{contentStyle: tw('dark:bg-gray-900')}}>
+      screenOptions={{contentStyle: tw('dark:bg-zinc-900')}}>
       <Stack.Group
         screenOptions={{
           headerShown: false,

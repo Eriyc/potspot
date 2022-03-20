@@ -3,6 +3,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {useTailwind} from 'tailwind-rn/dist';
 
+import {Text} from '@/components/Text';
+
 import {FeedScreen} from './screens/feed';
 
 type Paths = {
@@ -19,7 +21,11 @@ export const FeedNavigation = () => {
     <Stack.Navigator
       initialRouteName="feed"
       screenOptions={{
-        contentStyle: tw('dark:bg-gray-900'),
+        contentStyle: tw('dark:bg-zinc-900'),
+        headerStyle: tw('bg-gray-50 dark:bg-gray-700'),
+        headerTitle: ({children, tintColor}) => (
+          <Text style={tw('text-lg font-bold')}>{children}</Text>
+        ),
       }}>
       <Stack.Screen name="feed" component={FeedScreen} />
     </Stack.Navigator>

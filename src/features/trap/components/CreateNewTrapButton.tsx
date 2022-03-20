@@ -13,9 +13,12 @@ const CreateNewTrapButton = () => {
   return (
     <Pressable
       onPress={() => navigation.navigate('add')}
-      style={tw(
-        'bg-white rounded-md p-2 flex flex-row items-center dark:bg-gray-700 dark:elevation-4',
-      )}>
+      style={{
+        ...{elevation: 4},
+        ...tw(
+          'bg-white rounded-md p-2 flex flex-row items-center dark:bg-gray-700',
+        ),
+      }}>
       <Plus style={tw('text-gray-700 dark:text-gray-100')} />
       <Text style={tw('dark:text-gray-100')}>Skapa ny tina</Text>
     </Pressable>

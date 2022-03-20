@@ -8866,6 +8866,7 @@ __metadata:
     react: 17.0.2
     react-hook-form: ^7.22.5
     react-native: 0.66.4
+    react-native-error-boundary: ^1.1.12
     react-native-feather: ^1.1.2
     react-native-geolocation-service: ^5.3.0-beta.4
     react-native-get-random-values: ^1.7.2
@@ -9140,6 +9141,16 @@ __metadata:
     jscodeshift: ^0.11.0
     nullthrows: ^1.1.1
   checksum: d550d6e985a0d564f0ac470b19c9a2e4e78ffc0f5769ba46992a4d10130928093e9c2ada7eda0ec8bd976db4ba4c21ef410280e979226f11844aa0215335cde5
+  languageName: node
+  linkType: hard
+
+"react-native-error-boundary@npm:^1.1.12":
+  version: 1.1.12
+  resolution: "react-native-error-boundary@npm:1.1.12"
+  peerDependencies:
+    react: ">=16.6.0"
+    react-native: ">=0.57.7"
+  checksum: 36f12d6f70855ee0604c715c6e10f11744e24c56c48a9e5edba71958cfd4e30d8f58b268ad23ec2f07cbd2c878cf1f619f7fe028daf665894c4ca2893a83a02b
   languageName: node
   linkType: hard
 
