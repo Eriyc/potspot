@@ -3,8 +3,9 @@ import React from 'react';
 import {ActivityIndicator, Image, View} from 'react-native';
 import {useTailwind} from 'tailwind-rn/dist';
 
-import {AuthNavigation, useUser} from './features/account';
-import {AppNavigation} from './features/app';
+import {useUser} from './hooks/account';
+import {AppNavigation} from './navigation/app-navigation';
+import {AuthNavigation} from './navigation/auth-navigation';
 
 const MainNavigation = () => {
   const {isLoading, data} = useUser();

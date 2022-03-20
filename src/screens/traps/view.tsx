@@ -1,0 +1,74 @@
+import {useNavigation, useRoute} from '@react-navigation/native';
+import React, {useCallback} from 'react';
+import {Button, View} from 'react-native';
+import {useTailwind} from 'tailwind-rn/dist';
+
+import {useChangeBait} from '@/hooks/bait';
+import {useTrap} from '@/hooks/traps';
+
+import {Text} from '@/components/atoms/text';
+import {CurrentBait} from '@/components/molecules/bait/current-bait';
+import {ProfileCard} from '@/components/molecules/profile-card';
+
+import {TrapNavigation, ViewTrapRoute} from '@/navigation/trap-navigation';
+
+import {Bait} from '@/types/bait';
+
+const ViewTrapScreen = () => {
+  const {params} = useRoute<ViewTrapRoute>();
+  const {data: trap, isLoading} = useTrap(params.id);
+  const changeBaitMutation = useChangeBait();
+  const tw = useTailwind();
+
+  const navigation = useNavigation<TrapNavigation>();
+
+  const vittjaCallback = useCallback(() => {
+    navigation.navigate('vittja', {id: params.id});
+  }, [navigation, params.id]);
+
+  const setCallback = useCallback(() => {
+    navigation.navigate('set', {id: params.id});
+  }, [navigation, params.id]);
+
+  const handleBaitChange = (bait: Bait) => {
+    changeBaitMutation.mutate({bait, trapId: params.id});
+  };
+
+  if (isLoading) {
+    return (
+      <View>
+        <Text>Laddar...</Text>
+      </View>
+    );
+  }
+
+  if (!trap) return <View />;
+
+  return (
+    <View>
+      <View style={tw(`h-[12rem] bg-red-500`)} />
+      <View style={tw('p-4')}>
+        <Text style={tw(`text-lg font-bold`)}>{trap.displayname}</Text>
+        <CurrentBait
+          onBaitChange={handleBaitChange}
+          id={changeBaitMutation.data?.bait || trap.bait}
+        />
+        <Text>Status: {trap.in_use ? 'I vattnet' : 'Inte i vattnet'}</Text>
+      </View>
+      <View style={tw('p-4')}>
+        {trap.in_use ? (
+          <Button title="Vittja" onPress={vittjaCallback} />
+        ) : (
+          <Button title="Sätt" onPress={setCallback} />
+        )}
+      </View>
+
+      <View style={tw('p-4')}>
+        <Text>Ägare</Text>
+        <ProfileCard profile={trap.created_by} />
+      </View>
+    </View>
+  );
+};
+
+export {ViewTrapScreen};
