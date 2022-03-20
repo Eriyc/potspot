@@ -1,11 +1,11 @@
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import React, {FC, useCallback, useRef} from 'react';
 import {Dimensions, FlatList, View, ViewToken} from 'react-native';
+import {useTailwind} from 'tailwind-rn/dist';
 
 import {useLocationPermission} from '@/hooks/useLocationPermission';
 
 import {useColorScheme} from '@/utils/colorScheme';
-import tw from '@/utils/tailwind';
 
 import {INITIAL_POS} from '..';
 import {CreateNewTrapButton, TrapMapCard} from '../components';
@@ -21,6 +21,7 @@ export const MapScreen: FC = () => {
   const {data: traps} = useTraps();
   const cameraRef = useRef<MapboxGL.Camera>(null);
   const [dark] = useColorScheme();
+  const tw = useTailwind();
 
   const [locationGranted] = useLocationPermission();
 
@@ -38,9 +39,9 @@ export const MapScreen: FC = () => {
   );
 
   return (
-    <View style={tw`flex-1 bg-gray-700`}>
+    <View style={tw(`flex-1 bg-gray-700`)}>
       <MapboxGL.MapView
-        style={tw`flex-1`}
+        style={tw(`flex-1`)}
         styleURL={
           dark
             ? 'mapbox://styles/mapbox/dark-v9'
@@ -62,14 +63,18 @@ export const MapScreen: FC = () => {
               id={`marker-${trap.id}-${dark.valueOf()}`}
               key={`marker-${trap.id}-${dark.valueOf()}`}>
               <View
-                style={tw`w-4 h-4 bg-pink-500 rounded-full border-2 border-white`}
+                style={tw(
+                  `bg-pink-500 border-2 border-white h-4 rounded-full w-4`,
+                )}
               />
             </MapboxGL.PointAnnotation>
           ))}
       </MapboxGL.MapView>
       <FlatList
-        style={tw`absolute bottom-0`}
-        contentContainerStyle={tw`p-[10%]`}
+        style={tw(`absolute bottom-0`)}
+        contentContainerStyle={{
+          paddingLeft: Dimensions.get('screen').width * 0.1,
+        }}
         snapToAlignment="center"
         horizontal
         snapToInterval={Dimensions.get('screen').width * 0.85}

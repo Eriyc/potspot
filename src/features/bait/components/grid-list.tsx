@@ -1,8 +1,6 @@
 import React from 'react';
 import {FlatList, ListRenderItem} from 'react-native';
 
-import tw from '@/utils/tailwind';
-
 type GridListProps<T> = {
   data: T[];
   renderItem: ListRenderItem<T>;
@@ -13,13 +11,7 @@ type GridListProps<T> = {
 };
 
 function GridList<T>({...props}: GridListProps<T>) {
-  return (
-    <FlatList<T>
-      contentContainerStyle={tw.style('')}
-      numColumns={2}
-      {...props}
-    />
-  );
+  return <FlatList<T> numColumns={2} {...props} />;
 }
 
 export {GridList};

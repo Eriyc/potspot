@@ -3,11 +3,11 @@ import {nanoid} from 'nanoid';
 import React, {useState} from 'react';
 import {Alert, Pressable, View} from 'react-native';
 import {CheckCircle} from 'react-native-feather';
+import {useTailwind} from 'tailwind-rn/dist';
 
 import {Text} from '@/components/Text';
 
 import {useUser} from '@/features/account';
-import tw from '@/utils/tailwind';
 
 import {RowValue, Vittja} from '../components/Vittja';
 import {useTrap} from '../hooks/useTrap';
@@ -30,6 +30,7 @@ const VittjaTrapScreen = () => {
   const {data} = useTrap(params.id);
   const navigation = useNavigation<TrapNavigation>();
   const [rows, setRows] = useState<RowValue[]>([createRow()]);
+  const tw = useTailwind();
 
   const vittjaMutation = useVittja();
 
@@ -82,16 +83,16 @@ const VittjaTrapScreen = () => {
   };
 
   return (
-    <View style={tw.style('flex')}>
-      <View style={tw.style('p-4 flex flex-row items-center justify-between')}>
-        <Text style={tw`text-lg font-bold`}>
+    <View style={tw('flex')}>
+      <View style={tw('p-4 flex flex-row items-center justify-between')}>
+        <Text style={tw(`font-bold text-lg`)}>
           Vittja fångst för tinan "{data.displayname}"
         </Text>
         <Pressable
-          style={tw.style('')}
+          style={tw('')}
           android_ripple={{borderless: false, radius: 24}}
           onPress={complete}>
-          <CheckCircle style={tw.style('text-gray-700 m-4')} />
+          <CheckCircle style={tw('text-gray-700 m-4')} />
         </Pressable>
       </View>
       <Vittja

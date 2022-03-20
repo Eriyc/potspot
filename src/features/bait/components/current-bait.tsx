@@ -1,10 +1,9 @@
 import React, {FC, useCallback, useState} from 'react';
 import {Button, View} from 'react-native';
 import ReactNativeModal from 'react-native-modal';
+import {useTailwind} from 'tailwind-rn/dist';
 
 import {Text} from '@/components/Text';
-
-import tw from '@/utils/tailwind';
 
 import {BaitPicker} from './bait-picker';
 import {useBait} from '../hooks/useBait';
@@ -16,6 +15,7 @@ type CurrentBaitProps = {
 };
 
 const CurrentBait: FC<CurrentBaitProps> = ({id, onBaitChange}) => {
+  const tw = useTailwind();
   const {data: bait, isLoading} = useBait(id);
 
   const [showBaitPicker, setShowBaitPicker] = useState(false);
@@ -31,7 +31,7 @@ const CurrentBait: FC<CurrentBaitProps> = ({id, onBaitChange}) => {
   if (isLoading) {
     return (
       <View>
-        <View style={tw.style('bg-red-500')} />
+        <View style={tw('bg-red-500')} />
       </View>
     );
   }
@@ -43,17 +43,14 @@ const CurrentBait: FC<CurrentBaitProps> = ({id, onBaitChange}) => {
 
   return (
     <>
-      <View
-        style={tw.style(
-          'p-2 my-2 flex flex-row rounded-sm items-center border',
-        )}>
-        <Text style={tw`flex-1`}>Bete: {bait.name}</Text>
+      <View style={tw('p-2 my-2 flex flex-row rounded-sm items-center border')}>
+        <Text style={tw(`flex-1`)}>Bete: {bait.name}</Text>
         <Button title="Ändra" onPress={openBaitPicker} />
       </View>
       {showBaitPicker && (
         <ReactNativeModal
           renderToHardwareTextureAndroid
-          style={tw.style('bg-white rounded-sm')}
+          style={tw('bg-white rounded-sm')}
           isVisible={showBaitPicker}
           animationIn="slideInUp"
           animationOut="slideOutDown"

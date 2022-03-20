@@ -1,12 +1,9 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {FC} from 'react';
 import {Dimensions, Pressable} from 'react-native';
-import {useAppColorScheme} from 'twrnc';
+import {useTailwind} from 'tailwind-rn';
 
 import {Text} from '@/components/Text';
-
-import {useColorScheme} from '@/utils/colorScheme';
-import tw from '@/utils/tailwind';
 
 import {Trap} from '../hooks';
 import {TrapNavigation} from '../navigator';
@@ -17,8 +14,7 @@ interface TrapMapCardProps {
 
 export const TrapMapCard: FC<TrapMapCardProps> = ({item}) => {
   const navigation = useNavigation<TrapNavigation>();
-  const [dark] = useColorScheme();
-  useAppColorScheme(tw);
+  const tw = useTailwind();
 
   const onPress = () => {
     navigation.navigate('view', {id: item.id});
@@ -27,12 +23,14 @@ export const TrapMapCard: FC<TrapMapCardProps> = ({item}) => {
   return (
     <Pressable
       onPress={onPress}
-      style={tw.style(
-        `bg-white mr-[${
-          Dimensions.get('screen').width * 0.05
-        }] p-4 rounded-md w-[80vw] dark:bg-cyan-500`,
-      )}>
-      <Text style={tw.style(dark && 'text-white')}>{item.displayname}</Text>
+      style={{
+        ...tw(`bg-white p-4 rounded-md dark:bg-cyan-500`),
+        ...{
+          marginRight: Dimensions.get('screen').width * 0.05,
+          width: Dimensions.get('screen').width * 0.8,
+        },
+      }}>
+      <Text>{item.displayname}</Text>
     </Pressable>
   );
 };

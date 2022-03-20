@@ -9,11 +9,9 @@ import {
   View,
 } from 'react-native';
 import {ChevronUp, Trash2} from 'react-native-feather';
+import {useTailwind} from 'tailwind-rn/dist';
 
 import {Text} from '@/components/Text';
-
-import {useColorScheme} from '@/utils/colorScheme';
-import tw from '@/utils/tailwind';
 
 import {useVittja} from './ListContext';
 import {RowValue} from './types';
@@ -31,7 +29,7 @@ interface VittjaGroupProps {
 }
 
 export const VittjaGroup = memo<VittjaGroupProps>(({values, index}) => {
-  const [dark] = useColorScheme();
+  const tw = useTailwind();
   const [open, setOpen] = useState(true);
   const spinAnimation = useRef(new Animated.Value(0)).current;
 
@@ -69,14 +67,16 @@ export const VittjaGroup = memo<VittjaGroupProps>(({values, index}) => {
   });
 
   return (
-    <View style={tw.style('m-2 bg-gray-100 relative', dark && 'bg-gray-700')}>
+    <View style={tw('m-2 bg-gray-100 relative dark:bg-gray-700')}>
       <Pressable onPress={handleToggle} android_ripple={{borderless: false}}>
         <View
-          style={tw`flex flex-row justify-between items-center my-2 ml-2 font-bold`}>
-          <Text style={tw`flex-1`}>
+          style={tw(
+            'flex flex-row justify-between items-center my-2 ml-2 font-bold',
+          )}>
+          <Text style={tw(`flex-1`)}>
             {title ? title : `Fångst ${index + 1}`}
           </Text>
-          <Trash2 style={tw.style('text-gray-700')} height={16} width={16} />
+          <Trash2 style={tw('text-gray-700')} height={16} width={16} />
           <Animated.View
             style={{
               transform: [
@@ -85,11 +85,11 @@ export const VittjaGroup = memo<VittjaGroupProps>(({values, index}) => {
                 },
               ],
             }}>
-            <ChevronUp style={tw.style(`text-gray-700`, {})} />
+            <ChevronUp style={tw(`text-gray-700`)} />
           </Animated.View>
         </View>
       </Pressable>
-      <View style={tw`border-b border-gray-500`} />
+      <View style={tw(`border-b border-gray-500`)} />
       {open && (
         <>
           <VittjaRow

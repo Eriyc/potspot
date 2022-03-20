@@ -2,8 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useRef} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {Pressable, ScrollView, Text, TextInput, View} from 'react-native';
-
-import tw from '@/utils/tailwind';
+import {useTailwind} from 'tailwind-rn/dist';
 
 import {Background} from '../components';
 import {useCreateUser} from '../hooks/useCreateUser';
@@ -15,10 +14,11 @@ interface FormData {
   confirm: string;
 }
 
-const formStyle = tw`mb-2 text-black bg-gray-100 rounded-md`;
+const formStyle = `bg-gray-100 mb-2 rounded-md text-black`;
 
 export const SignupScreen = () => {
   const navigation = useNavigation<AuthRoute>();
+  const tw = useTailwind();
   const {
     control,
     handleSubmit,
@@ -45,16 +45,16 @@ export const SignupScreen = () => {
   return (
     <Background>
       <ScrollView
-        style={tw`flex flex-1`}
-        contentContainerStyle={tw`flex flex-grow`}
+        style={tw(`flex flex-1`)}
+        contentContainerStyle={tw(`flex flex-grow`)}
         bounces={false}
         horizontal={false}>
-        <View style={tw`m-8`}>
+        <View style={tw(`m-8`)}>
           <Text>POTSPOT</Text>
         </View>
-        <View style={tw`flex flex-1 justify-center`}>
-          <View style={tw`p-8 m-4 bg-white rounded-xl`}>
-            <Text style={tw`text-black`}>Email</Text>
+        <View style={tw(`flex flex-1 justify-center`)}>
+          <View style={tw(`bg-white m-4 p-8 rounded-xl`)}>
+            <Text style={tw(`text-black`)}>Email</Text>
             <Controller
               control={control}
               rules={{
@@ -62,7 +62,7 @@ export const SignupScreen = () => {
               }}
               render={({field: {onChange, onBlur, value}}) => (
                 <TextInput
-                  style={formStyle}
+                  style={tw(formStyle)}
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
@@ -72,11 +72,11 @@ export const SignupScreen = () => {
               )}
               name="email"
             />
-            <Text style={tw`mb-2 text-red-500`}>
+            <Text style={tw(`mb-2 text-red-500`)}>
               {errors.email && 'Ange en giltig mailaddress'}
             </Text>
 
-            <Text style={tw`text-black`}>Lösenord</Text>
+            <Text style={tw(`text-black`)}>Lösenord</Text>
 
             <Controller
               control={control}
@@ -85,7 +85,7 @@ export const SignupScreen = () => {
               }}
               render={({field: {onChange, onBlur, value}}) => (
                 <TextInput
-                  style={formStyle}
+                  style={tw(formStyle)}
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
@@ -96,12 +96,12 @@ export const SignupScreen = () => {
               )}
               name="password"
             />
-            <Text style={tw`mb-2 text-red-500`}>
+            <Text style={tw(`mb-2 text-red-500`)}>
               {errors.password &&
                 'Lösenordet måste vara längre än 6 karaktärer'}
             </Text>
 
-            <Text style={tw`text-black`}>Bekräfta lösenordet</Text>
+            <Text style={tw(`text-black`)}>Bekräfta lösenordet</Text>
 
             <Controller
               control={control}
@@ -113,7 +113,7 @@ export const SignupScreen = () => {
               }}
               render={({field: {onChange, onBlur, value}}) => (
                 <TextInput
-                  style={tw`mb-2 text-black bg-gray-100 rounded-md`}
+                  style={tw(`bg-gray-100 mb-2 rounded-md text-black`)}
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
@@ -124,21 +124,18 @@ export const SignupScreen = () => {
               )}
               name="confirm"
             />
-            <Text style={tw`mb-2 text-red-500`}>{errors.confirm?.message}</Text>
+            <Text style={tw(`mb-2 text-red-500`)}>
+              {errors.confirm?.message}
+            </Text>
 
             <Pressable
-              style={({pressed}) =>
-                tw.style(
-                  'bg-indigo-600 p-4 rounded-md',
-                  pressed && 'bg-indigo-300',
-                )
-              }
+              style={() => tw('bg-indigo-600 p-4 rounded-md')}
               onPress={handleSubmit(onSubmit, onError)}>
-              <Text style={tw`text-white`}>Skapa konto</Text>
+              <Text style={tw(`text-white`)}>Skapa konto</Text>
             </Pressable>
           </View>
         </View>
-        <View style={tw`py-8`}>
+        <View style={tw(`py-8`)}>
           <Text
             onPress={() => {
               reset({
@@ -148,7 +145,7 @@ export const SignupScreen = () => {
               });
               navigation.navigate('signin');
             }}
-            style={tw`text-lg text-center text-gray-200`}>
+            style={tw(`text-center text-gray-200 text-lg`)}>
             Jag har redan ett konto
           </Text>
         </View>

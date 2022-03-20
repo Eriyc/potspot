@@ -1,12 +1,12 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useCallback} from 'react';
 import {Button, View} from 'react-native';
+import {useTailwind} from 'tailwind-rn/dist';
 
 import {Text} from '@/components/Text';
 
 import {ProfileCard} from '@/features/account/components/ProfileCard';
 import {Bait, CurrentBait, useChangeBait} from '@/features/bait';
-import tw from '@/utils/tailwind';
 
 import {useTrap} from '../hooks/useTrap';
 import {TrapNavigation, ViewTrapRoute} from '../navigator';
@@ -15,6 +15,7 @@ const ViewTrapScreen = () => {
   const {params} = useRoute<ViewTrapRoute>();
   const {data: trap, isLoading} = useTrap(params.id);
   const changeBaitMutation = useChangeBait();
+  const tw = useTailwind();
 
   const navigation = useNavigation<TrapNavigation>();
 
@@ -42,16 +43,16 @@ const ViewTrapScreen = () => {
 
   return (
     <View>
-      <View style={tw`h-[12rem] bg-red-500`} />
-      <View style={tw.style('p-4')}>
-        <Text style={tw`text-lg font-bold`}>{trap.displayname}</Text>
+      <View style={tw(`h-[12rem] bg-red-500`)} />
+      <View style={tw('p-4')}>
+        <Text style={tw(`text-lg font-bold`)}>{trap.displayname}</Text>
         <CurrentBait
           onBaitChange={handleBaitChange}
           id={changeBaitMutation.data?.bait || trap.bait}
         />
         <Text>Status: {trap.in_use ? 'I vattnet' : 'Inte i vattnet'}</Text>
       </View>
-      <View style={tw.style('p-4')}>
+      <View style={tw('p-4')}>
         {trap.in_use ? (
           <Button title="Vittja" onPress={vittjaCallback} />
         ) : (
@@ -59,7 +60,7 @@ const ViewTrapScreen = () => {
         )}
       </View>
 
-      <View style={tw.style('p-4')}>
+      <View style={tw('p-4')}>
         <Text>Ägare</Text>
         <ProfileCard profile={trap.created_by} />
       </View>

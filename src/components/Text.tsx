@@ -1,9 +1,6 @@
 import React, {FC} from 'react';
 import {Text as RNText} from 'react-native';
-import {Style} from 'twrnc/dist/esm/types';
-
-import {useColorScheme} from '@/utils/colorScheme';
-import tw from '@/utils/tailwind';
+import {Style, useTailwind} from 'tailwind-rn';
 
 interface TextProps {
   style?: Style;
@@ -11,14 +8,14 @@ interface TextProps {
   onPress?: () => void;
 }
 
-const Text: FC<TextProps> = ({children, style, invert, ...props}) => {
-  const [dark] = useColorScheme();
+const Text: FC<TextProps> = ({children, style, ...props}) => {
+  const tw = useTailwind();
 
   return (
     <RNText
       {...props}
       style={{
-        ...tw.style('text-black', (invert ? !dark : dark) && 'text-white'),
+        ...tw('text-black dark:text-white'),
         ...style,
       }}>
       {children}
