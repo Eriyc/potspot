@@ -2,8 +2,6 @@ import {useFocusEffect} from '@react-navigation/native';
 import React, {FC, useRef} from 'react';
 import {Animated} from 'react-native';
 
-import tw from '@/utils/tailwind';
-
 const FadeInView: FC = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
 
@@ -24,7 +22,8 @@ const FadeInView: FC = props => {
 
   return (
     <Animated.View // Special animatable View
-      style={tw`opacity-[ flex${fadeAnim as unknown as number}]`}>
+      // eslint-disable-next-line react-native/no-inline-styles
+      style={{flex: 1, opacity: fadeAnim}}>
       {props.children}
     </Animated.View>
   );

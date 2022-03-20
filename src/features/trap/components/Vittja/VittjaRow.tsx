@@ -1,9 +1,8 @@
 import React, {ReactElement} from 'react';
 import {TextInput, View} from 'react-native';
+import {useTailwind} from 'tailwind-rn/dist';
 
 import {Text} from '@/components/Text';
-
-import tw from '@/utils/tailwind';
 
 interface BaseVittjaRowProps {
   title: string;
@@ -33,17 +32,18 @@ export const VittjaRow = ({
   value,
   unit,
 }: VittjaRowProps) => {
+  const tw = useTailwind();
   let form: ReactElement;
 
   if (type === 'number') {
     const callback = (num: number) => onChange(num);
     form = (
-      <View style={tw.style('flex flex-row items-center w-40')}>
+      <View style={tw('flex flex-row items-center w-40')}>
         <TextInput
           placeholder="Skriv här"
           value={value ? value.toString() : ''}
           keyboardType="numeric"
-          style={tw.style('flex-1')}
+          style={tw('flex-1')}
           onChangeText={text => callback(parseInt(text, 10))}
         />
         {unit && <Text>{unit}</Text>}
@@ -55,7 +55,7 @@ export const VittjaRow = ({
       <TextInput
         placeholder="Skriv här"
         value={value}
-        style={tw.style('w-40')}
+        style={tw('w-40')}
         onChangeText={text => callback(text)}
       />
     );
@@ -63,10 +63,8 @@ export const VittjaRow = ({
 
   return (
     <View
-      style={tw.style(
-        'px-2 flex flex-row items-center border-b border-gray-500',
-      )}>
-      <Text style={tw`flex-1`}>{title}</Text>
+      style={tw('px-2 flex flex-row items-center border-b border-gray-500')}>
+      <Text style={tw(`flex-1`)}>{title}</Text>
       {form}
     </View>
   );

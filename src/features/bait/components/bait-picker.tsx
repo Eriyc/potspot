@@ -1,21 +1,23 @@
 import React, {FC} from 'react';
 import {View} from 'react-native';
+import {useTailwind} from 'tailwind-rn/dist';
 
 import {Text} from '@/components/Text';
-
-import tw from '@/utils/tailwind';
 
 import {BaitCard} from './bait-card';
 import {GridList} from './grid-list';
 import {useBaits} from '../hooks/useBaits';
 import {Bait} from '../types';
 
-const BaitPickerHeader: FC = () => (
-  <View style={tw`flex flex-col justify-center items-center py-4`}>
-    <Text style={tw`text-xl font-bold`}>Byt bete</Text>
-    <Text style={tw``}>Klicka på en ruta för att välja betet</Text>
-  </View>
-);
+const BaitPickerHeader: FC = () => {
+  const tw = useTailwind();
+  return (
+    <View style={tw(`flex flex-col items-center justify-center py-4`)}>
+      <Text style={tw(`font-bold text-xl`)}>Byt bete</Text>
+      <Text style={tw('')}>Klicka på en ruta för att välja betet</Text>
+    </View>
+  );
+};
 
 type BaitPickerProps = {
   handleBaitUpdate: (newBait: Bait) => void;

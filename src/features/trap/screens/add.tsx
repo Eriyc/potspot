@@ -9,12 +9,11 @@ import {
   View,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {useTailwind} from 'tailwind-rn/dist';
 
 import {CloseButton} from '@/components';
 
 import {INITIAL_POS} from '@/features/trap';
-import {useColorScheme} from '@/utils/colorScheme';
-import tw from '@/utils/tailwind';
 
 import {PickLocationMap} from '../components';
 import {useCreateTrap} from '../hooks/useCreateTrap';
@@ -23,7 +22,7 @@ import {TrapNavigation} from '../navigator';
 export const AddTrapScreen: FC = () => {
   const createTrapMutation = useCreateTrap();
   const navigation = useNavigation<TrapNavigation>();
-  const [dark] = useColorScheme();
+  const tw = useTailwind();
 
   const [status, setStatus] = useState<
     'initial' | 'working' | 'success' | 'error'
@@ -59,25 +58,22 @@ export const AddTrapScreen: FC = () => {
   return (
     <KeyboardAwareScrollView
       extraScrollHeight={60}
-      contentContainerStyle={tw.style('p-4 pb-16')}>
+      contentContainerStyle={tw('p-4 pb-16')}>
       <CloseButton />
-      <Text
-        style={tw.style('text-2xl text-black font-bold', dark && 'text-white')}>
+      <Text style={tw('text-2xl text-black font-bold dark:text-white')}>
         Skapa ny tina
       </Text>
 
       <PickLocationMap onLocationChange={handleLocation} />
 
       <View>
-        <Text
-          style={tw.style('text-gray-500 text-lg', dark && 'text-gray-100')}>
+        <Text style={tw('text-gray-500 text-lg dark:text-gray-100')}>
           Namnge tinan
         </Text>
         <TextInput
           onChangeText={setName}
-          style={tw.style(
-            'rounded-sm text-black',
-            dark ? 'bg-gray-700 text-white' : 'border border-gray-500',
+          style={tw(
+            'rounded-sm text-black dark:bg-gray-700 dark:text-white border border-gray-500',
           )}
         />
       </View>
@@ -85,18 +81,13 @@ export const AddTrapScreen: FC = () => {
       <Pressable
         disabled={status === 'working' || status === 'success'}
         onPress={createTrap}
-        style={tw.style(
-          'bg-primary-light rounded-sm mt-4 p-2 flex flex-row items-center justify-center',
-          dark && 'bg-primary-dark',
-          status === 'success' && 'bg-green-500',
-          status === 'error' && 'bg-red-500',
+        style={tw(
+          'bg-primary-light rounded-sm mt-4 p-2 flex flex-row items-center justify-center dark:bg-primary-dark',
+          /* status === 'success' && 'bg-green-500',
+          status === 'error' && 'bg-red-500', */
         )}>
-        {status === 'working' && (
-          <ActivityIndicator color={tw.color('red-800')} />
-        )}
-        <Text style={tw.style('text-white text-lg px-2', dark && 'text-white')}>
-          Skapa
-        </Text>
+        {status === 'working' && <ActivityIndicator color={'red'} />}
+        <Text style={tw('text-white text-lg px-2 dark:text-white')}>Skapa</Text>
       </Pressable>
     </KeyboardAwareScrollView>
   );

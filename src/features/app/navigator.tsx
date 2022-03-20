@@ -1,9 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import {Inbox, Map, Settings} from 'react-native-feather';
-
-import {useColorScheme} from '@/utils/colorScheme';
-import tw from '@/utils/tailwind';
+import {useTailwind} from 'tailwind-rn/dist';
 
 import {SettingsScreen} from './screens';
 import {FeedNavigation} from '../feed';
@@ -18,20 +16,17 @@ type Routes = {
 const AppStack = createBottomTabNavigator<Routes>();
 
 export const AppNavigation = () => {
-  const [dark] = useColorScheme();
+  const tw = useTailwind();
 
   return (
     <>
       <AppStack.Navigator
-        sceneContainerStyle={tw.style(dark && 'bg-gray-900')}
+        sceneContainerStyle={tw('dark:bg-gray-900')}
         screenOptions={{
           tabBarShowLabel: false,
-          tabBarStyle: {
-            backgroundColor: dark ? tw.color('gray-700') : tw.color('gray-50'),
-          },
-          tabBarActiveTintColor: dark
-            ? tw.color('primary-light')
-            : tw.color('primary-dark'),
+          tabBarStyle: tw('bg-gray-50 dark:bg-gray-700'),
+          tabBarActiveTintColor: tw('primary-light dark:primary-dark')
+            .color as string,
         }}>
         <AppStack.Screen
           component={TrapNavigator}
@@ -54,15 +49,8 @@ export const AppNavigation = () => {
         <AppStack.Screen
           component={SettingsScreen}
           options={{
-            headerTitleStyle: {
-              color: dark ? tw.color('white') : tw.color('black'),
-            },
-            headerStyle: {
-              backgroundColor: dark
-                ? tw.color('primary-dark')
-                : tw.color('white'),
-              ...tw`shadow-md`,
-            },
+            headerTitleStyle: tw('text-black dark:text-white'),
+            headerStyle: tw('bg-white dark:bg-zinc-700 shadow-md'),
             tabBarIcon: ({color}) => <Settings color={color} />,
           }}
           name="settings"

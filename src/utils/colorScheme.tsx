@@ -1,30 +1,30 @@
 import React from 'react';
 import {createContext, FC, useContext, useState} from 'react';
-import {RnColorScheme, useAppColorScheme, useDeviceContext} from 'twrnc';
+import {useColorScheme as useRNColorScheme} from 'react-native';
+import {TailwindProvider} from 'tailwind-rn/dist';
 
-import tw from './tailwind';
+import utilities from '../../tailwind.json';
 
-type ColorSchemeContextValue = [boolean, () => void];
+type Scheme = 'dark' | 'light' | 'system';
+type ColorSchemeContextValue = [Scheme, (target: Scheme) => void];
 
 const ColorSchemeContext = createContext<ColorSchemeContextValue>(
   {} as ColorSchemeContextValue,
 );
 
-export const ColorSchemeProvider: FC = ({children}) => {
-  useDeviceContext(tw, {withDeviceColorScheme: true});
-  const [colorScheme] = useAppColorScheme(tw);
-  const [theme, setTheme] = useState<RnColorScheme>(colorScheme);
+export const ThemeProvider: FC = ({children}) => {
+  const [theme, setTheme] = useState<Scheme>('system');
+  const preference = useRNColorScheme();
 
-  const toggleTheme = () =>
-    setTheme(t => {
-      const newTheme = t === 'light' ? 'dark' : 'light';
-      tw.setColorScheme(newTheme);
-      return newTheme;
-    });
+  const editTheme = (target: Scheme) => setTheme(target);
+
+  const t = theme === 'system' ? preference ?? 'light' : theme;
 
   return (
-    <ColorSchemeContext.Provider value={[theme === 'dark', toggleTheme]}>
-      {children}
+    <ColorSchemeContext.Provider value={[theme, editTheme]}>
+      <TailwindProvider utilities={utilities} colorScheme={t}>
+        {children}
+      </TailwindProvider>
     </ColorSchemeContext.Provider>
   );
 };

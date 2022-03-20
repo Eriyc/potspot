@@ -1,9 +1,7 @@
 import {NavigationProp, RouteProp} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-
-import {useColorScheme} from '@/utils/colorScheme';
-import tw from '@/utils/tailwind';
+import {useTailwind} from 'tailwind-rn/dist';
 
 import {MapScreen} from './screens';
 import {AddTrapScreen} from './screens/add';
@@ -28,12 +26,12 @@ export type SetTrapRoute = RouteProp<Paths, 'set'>;
 const Stack = createNativeStackNavigator<Paths>();
 
 export const TrapNavigator = () => {
-  const [dark] = useColorScheme();
+  const tw = useTailwind();
 
   return (
     <Stack.Navigator
       initialRouteName="map"
-      screenOptions={{contentStyle: tw.style(dark && 'bg-gray-900')}}>
+      screenOptions={{contentStyle: tw('dark:bg-gray-900')}}>
       <Stack.Group
         screenOptions={{
           headerShown: false,

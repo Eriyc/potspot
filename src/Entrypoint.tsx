@@ -2,15 +2,13 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import React from 'react';
 import {AppStateStatus, Platform} from 'react-native';
 import {focusManager, QueryClient, QueryClientProvider} from 'react-query';
-import {useDeviceContext} from 'twrnc';
 import 'react-native-url-polyfill/auto';
 import 'react-native-get-random-values';
 
 import {useAppState} from './hooks/useAppState';
 import {useOnlineManager} from './hooks/useOnlineManager';
 import {MainNavigation} from './Navigation';
-import {ColorSchemeProvider} from './utils/colorScheme';
-import tw from './utils/tailwind';
+import {ThemeProvider} from './utils/colorScheme';
 
 MapboxGL.setAccessToken(
   'pk.eyJ1IjoiZXJpeWMiLCJhIjoiY2ttNTUwenZiMGIyMDJvbXR6OTZuazdwNyJ9._NfBwvdZ_yuB-9xYX7phbg',
@@ -36,14 +34,11 @@ const Entrypoint = () => {
   useOnlineManager();
   useAppState(onAppStateChange);
 
-  /* twrnc color scheme  */
-  useDeviceContext(tw, {withDeviceColorScheme: false});
-
   return (
     <QueryClientProvider client={queryClient}>
-      <ColorSchemeProvider>
+      <ThemeProvider>
         <MainNavigation />
-      </ColorSchemeProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 };
