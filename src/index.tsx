@@ -4,7 +4,7 @@ import {ThemeProvider} from 'ui';
 import FlashMessage from 'react-native-flash-message';
 import {RootNavigator} from 'navigation';
 import {hydrateAuth, setI18nConfig} from 'core';
-import APIProvider from 'api/APIProvider';
+import APIProvider from 'api/api-provider';
 
 setI18nConfig();
 hydrateAuth();

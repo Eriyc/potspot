@@ -20,6 +20,7 @@ export const useAuth = create<AuthState>((set, get) => ({
   },
   signOut: () => {
     removeToken();
+    supabase.auth.signOut();
     set({status: 'signOut', token: null});
   },
   hydrate: () => {

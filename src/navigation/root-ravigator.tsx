@@ -3,8 +3,8 @@ import RNBootSplash from 'react-native-bootsplash';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import {useAuth} from 'core';
-import {NavigationContainer} from './NavigationContainer';
-import {TabNavigator} from './TabNavigator';
+import {NavigationContainer} from './navigation-container';
+import {TabNavigator} from './tab-navigator';
 import {AuthNavigator} from './auth-navigator';
 
 const Stack = createStackNavigator();
