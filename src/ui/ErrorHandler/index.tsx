@@ -10,7 +10,7 @@ import {ErrorFallback} from './ErrorFallback';
 setJSExceptionHandler((error, isFatal) => {
   console.log(error, isFatal);
   showErrorMessage();
-});
+}, true);
 
 //For most use cases:
 setNativeExceptionHandler(exceptionString => {

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Home, Style} from 'screens';
+import {Style} from 'screens';
 import {Home as HomeIcon, Settings} from 'ui';
 import {SvgProps} from 'react-native-svg';
+import {TrapOverviewScreen} from 'screens/trap';
 const Tab = createBottomTabNavigator();
 
 const getRouteIcon = (
@@ -30,7 +31,7 @@ export const TabNavigator = () => {
           return <Icon color={color} />;
         },
       })}>
-      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Home" component={TrapOverviewScreen} />
       <Tab.Screen name="Style" component={Style} />
     </Tab.Navigator>
   );

@@ -1,17 +1,30 @@
+import {createBox} from '@shopify/restyle';
 import React from 'react';
-import {View} from './View';
+import {ScrollView as NS} from 'react-native';
+import {SafeAreaView} from './SafeAreaView';
+import {Theme} from './theme';
 
 type Props = {
   children: React.ReactNode;
 };
 
+const ScrollView =
+  createBox<
+    Theme,
+    React.ComponentProps<typeof NS> & {children?: React.ReactNode}
+  >(NS);
+
 export const Screen = ({children}: Props) => (
-  <View
-    justifyContent="center"
-    flexDirection="column"
-    paddingHorizontal="m"
-    flex={1}
-    bg="background">
-    {children}
-  </View>
+  <SafeAreaView flex={1}>
+    <ScrollView
+      flexDirection="column"
+      paddingHorizontal="m"
+      keyboardShouldPersistTaps="always"
+      contentContainerStyle={style}
+      bg="background">
+      {children}
+    </ScrollView>
+  </SafeAreaView>
 );
+
+const style = {flexGrow: 1};

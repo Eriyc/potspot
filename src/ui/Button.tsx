@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator, TouchableOpacity} from 'react-native';
+import {ActivityIndicator} from 'react-native';
 import {
   useRestyle,
   spacing,
@@ -17,6 +17,7 @@ import {
 import {Text} from './Text';
 import {View} from './View';
 import {Theme} from './theme';
+import {Pressable} from './Pressable';
 
 const buttonVariant = createVariant({themeKey: 'buttonVariants'});
 const ButtonContainer = createRestyleComponent<
@@ -52,15 +53,15 @@ export const Button = ({
   const textVariant = 'button_' + variant;
 
   return (
-    <TouchableOpacity onPress={onPress}>
-      <ButtonContainer
-        borderRadius={44}
+    <ButtonContainer borderRadius={44} marginVertical="s">
+      <Pressable
+        justifyContent="center"
         flexDirection="row"
         paddingVertical="m"
         paddingHorizontal="xl"
-        marginVertical="s"
-        justifyContent="center"
-        {...props}>
+        android_ripple={{foreground: true, borderless: false}}
+        {...props}
+        onPress={onPress}>
         {loading ? (
           <ActivityIndicator size="small" />
         ) : (
@@ -68,7 +69,7 @@ export const Button = ({
             {label}
           </Text>
         )}
-      </ButtonContainer>
-    </TouchableOpacity>
+      </Pressable>
+    </ButtonContainer>
   );
 };
