@@ -1,4 +1,4 @@
-import type {AuthStackParamList} from './AuthNavigator';
+import type {AuthStackParamList} from './auth-navigator';
 
 export type RootStackParamList = AuthStackParamList;
 
