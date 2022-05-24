@@ -6,17 +6,18 @@ import memoize from 'lodash.memoize';
 const translationGetters = {
   // lazy requires (metro bundler does not support symlinks)
   en: () => require('translations/en.json'),
+  sv: () => require('translations/sv.json'),
   //fr: () => require('./src/translations/fr.json'),
 };
 
 export const translate = memoize(
-  key => i18n.t(key),
+  (key, _ = undefined) => i18n.t(key),
   (key, config) => (config ? key + JSON.stringify(config) : key),
 );
 
 export const setI18nConfig = () => {
   // fallback if no available language fits
-  const fallback = {languageTag: 'en', isRTL: false};
+  const fallback = {languageTag: 'sv', isRTL: false};
 
   const {languageTag, isRTL} = fallback;
   // RNLocalize.findBestAvailableLanguage(Object.keys(translationGetters)) ||
@@ -26,7 +27,7 @@ export const setI18nConfig = () => {
   translate?.cache?.clear?.();
   // update layout direction
   I18nManager.forceRTL(isRTL);
-  // set Lang to english for now
-  i18n.translations = {[languageTag]: translationGetters.en()};
+  // set Lang to swedish for now
+  i18n.translations = {[languageTag]: translationGetters.sv()};
   i18n.locale = languageTag;
 };

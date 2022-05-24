@@ -1,4 +1,5 @@
 /// Auth.tsx
+import {supabase} from 'api/client';
 import create from 'zustand';
 import {getToken, setToken, removeToken, TokenType} from './utils';
 
@@ -24,11 +25,18 @@ export const useAuth = create<AuthState>((set, get) => ({
   hydrate: () => {
     try {
       const userToken = getToken();
-      console.log({userToken});
       if (userToken !== null) {
         get().signIn(userToken);
       } else {
-        get().signOut();
+        const session = supabase.auth.session();
+        if (session) {
+          get().signIn({
+            access: session.access_token,
+            refresh: session.refresh_token!,
+          });
+        } else {
+          get().signOut();
+        }
       }
     } catch (e) {
       // catch error here

@@ -5,7 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {useAuth} from 'core';
 import {NavigationContainer} from './NavigationContainer';
 import {TabNavigator} from './TabNavigator';
-import {AuthNavigator} from './AuthNavigator';
+import {AuthNavigator} from './auth-navigator';
 
 const Stack = createStackNavigator();
 
