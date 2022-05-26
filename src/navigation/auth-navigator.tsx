@@ -28,9 +28,21 @@ export const AuthNavigator = () => {
         component={LandingScreen}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="sign-in" component={SignInScreen} />
-      <Stack.Screen name="sign-up" component={SignUpScreen} />
-      <Stack.Screen name="forgot-password" component={ForgotPasswordScreen} />
+      <Stack.Screen
+        name="sign-in"
+        component={SignInScreen}
+        options={{title: ''}}
+      />
+      <Stack.Screen
+        name="sign-up"
+        options={{title: ''}}
+        component={SignUpScreen}
+      />
+      <Stack.Screen
+        name="forgot-password"
+        options={{title: ''}}
+        component={ForgotPasswordScreen}
+      />
     </Stack.Navigator>
   );
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import 'react-native-url-polyfill/auto';
 import 'react-native-gesture-handler';
 import {ThemeProvider} from 'ui';
 import FlashMessage from 'react-native-flash-message';

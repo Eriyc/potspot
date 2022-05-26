@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Style} from 'screens';
 import {Home as HomeIcon, Settings} from 'ui';
 import {SvgProps} from 'react-native-svg';
 import {TrapOverviewScreen} from 'screens/trap';
@@ -22,17 +21,23 @@ const getRouteIcon = (
   return Icon;
 };
 
+const TabIcon = (color: string, route: string) => {
+  const Icon = getRouteIcon(route);
+  return <Icon color={color} />;
+};
+
 export const TabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
-        tabBarIcon: ({color}) => {
-          const Icon = getRouteIcon(route.name);
-          return <Icon color={color} />;
-        },
+        tabBarIcon: ({color}) => TabIcon(color, route.name),
       })}>
-      <Tab.Screen name="Home" component={TrapOverviewScreen} />
-      <Tab.Screen name="Style" component={Style} />
+      <Tab.Screen
+        name="Home"
+        component={TrapOverviewScreen}
+        options={{headerShown: false}}
+      />
+      <Tab.Screen name="Style" component={TrapOverviewScreen} />
     </Tab.Navigator>
   );
 };
