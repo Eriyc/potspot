@@ -2,7 +2,7 @@ import create from 'zustand';
 
 type MapState = {
   selectedTrap: number | null;
-  setSelectedTrap: (id: number) => void;
+  setSelectedTrap: (id: number | null) => void;
 };
 
 export const useMapState = create<MapState>((set, get) => ({

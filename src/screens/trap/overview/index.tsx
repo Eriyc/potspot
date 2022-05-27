@@ -10,7 +10,7 @@ const TrapOverviewScreen = () => {
   return (
     <View flex={1}>
       <FullTrapMap traps={data} />
-      <TrapsWidget />
+      <TrapsWidget traps={data} />
     </View>
   );
 };

@@ -6,6 +6,7 @@ import {
   BoxProps,
   useTheme as useRTheme,
 } from '@shopify/restyle';
+import {useColorScheme} from 'react-native';
 
 type BaseThemeType = typeof BaseTheme & {
   textVariants: {[key: string]: TextProps<typeof BaseTheme>};
@@ -22,6 +23,8 @@ const BaseTheme = {
     primary: '#151522',
     secondary: '#9c27b0',
     muted: '#f1f3f4',
+
+    lightblue: '#bae6fd',
 
     // from figma file
 
@@ -74,7 +77,87 @@ export const theme = createTheme({
     },
   },
   textVariants: {
+    defaults: {
+      color: 'black',
+    },
+    header: {
+      fontFamily: 'Inter',
+      fontWeight: 'bold',
+      fontSize: 22,
+      lineHeight: 42.5,
+      color: 'black',
+    },
+    subheader: {
+      fontFamily: 'Inter',
+      fontWeight: '600',
+      fontSize: 28,
+      lineHeight: 36,
+      color: 'grey1',
+    },
+    body: {
+      fontFamily: 'Inter',
+      fontSize: 15,
+      lineHeight: 24,
+      color: 'grey2',
+    },
+    button_primary: {
+      fontFamily: 'Inter',
+      fontSize: 16,
+      lineHeight: 22,
+      color: 'white',
+    },
+    button_secondary: {
+      fontFamily: 'Inter',
+      fontSize: 16,
+      lineHeight: 22,
+      color: 'white',
+    },
+    button_outline: {
+      fontFamily: 'Inter',
+      fontSize: 16,
+      lineHeight: 22,
+      color: 'text',
+    },
+    label: {
+      fontFamily: 'Inter',
+      fontSize: 13,
+      lineHeight: 18,
+      color: 'grey2',
+      paddingVertical: 's',
+    },
+  },
+});
+
+const darkTheme = createTheme({
+  ...BaseTheme,
+  navigation: {
+    colors: {
+      primary: 'rgb(0, 122, 255)',
+      background: '#f8f8fa',
+      card: '#f8f8fa',
+      text: '#000',
+      border: 'rgb(199, 199, 204)',
+      notification: 'red',
+    },
+  },
+  buttonVariants: {
     defaults: {},
+    primary: {
+      backgroundColor: 'primary',
+    },
+    secondary: {
+      backgroundColor: 'secondary',
+    },
+    outline: {
+      backgroundColor: 'white',
+      borderColor: 'primary',
+      borderWidth: 1,
+    },
+  },
+  textVariants: {
+    defaults: {
+      color: 'black',
+    },
     header: {
       fontFamily: 'Inter',
       fontWeight: 'bold',
@@ -125,8 +208,14 @@ export const theme = createTheme({
 
 export type Theme = typeof theme;
 
-export const ThemeProvider = ({children}: {children: React.ReactNode}) => (
-  <ReThemeProvider theme={theme}>{children}</ReThemeProvider>
-);
+export const ThemeProvider = ({children}: {children: React.ReactNode}) => {
+  const scheme = useColorScheme();
+
+  return (
+    <ReThemeProvider theme={scheme === 'light' ? theme : darkTheme}>
+      {children}
+    </ReThemeProvider>
+  );
+};
 
 export const useTheme = () => useRTheme<Theme>();

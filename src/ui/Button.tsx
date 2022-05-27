@@ -20,10 +20,6 @@ import {Theme} from './theme';
 import {Pressable} from './Pressable';
 
 const buttonVariant = createVariant({themeKey: 'buttonVariants'});
-const ButtonContainer = createRestyleComponent<
-  VariantProps<Theme, 'buttonVariants'> & React.ComponentProps<typeof View>,
-  Theme
->([buttonVariant], View);
 
 const restyleFunctions = composeRestyleFunctions([
   buttonVariant as any,
@@ -40,6 +36,7 @@ type Props = SpacingProps<Theme> &
     label?: string;
     outline?: boolean;
     loading?: boolean;
+    icon?: JSX.Element;
   };
 
 export const Button = ({
@@ -47,29 +44,27 @@ export const Button = ({
   label,
   loading = false,
   variant = 'primary',
-  ...rest
+  icon,
 }: Props) => {
-  const props = useRestyle(restyleFunctions, {...rest, variant});
   const textVariant = 'button_' + variant;
 
   return (
-    <ButtonContainer borderRadius={44} marginVertical="s">
+    <View borderRadius={4} marginVertical="s">
       <Pressable
         justifyContent="center"
         flexDirection="row"
+        alignItems="center"
         paddingVertical="m"
-        paddingHorizontal="xl"
-        android_ripple={{foreground: true, borderless: false}}
-        {...props}
+        android_ripple={{foreground: true, borderless: true}}
         onPress={onPress}>
-        {loading ? (
-          <ActivityIndicator size="small" />
-        ) : (
-          <Text variant={textVariant as Partial<keyof Theme['textVariants']>}>
-            {label}
-          </Text>
-        )}
+        {loading ? <ActivityIndicator size="small" /> : {icon}}
+        <Text
+          variant={
+            textVariant as keyof Omit<Theme['textVariants'], 'defaults'>
+          }>
+          {label}
+        </Text>
       </Pressable>
-    </ButtonContainer>
+    </View>
   );
 };

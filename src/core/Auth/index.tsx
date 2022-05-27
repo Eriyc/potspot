@@ -5,6 +5,7 @@ import {getToken, setToken, removeToken, TokenType} from './utils';
 
 interface AuthState {
   token: TokenType | null;
+  uid: string | null;
   status: 'idle' | 'signOut' | 'signIn';
   signIn: (data: TokenType) => void;
   signOut: () => void;
@@ -14,9 +15,10 @@ interface AuthState {
 export const useAuth = create<AuthState>((set, get) => ({
   status: 'idle',
   token: null,
+  uid: null,
   signIn: token => {
     setToken(token);
-    set({status: 'signIn', token});
+    set({status: 'signIn', token, uid: supabase.auth.user()?.id});
   },
   signOut: () => {
     removeToken();

@@ -2,8 +2,14 @@ import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Home as HomeIcon, Settings} from 'ui';
 import {SvgProps} from 'react-native-svg';
-import {TrapOverviewScreen} from 'screens/trap';
-const Tab = createBottomTabNavigator();
+import {TrapNavigator, TrapStackParamsList} from './trap-navigator';
+import {NavigatorScreenParams} from '@react-navigation/native';
+
+export type TabStackParamsList = {
+  Home: NavigatorScreenParams<TrapStackParamsList>;
+};
+
+const Tab = createBottomTabNavigator<TabStackParamsList>();
 
 const getRouteIcon = (
   routeName: string,
@@ -34,10 +40,9 @@ export const TabNavigator = () => {
       })}>
       <Tab.Screen
         name="Home"
-        component={TrapOverviewScreen}
+        component={TrapNavigator}
         options={{headerShown: false}}
       />
-      <Tab.Screen name="Style" component={TrapOverviewScreen} />
     </Tab.Navigator>
   );
 };
