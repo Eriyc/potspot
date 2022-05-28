@@ -14,7 +14,7 @@ setJSExceptionHandler((error, isFatal) => {
 
 //For most use cases:
 setNativeExceptionHandler(exceptionString => {
-  console.log({exceptionString});
+  console.error({exceptionString});
   // This is your custom global error handler
   // You do stuff likehit google analytics to track crashes.
   // or hit a custom api to inform the dev team.
@@ -23,7 +23,7 @@ setNativeExceptionHandler(exceptionString => {
 });
 
 const myErrorHandler = (error: Error) => {
-  console.log(error);
+  console.log('error:!', error);
   //   captureException(error);
 };
 

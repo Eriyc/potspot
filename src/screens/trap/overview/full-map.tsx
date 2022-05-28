@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useRef} from 'react';
-import Mapbox, {OnPressEvent, SymbolLayerStyle} from '@rnmapbox/maps';
+import MapboxGL, {OnPressEvent, SymbolLayerStyle} from '@rnmapbox/maps';
 import {MapBase, Pressable, Text, View, WIDTH} from 'ui';
 import {TrapFeatureCollection, TrapFeatureType} from 'api/trap';
 import {useMapState} from './map-state';
@@ -19,7 +19,7 @@ const SelectedPin = ({trap}: {trap: TrapFeatureType}) => {
   const navigation = useNavigation<TrapNavigationProp<'overview'>>();
 
   return (
-    <Mapbox.MarkerView
+    <MapboxGL.MarkerView
       coordinate={trap.geometry.coordinates}
       id={`trap-${trap.id}`}>
       <View bg="white" width={WIDTH * 0.5}>
@@ -31,13 +31,13 @@ const SelectedPin = ({trap}: {trap: TrapFeatureType}) => {
           <Text>{trap.properties.displayname}</Text>
         </Pressable>
       </View>
-    </Mapbox.MarkerView>
+    </MapboxGL.MarkerView>
   );
 };
 
 export const FullTrapMap = ({traps}: TrapMapProps) => {
   const mapState = useMapState();
-  const camera = useRef<Mapbox.Camera>(null);
+  const camera = useRef<MapboxGL.Camera>(null);
 
   useEffect(() => {
     camera.current?.setCamera({
@@ -70,18 +70,18 @@ export const FullTrapMap = ({traps}: TrapMapProps) => {
   return (
     <View flex={1}>
       <MapBase onPress={closeSelected} style={mapstyle}>
-        <Mapbox.Camera
+        <MapboxGL.Camera
           ref={camera}
           defaultSettings={{centerCoordinate: INITIAL_POS, zoomLevel: 8}}
         />
 
-        {traps && (
-          <Mapbox.ShapeSource
+        {traps?.features && (
+          <MapboxGL.ShapeSource
             id="trap-locations"
             shape={traps}
             onPress={handlePinPress}>
-            <Mapbox.SymbolLayer id="mapPinsLayer" style={markerStyle} />
-          </Mapbox.ShapeSource>
+            <MapboxGL.SymbolLayer id="mapPinsLayer" style={markerStyle} />
+          </MapboxGL.ShapeSource>
         )}
         {mapState.selectedTrap && <SelectedPin trap={selectedTrap} />}
       </MapBase>

@@ -1,7 +1,7 @@
-import MapboxGL from '@rnmapbox/maps';
+import MapboxGL, {Logger} from '@rnmapbox/maps';
 import {useLocation} from 'core/use-location';
-import React, {PropsWithChildren} from 'react';
-import {ViewStyle} from 'react-native';
+import React, {PropsWithChildren, useEffect} from 'react';
+import {LogBox, ViewStyle} from 'react-native';
 
 type MapBaseProps = PropsWithChildren<{
   style?: ViewStyle;
@@ -10,23 +10,35 @@ type MapBaseProps = PropsWithChildren<{
   ) => void;
 }>;
 
-const openSeaMapTiles = {
+LogBox.ignoreLogs([
+  'Failed to load tile',
+  'Request failed due to a permanent error:',
+]);
+
+const rasterSourceProps = {
+  id: 'stamenWatercolorSource',
   tileUrlTemplates: ['https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png'],
   tileSize: 256,
-  id: 'openseamap',
 };
 
 export const MapBase = ({children, onPress, style}: MapBaseProps) => {
   const [_, granted] = useLocation();
 
+  useEffect(() => {
+    return () => {
+      console.log('unmounting');
+    };
+  }, []);
+
   return (
-    <MapboxGL.MapView
-      onPress={onPress}
-      style={style}
-      styleURL="mapbox://styles/mapbox/satellite-v9">
+    <MapboxGL.MapView style={style} onPress={onPress} styleURL={MapboxGL.StyleURL.SatelliteStreet}>
       {granted && <MapboxGL.UserLocation />}
-      <MapboxGL.RasterSource {...openSeaMapTiles}>
-        <MapboxGL.RasterLayer id="openseamapLayer" sourceID="openseamap" />
+      <MapboxGL.RasterSource {...rasterSourceProps}>
+        <MapboxGL.RasterLayer
+          id="stamenWatercolorLayer"
+          sourceID={rasterSourceProps.id}
+          style={{rasterOpacity: 1}}
+        />
       </MapboxGL.RasterSource>
 
       {children}

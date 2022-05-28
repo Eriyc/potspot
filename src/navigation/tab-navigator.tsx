@@ -4,9 +4,11 @@ import {Home as HomeIcon, Settings} from 'ui';
 import {SvgProps} from 'react-native-svg';
 import {TrapNavigator, TrapStackParamsList} from './trap-navigator';
 import {NavigatorScreenParams} from '@react-navigation/native';
+import {SettingsNavigator, SettingsStackParamsList} from './settings-navigator';
 
 export type TabStackParamsList = {
   Home: NavigatorScreenParams<TrapStackParamsList>;
+  settings: NavigatorScreenParams<SettingsStackParamsList>;
 };
 
 const Tab = createBottomTabNavigator<TabStackParamsList>();
@@ -35,12 +37,18 @@ const TabIcon = (color: string, route: string) => {
 export const TabNavigator = () => {
   return (
     <Tab.Navigator
+      initialRouteName='settings'
       screenOptions={({route}) => ({
         tabBarIcon: ({color}) => TabIcon(color, route.name),
       })}>
       <Tab.Screen
         name="Home"
         component={TrapNavigator}
+        options={{headerShown: false}}
+      />
+      <Tab.Screen
+        name="settings"
+        component={SettingsNavigator}
         options={{headerShown: false}}
       />
     </Tab.Navigator>

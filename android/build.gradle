@@ -9,6 +9,8 @@ buildscript {
         compileSdkVersion = 31
         targetSdkVersion = 31
 
+        RNMapboxMapsImpl = "mapbox-gl"
+
         if (System.properties['os.arch'] == "aarch64") {
             // For M1 Users we need to use the NDK 24 which added support for aarch64
             ndkVersion = "24.0.8215888"
@@ -51,7 +53,7 @@ allprojects {
             }
             credentials {
                 // Do not change the username below.
-                // This should always be `mapbox` (not your username).
+                // This should always be `mapbox` (not your username). 
                 username = 'mapbox'
                 // Use the secret token you stored in gradle.properties as the password
                 password = project.properties['MAPBOX_DOWNLOADS_TOKEN'] ?: "sk.eyJ1IjoiZXJpeWMiLCJhIjoiY2tzamIwZnZrMTBnZTJvbWIzdjliMW5nYSJ9.uQW0_WnVy38DdntfjJfs-A"
