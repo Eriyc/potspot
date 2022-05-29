@@ -104,5 +104,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Eriyc/potspot.git"
-  }
+  },
+  "packageManager": "yarn@3.2.1"
 }
