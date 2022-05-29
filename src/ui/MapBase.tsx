@@ -8,6 +8,9 @@ type MapBaseProps = PropsWithChildren<{
   onPress?: (
     feature: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>,
   ) => void;
+  onRegionDidChange?: (
+    feature: GeoJSON.Feature<GeoJSON.Point, MapboxGL.RegionPayload>,
+  ) => void;
 }>;
 
 LogBox.ignoreLogs([
@@ -21,7 +24,7 @@ const rasterSourceProps = {
   tileSize: 256,
 };
 
-export const MapBase = ({children, onPress, style}: MapBaseProps) => {
+export const MapBase = ({children, onPress, style, onRegionDidChange}: MapBaseProps) => {
   const [_, granted] = useLocation();
 
   useEffect(() => {
@@ -31,7 +34,11 @@ export const MapBase = ({children, onPress, style}: MapBaseProps) => {
   }, []);
 
   return (
-    <MapboxGL.MapView style={style} onPress={onPress} styleURL={MapboxGL.StyleURL.SatelliteStreet}>
+    <MapboxGL.MapView
+      style={style}
+      onPress={onPress}
+      styleURL={MapboxGL.StyleURL.SatelliteStreet}
+      onRegionDidChange={onRegionDidChange}>
       {granted && <MapboxGL.UserLocation />}
       <MapboxGL.RasterSource {...rasterSourceProps}>
         <MapboxGL.RasterLayer

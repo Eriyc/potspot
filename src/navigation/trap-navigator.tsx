@@ -1,6 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {
+  CreateNewTrapScreen,
   GetTrapScreen,
   PickBaitModal,
   SetTrapScreen,
@@ -14,6 +15,7 @@ export type TrapStackParamsList = {
   details: {id: number};
   set: {id: number; bait?: number};
   get: {id: number};
+  create: undefined;
   'pick-bait-modal': {returnTo: keyof TrapStackParamsList; bait: number};
 };
 
@@ -35,10 +37,29 @@ export const TrapNavigator = () => {
         component={TrapOverviewScreen}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="details" component={TrapDetails} />
+      <Stack.Screen
+        name="details"
+        component={TrapDetails}
+        options={{title: 'Detaljer'}}
+      />
       <Stack.Group screenOptions={{}}>
-        <Stack.Screen name="set" component={SetTrapScreen} />
-        <Stack.Screen name="get" component={GetTrapScreen} />
+        <Stack.Screen
+          name="set"
+          component={SetTrapScreen}
+          options={{title: 'Sätt tina'}}
+        />
+        <Stack.Screen
+          name="get"
+          component={GetTrapScreen}
+          options={{title: 'Vittja tina'}}
+        />
+        <Stack.Screen
+          name="create"
+          component={CreateNewTrapScreen}
+          options={{
+            title: 'Skapa ny tina',
+          }}
+        />
       </Stack.Group>
       <Stack.Screen
         name="pick-bait-modal"

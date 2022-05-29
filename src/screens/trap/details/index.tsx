@@ -9,11 +9,14 @@ import {ActionsWidget} from './actions-widget';
 import {BaitWidget} from './bait-widget';
 import {DetailsMapWidget} from './map-widget';
 
+import distance from '@turf/distance';
+import {useLocation} from 'core/use-location';
+
 export const TrapDetails = () => {
   const {
     params: {id},
   } = useRoute<TrapRoute<'details'>>();
-
+  const [pos, granted] = useLocation();
   const {data} = useSingleTrap(id);
 
   if (!data) {
@@ -21,12 +24,19 @@ export const TrapDetails = () => {
   }
 
   const trap = data as Trap;
+
+  const d = distance(pos, trap.pos);
+
   return (
     <ScrollView contentContainerStyle={{flexGrow: 1}}>
       <DetailsMapWidget coordinates={trap.pos} />
       <View p="l">
-        <Text variant="header">{trap.displayname}</Text>
-
+        <View mb="m">
+          <Text variant="header">
+            {trap.displayname}
+          </Text>
+          {granted && <Text color="grey2">{Math.floor(d)} km bort</Text>}
+        </View>
         {trap.created_by && (
           <TrapAccessWidget id={trap.id} created_by={trap.created_by} />
         )}

@@ -3,7 +3,9 @@ import {TrapFeatureCollection, TrapFeatureType, useAllTraps} from 'api/trap';
 import {TrapNavigationProp} from 'navigation/trap-navigator';
 import React, {memo, useCallback, useRef} from 'react';
 import {FlatList, ListRenderItem, ViewToken} from 'react-native';
+
 import {Plus} from 'react-native-feather';
+
 import {ErrorHandler, IS_IOS, Pressable, Text, useTheme, View, WIDTH} from 'ui';
 import {useMapState} from './map-state';
 
@@ -36,20 +38,26 @@ const TrapButton: ListRenderItem<TrapFeatureType> = memo(({item, index}) => {
 
 const CreateNewTrapButton = () => {
   const theme = useTheme();
+  const navigation = useNavigation<TrapNavigationProp<'overview'>>();
 
   return (
     <View
       bg="background"
+      overflow="hidden"
       borderRadius={8}
       width={BUTTON_WIDTH}
       style={{marginHorizontal: MARGIN}}>
       <Pressable
-        paddingHorizontal="l"
-        alignItems="center"
-        paddingVertical="m"
-        flexDirection="row">
-        <Plus color={theme.colors.primary} />
-        <Text marginLeft="s">Ny tina</Text>
+        onPress={() => navigation.navigate('create')}
+        android_ripple={{borderless: true}}>
+        <View
+          flexDirection="row"
+          paddingHorizontal="l"
+          alignItems="center"
+          paddingVertical="m">
+          <Plus color={theme.colors.primary} />
+          <Text marginLeft="s">Ny tina</Text>
+        </View>
       </Pressable>
     </View>
   );

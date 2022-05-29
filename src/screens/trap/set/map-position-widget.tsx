@@ -7,6 +7,7 @@ import {INITIAL_POS, MapBase, Pressable, Text, useTheme, View, WIDTH} from 'ui';
 
 type MapPositionWidgetProps = {
   initialCoordinates?: [number, number];
+  onPositionChanged?: (pos: [number, number]) => void;
 };
 
 export const MapPositionWidget = (props: MapPositionWidgetProps) => {
@@ -18,10 +19,15 @@ export const MapPositionWidget = (props: MapPositionWidgetProps) => {
 
   const theme = useTheme();
 
+  const handlePositionChanged = (pos: [number, number]) => {
+    props.onPositionChanged?.(pos);
+    setMapLocation(pos);
+  };
+
   const setUserLocation = () => {
     if (!locationGranted) return;
     if (!camera.current) return;
-    setMapLocation(userLocation as [number, number]);
+    handlePositionChanged(userLocation as [number, number]);
     camera.current.setCamera({
       animationDuration: 400,
       centerCoordinate: userLocation,
@@ -36,11 +42,15 @@ export const MapPositionWidget = (props: MapPositionWidgetProps) => {
         <Text variant="header">Välj plats</Text>
       </View>
       <View height={250} justifyContent="center" alignItems="center">
-        <MapBase style={mapStyle}>
+        <MapBase
+          style={mapStyle}
+          onRegionDidChange={p =>
+            handlePositionChanged(p.geometry.coordinates as [number, number])
+          }>
           <MapboxGL.Camera
             ref={camera}
             defaultSettings={{
-              centerCoordinate: props.initialCoordinates || INITIAL_POS,
+              centerCoordinate: mapLocation,
               zoomLevel: 8,
             }}
           />
