@@ -1,17 +1,16 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
+import {useAllBait} from 'api/bait';
 import {TrapNavigationProp, TrapRoute} from 'navigation/trap-navigator';
 import React, {useState} from 'react';
-import {Pressable, Text, View} from 'ui';
+import {ScrollView} from 'react-native-gesture-handler';
+import {Pressable, Text, theme, View, WIDTH} from 'ui';
 
 export const PickBaitModal = () => {
   const route = useRoute<TrapRoute<'pick-bait-modal'>>();
   const navigation = useNavigation<TrapNavigationProp<'pick-bait-modal'>>();
+  const {data} = useAllBait();
 
-  const [bait, setBait] = useState(route.params.bait || null);
-
-  const returnValue = () => {
-    if (!bait) return;
-
+  const returnValue = (bait: number) => {
     navigation.navigate({
       name: route.params.returnTo,
       params: {bait},
@@ -21,12 +20,44 @@ export const PickBaitModal = () => {
 
   return (
     <View>
-      <Pressable p="m" onPress={() => setBait(10)}>
-        <Text>ändra</Text>
-      </Pressable>
-      <Pressable p="m" onPress={returnValue}>
-        <Text>test</Text>
-      </Pressable>
+      <View paddingHorizontal="m" paddingVertical="xl">
+        <Text variant="header">Välj ett bete</Text>
+        <Text variant="body">
+          Nuvarande bete:{' '}
+          {data?.find(b => b.id === route.params.bait)?.name || 'Okänt'}
+        </Text>
+      </View>
+
+      <ScrollView
+        contentContainerStyle={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          flexGrow: 1,
+        }}>
+        {data?.map((b, i) => (
+          <View
+            key={b.id}
+            flexBasis={(WIDTH - theme.spacing.s) / 2}
+            justifyContent="center"
+            alignItems="center"
+            overflow="hidden"
+            borderWidth={1}
+            mr={i % 2 === 0 ? 's' : undefined}
+            mb="s"
+            flexDirection="row"
+            borderRadius={4}>
+            <Pressable
+              onPress={() => returnValue(b.id)}
+              flex={1}
+              justifyContent="center"
+              alignItems="center"
+              p="xl"
+              android_ripple={{borderless: true, radius: WIDTH / 3}}>
+              <Text>{b.name}</Text>
+            </Pressable>
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 };

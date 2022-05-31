@@ -23,7 +23,6 @@ const getBait = async (id: number) => {
 
 export const useBait = (baitId?: number) => {
   const queryClient = useQueryClient();
-  useQuery(true && ['name', 'gamer'], () => new Promise(() => null));
   return useQuery<Bait>(
     baitId !== undefined ? ['bait', baitId] : [],
     () => getBait(baitId!),

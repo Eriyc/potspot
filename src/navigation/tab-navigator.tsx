@@ -21,7 +21,7 @@ const getRouteIcon = (
     case 'Home':
       Icon = HomeIcon;
       break;
-    case 'Style':
+    case 'settings':
       Icon = Settings;
       break;
   }
@@ -37,7 +37,7 @@ const TabIcon = (color: string, route: string) => {
 export const TabNavigator = () => {
   return (
     <Tab.Navigator
-      initialRouteName='settings'
+      initialRouteName='Home'
       screenOptions={({route}) => ({
         tabBarIcon: ({color}) => TabIcon(color, route.name),
       })}>
