@@ -32,9 +32,7 @@ export const TrapDetails = () => {
       <DetailsMapWidget coordinates={trap.pos} />
       <View p="l">
         <View mb="m">
-          <Text variant="header">
-            {trap.displayname}
-          </Text>
+          <Text variant="header">{trap.displayname}</Text>
           {granted && <Text color="grey2">{Math.floor(d)} km bort</Text>}
         </View>
         {trap.created_by && (
@@ -43,7 +41,7 @@ export const TrapDetails = () => {
 
         {trap.bait && <BaitWidget baitId={trap.bait} />}
 
-        <ActionsWidget id={id} />
+        <ActionsWidget id={id} in_use={trap.in_use} />
       </View>
     </ScrollView>
   );

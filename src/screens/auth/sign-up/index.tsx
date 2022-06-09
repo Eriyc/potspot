@@ -54,6 +54,7 @@ export const SignUpScreen = () => {
           label="Skapa konto"
           onPress={handleSubmit(onSubmit)}
           variant="secondary"
+          loading={signUp.isLoading}
         />
       </View>
     </Screen>

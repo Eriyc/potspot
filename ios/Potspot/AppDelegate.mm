@@ -17,6 +17,8 @@
 
 #import <react/config/ReactNativeConfig.h>
 
+#import <RollbarReactNative/RollbarReactNative.h>
+
 @interface AppDelegate () <RCTCxxBridgeDelegate, RCTTurboModuleManagerDelegate> {
   RCTTurboModuleManager *_turboModuleManager;
   RCTSurfacePresenterBridgeAdapter *_bridgeAdapter;
@@ -31,6 +33,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   RCTAppSetupPrepareApp(application);
+  [RollbarReactNative initWithAccessToken:@"f08e92b0b7444355ac7b98427c6a3db4"];
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 

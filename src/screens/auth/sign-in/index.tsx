@@ -75,6 +75,7 @@ export const SignInScreen = () => {
           label="Login"
           onPress={handleSubmit(onSubmit)}
           variant="secondary"
+          loading={signIn.isLoading}
         />
         <Pressable mt="m" alignItems="center" onPress={forgotPassword}>
           <Text>Glömt lösenordet?</Text>

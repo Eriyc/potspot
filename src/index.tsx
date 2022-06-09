@@ -6,7 +6,7 @@ import 'react-native-get-random-values';
 import {ThemeProvider} from 'ui';
 import FlashMessage from 'react-native-flash-message';
 import {RootNavigator} from 'navigation';
-import {hydrateAuth, setI18nConfig} from 'core';
+import {hydrateAuth, rollbar, setI18nConfig} from 'core';
 import APIProvider from 'api/api-provider';
 import MapboxGL from '@rnmapbox/maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';

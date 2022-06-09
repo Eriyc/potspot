@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {ChevronRight, ExternalLink} from 'react-native-feather';
 
-import {Pressable, Text, useTheme, View} from 'ui';
+import {Pressable, Text, theme, useTheme, View} from 'ui';
 import {SectionData, SectionType} from '../types';
 import {AccountWidget} from './account-widget';
 import {InformationWidget} from './other-widget';
@@ -64,7 +64,8 @@ const renderSection = (
       <Pressable
         p="m"
         flexDirection="row"
-        android_ripple={{borderless: true}}
+        android_ripple={{borderless: true, color: theme.colors.grey3}}
+        alignItems="center"
         onPress={onPress}>
         <View flex={1}>
           <Text>{label}</Text>

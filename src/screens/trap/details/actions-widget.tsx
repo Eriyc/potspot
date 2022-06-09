@@ -1,10 +1,11 @@
-import {NavigationProp, useNavigation} from '@react-navigation/native';
+import { useNavigation} from '@react-navigation/native';
 import {TrapNavigationProp} from 'navigation/trap-navigator';
 import React from 'react';
-import {Pressable, Text, View} from 'ui';
+import {Button, View} from 'ui';
 
 type ActionsWidgetProps = {
   id: number;
+  in_use: boolean;
 };
 export const ActionsWidget = (props: ActionsWidgetProps) => {
   const navigation = useNavigation<TrapNavigationProp<'details'>>();
@@ -18,17 +19,9 @@ export const ActionsWidget = (props: ActionsWidgetProps) => {
 
   return (
     <View marginVertical="l" flexDirection="row">
-      <View borderWidth={1} borderRadius={4} flex={1}>
-        <Pressable p="m" flex={1} alignItems="center" onPress={gotoGet}>
-          <Text>Vittja tinan</Text>
-        </Pressable>
-      </View>
+      <Button onPress={gotoGet} label="Vittja tinan" padding="m" flex={1} />
       <View width={8} />
-      <View flex={1} borderWidth={1} borderRadius={4}>
-        <Pressable p="m" flex={1} alignItems="center" onPress={gotoSet}>
-          <Text>Sätt tinan</Text>
-        </Pressable>
-      </View>
+      <Button onPress={gotoSet} label="Sätt tinan" padding="m" flex={1} />
     </View>
   );
 };
