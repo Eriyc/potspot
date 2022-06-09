@@ -3,7 +3,7 @@ import {
   SettingsNavigationProp,
   SettingsStackParamsList,
 } from 'navigation/settings-navigator';
-import React, {memo, useCallback, useMemo} from 'react';
+import React, {useCallback} from 'react';
 import {
   Linking,
   SectionList,
@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {ChevronRight, ExternalLink} from 'react-native-feather';
 
-import {Pressable, Text, theme, useTheme, View} from 'ui';
+import {Pressable, Text, theme, View} from 'ui';
 import {SectionData, SectionType} from '../types';
 import {AccountWidget} from './account-widget';
 import {InformationWidget} from './other-widget';
@@ -21,7 +21,7 @@ import {TrapWidget} from './trap-widget';
 
 const widgets = [TrapWidget, AccountWidget, InformationWidget];
 
-const renderSectionHeader = ({
+const RenderSectionHeader = ({
   section,
 }: {
   section: SectionListData<SectionType, SectionData>;
@@ -33,7 +33,7 @@ const renderSectionHeader = ({
     </View>
   );
 };
-const renderSection = (
+const RenderSection = (
   props: SectionListRenderItemInfo<SectionType, SectionData>,
 ) => {
   const navigation = useNavigation<SettingsNavigationProp<'dashboard'>>();
@@ -41,20 +41,43 @@ const renderSection = (
   const isLast = props.index === props.section.data.length - 1;
   const isFirst = props.index === 0;
 
-  const {external, label, navigateTo} = props.item;
-
   const onPress = useCallback(() => {
-    if (external) {
-      Linking.openURL(navigateTo);
-    } else {
-      navigation.navigate(navigateTo as keyof SettingsStackParamsList);
+    if (props.item.custom) {
+      return;
     }
-  }, [external, navigateTo, navigation]);
+
+    if (props.item.external) {
+      Linking.openURL(props.item.navigateTo);
+    } else {
+      navigation.navigate(
+        props.item.navigateTo as keyof SettingsStackParamsList,
+      );
+    }
+  }, [props.item, navigation]);
+
+  if (props.item.custom) {
+    return (
+      <View
+        bg="background"
+        borderColor="grey3"
+        overflow="hidden"
+        style={[
+          isFirst && styles.first,
+          isLast && styles.last,
+          isFirst && isLast && styles.only,
+        ]}>
+        {props.item.component}
+      </View>
+    );
+  }
+
+  const {external, label} = props.item;
 
   return (
     <View
       bg="background"
       borderColor="grey3"
+      borderBottomWidth={1.2}
       overflow="hidden"
       style={[
         isFirst && styles.first,
@@ -85,8 +108,8 @@ export const ListWidget = () => {
     <View p="l">
       <SectionList
         sections={widgets}
-        renderItem={renderSection}
-        renderSectionHeader={renderSectionHeader}
+        renderItem={RenderSection}
+        renderSectionHeader={RenderSectionHeader}
       />
     </View>
   );

@@ -1,10 +1,19 @@
 import React from 'react';
-import {Screen, Text} from 'ui';
+import {useForm} from 'react-hook-form';
+import {Button, Input, Screen, Text} from 'ui';
+
+type ForgotPasswordData = {
+  email: string;
+};
 
 export const ForgotPasswordScreen = () => {
+  const {control} = useForm<ForgotPasswordData>();
+
   return (
     <Screen>
-      <Text>Glömt lösenord</Text>
+      <Text variant="header">Glömt lösenord</Text>
+      <Input control={control} name="email" label="Emailaddress" />
+      <Button label="Skicka återställningsmail" onPress={() => null} />
     </Screen>
   );
 };

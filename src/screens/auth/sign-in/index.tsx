@@ -41,7 +41,6 @@ export const SignInScreen = () => {
   return (
     <Screen>
       <View
-        justifyContent="center"
         flex={1}
         mt="xl"
         elevation={8}

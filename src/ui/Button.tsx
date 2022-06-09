@@ -1,14 +1,9 @@
 import React from 'react';
 import {ActivityIndicator} from 'react-native';
 import {
-  spacing,
-  border,
-  backgroundColor,
   SpacingProps,
   BorderProps,
   VariantProps,
-  composeRestyleFunctions,
-  createVariant,
   LayoutProps,
   BackgroundColorProps,
 } from '@shopify/restyle';
@@ -17,15 +12,6 @@ import {Text} from './Text';
 import {View} from './View';
 import {theme, Theme} from './theme';
 import {Pressable} from './Pressable';
-
-const buttonVariant = createVariant({themeKey: 'buttonVariants'});
-
-const restyleFunctions = composeRestyleFunctions([
-  buttonVariant as any,
-  spacing,
-  border,
-  backgroundColor,
-]);
 
 type Props = SpacingProps<Theme> &
   VariantProps<Theme, 'buttonVariants'> &
