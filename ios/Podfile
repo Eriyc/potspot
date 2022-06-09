@@ -17,10 +17,6 @@ target 'Potspot' do
   pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
   pod 'Permission-LocationAccuracy', :path => "#{permissions_path}/LocationAccuracy"
 
-  pod 'React', path: '../node_modules/react-native'
-  pod 'RollbarReactNative', path: '../node_modules/rollbar-react-native/ios'
-  pod 'yoga', path: '../node_modules/react-native/ReactCommon/yoga'
-
   # Flags change depending on the env values.
   flags = get_default_flags()
 

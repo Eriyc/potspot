@@ -3,7 +3,7 @@ import {Trap, useSingleTrap} from 'api/trap';
 import {TrapRoute} from 'navigation/trap-navigator';
 import React from 'react';
 import {ScrollView} from 'react-native';
-import {Screen, Text, View} from 'ui';
+import {Text, View} from 'ui';
 import {TrapAccessWidget} from './access-widget';
 import {ActionsWidget} from './actions-widget';
 import {BaitWidget} from './bait-widget';

@@ -1,4 +1,4 @@
-import { useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {TrapNavigationProp} from 'navigation/trap-navigator';
 import React from 'react';
 import {Button, View} from 'ui';

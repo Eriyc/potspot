@@ -8,7 +8,7 @@ import {
 import {showErrorMessage} from 'ui/utils';
 import {ErrorFallback} from './ErrorFallback';
 
-setJSExceptionHandler((error, isFatal) => {
+setJSExceptionHandler((error, _isFatal) => {
   if (error.message && !error.message.includes('permanent error: Canceled')) {
     rollbar.error(error);
   }

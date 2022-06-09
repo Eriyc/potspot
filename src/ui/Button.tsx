@@ -44,13 +44,10 @@ export const Button = ({
   onPress,
   label,
   loading = false,
-  variant = 'primary',
   icon,
   flex,
   padding = 'm',
 }: Props) => {
-  const textVariant = 'defaults';
-
   return (
     <View
       borderRadius={4}
