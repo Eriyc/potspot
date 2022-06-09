@@ -30,7 +30,9 @@ export const useSetTrap = () => {
     onSuccess: (data, vars) => {
       queryClient.invalidateQueries({queryKey: 'traps'});
       queryClient.setQueryData<Trap | undefined>(['trap', vars.id], trap => {
-        if (!trap) return undefined;
+        if (!trap) {
+          return undefined;
+        }
 
         return {
           ...trap,

@@ -7,17 +7,17 @@ type TrapAccessWidgetProps = {
   id: number;
   created_by: string;
 };
-export const TrapAccessWidget = ({id, created_by}: TrapAccessWidgetProps) => {
+export const TrapAccessWidget = ({created_by}: TrapAccessWidgetProps) => {
   const {data} = useProfile(created_by);
   const {uid} = useAuth();
 
-  if (!data) return <View></View>;
+  if (!data) {
+    return <View />;
+  }
 
   return (
     <View>
-      <Text>
-        Ägs av {created_by === uid ? 'dig' : data.username}
-      </Text>
+      <Text>Ägs av {created_by === uid ? 'dig' : data.username}</Text>
     </View>
   );
 };

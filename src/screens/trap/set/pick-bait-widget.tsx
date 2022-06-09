@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import {useBait} from 'api/bait';
-import {TrapNavigationProp, TrapRoute} from 'navigation/trap-navigator';
+import {TrapNavigationProp} from 'navigation/trap-navigator';
 import React from 'react';
 import {Pressable, Text, View} from 'ui';
 

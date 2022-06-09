@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import {TrapFeatureCollection, TrapFeatureType, useAllTraps} from 'api/trap';
+import {TrapFeatureCollection, TrapFeatureType} from 'api/trap';
 import {TrapNavigationProp} from 'navigation/trap-navigator';
 import React, {memo, useCallback, useRef} from 'react';
 import {FlatList, ListRenderItem, ViewToken} from 'react-native';
@@ -13,7 +13,7 @@ const BUTTON_WIDTH = WIDTH * 0.75;
 const MARGIN = (WIDTH * 0.25) / 4 / 2;
 const OFFSET = (WIDTH * 0.25) / 2 - MARGIN;
 
-const TrapButton: ListRenderItem<TrapFeatureType> = memo(({item, index}) => {
+const TrapButton: ListRenderItem<TrapFeatureType> = memo(({item}) => {
   const navigation = useNavigation<TrapNavigationProp<'overview'>>();
 
   return (
@@ -24,7 +24,9 @@ const TrapButton: ListRenderItem<TrapFeatureType> = memo(({item, index}) => {
       style={{marginHorizontal: MARGIN}}>
       <Pressable
         onPress={() =>
-          navigation.navigate('details', {id: parseInt(item.id!.toString())})
+          navigation.navigate('details', {
+            id: parseInt(item.id!.toString(), 10),
+          })
         }
         paddingHorizontal="l"
         paddingVertical="m"
@@ -77,14 +79,19 @@ export const TrapsWidget = ({traps}: TrapsWidgetProps) => {
 
   const handleViewableItems = useCallback(
     ({viewableItems}: ViewableItemsProps) => {
-      if (viewableItems.length === 0) return;
+      if (viewableItems.length === 0) {
+        return;
+      }
 
       mapState.setSelectedTrap(viewableItems[0].item.id);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
-  if (!traps || !traps.features) return <View></View>;
+  if (!traps || !traps.features) {
+    return <View />;
+  }
 
   return (
     <View position="absolute" bottom={0} left={0} right={0}>
@@ -97,19 +104,21 @@ export const TrapsWidget = ({traps}: TrapsWidgetProps) => {
             (_, i) => i * (BUTTON_WIDTH + MARGIN * 2),
           )}
           decelerationRate="fast"
-          contentContainerStyle={{
-            paddingHorizontal: !IS_IOS ? OFFSET : undefined,
-            paddingBottom: 8,
-          }}
+          contentContainerStyle={style}
           onViewableItemsChanged={handleViewableItems}
           viewabilityConfig={{itemVisiblePercentThreshold: 50}}
           horizontal
           renderItem={props => <TrapButton {...props} />}
           data={traps.features}
           onScrollToIndexFailed={() => null}
-          ListFooterComponent={() => <CreateNewTrapButton />}
+          ListFooterComponent={CreateNewTrapButton}
         />
       </ErrorHandler>
     </View>
   );
+};
+
+const style = {
+  paddingHorizontal: !IS_IOS ? OFFSET : undefined,
+  paddingBottom: 8,
 };

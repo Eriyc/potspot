@@ -20,10 +20,12 @@ export const useSingleTrap = (id: number) => {
       const item = queryClient
         .getQueryData<TrapFeatureCollection>('traps')
         ?.features.find(d => d.id === id);
-      if (!item) return;
+      if (!item) {
+        return;
+      }
 
       return {
-        id: parseInt(item.id!.toString()),
+        id: parseInt(item.id!.toString(), 10),
         displayname: item.properties.displayname,
         pos: item.geometry.coordinates as [number, number],
       };

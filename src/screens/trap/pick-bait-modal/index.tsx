@@ -1,7 +1,7 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useAllBait} from 'api/bait';
 import {TrapNavigationProp, TrapRoute} from 'navigation/trap-navigator';
-import React, {useState} from 'react';
+import React from 'react';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Pressable, Text, theme, View, WIDTH} from 'ui';
 
@@ -28,12 +28,7 @@ export const PickBaitModal = () => {
         </Text>
       </View>
 
-      <ScrollView
-        contentContainerStyle={{
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          flexGrow: 1,
-        }}>
+      <ScrollView contentContainerStyle={scrollStyle}>
         {data?.map((b, i) => (
           <View
             key={b.id}
@@ -60,4 +55,10 @@ export const PickBaitModal = () => {
       </ScrollView>
     </View>
   );
+};
+
+const scrollStyle = {
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  flexGrow: 1,
 };

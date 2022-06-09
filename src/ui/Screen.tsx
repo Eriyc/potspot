@@ -8,11 +8,10 @@ type Props = {
   children: React.ReactNode;
 };
 
-const ScrollView =
-  createBox<
-    Theme,
-    React.ComponentProps<typeof NS> & {children?: React.ReactNode}
-  >(NS);
+const ScrollView = createBox<
+  Theme,
+  React.ComponentProps<typeof NS> & {children?: React.ReactNode}
+>(NS);
 
 export const Screen = ({children}: Props) => (
   <SafeAreaView flex={1}>

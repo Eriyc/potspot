@@ -28,7 +28,7 @@ export const TrapDetails = () => {
   const d = distance(pos, trap.pos);
 
   return (
-    <ScrollView contentContainerStyle={{flexGrow: 1}}>
+    <ScrollView contentContainerStyle={grow}>
       <DetailsMapWidget coordinates={trap.pos} />
       <View p="l">
         <View mb="m">
@@ -46,3 +46,5 @@ export const TrapDetails = () => {
     </ScrollView>
   );
 };
+
+const grow = {flexGrow: 1};

@@ -29,7 +29,7 @@ type GenderWidgetProps = {
 };
 
 export const GenderWidget = (props: GenderWidgetProps) => {
-  const [_, changeGender] = useState<Gender>('male');
+  const [, changeGender] = useState<Gender>('male');
 
   const setGender = (g: Gender) => {
     props.onGenderChange?.(g);

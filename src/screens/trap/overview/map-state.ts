@@ -5,7 +5,7 @@ type MapState = {
   setSelectedTrap: (id: number | null) => void;
 };
 
-export const useMapState = create<MapState>((set, get) => ({
+export const useMapState = create<MapState>(set => ({
   selectedTrap: null,
   setSelectedTrap: id => set({selectedTrap: id}),
 }));

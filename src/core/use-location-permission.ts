@@ -30,16 +30,18 @@ export const useLocationPermission = () => {
         if (
           status['ios.permission.LOCATION_WHEN_IN_USE'] === 'granted' ||
           status['ios.permission.LOCATION_WHEN_IN_USE'] === 'limited'
-        )
+        ) {
           return setGranted(true);
+        }
       } else {
         if (
           status['android.permission.ACCESS_COARSE_LOCATION'] === 'granted' ||
           status['android.permission.ACCESS_COARSE_LOCATION'] === 'limited' ||
           status['android.permission.ACCESS_FINE_LOCATION'] === 'granted' ||
           status['android.permission.ACCESS_FINE_LOCATION'] === 'limited'
-        )
+        ) {
           return setGranted(true);
+        }
       }
 
       status = await requestMultiple(platformPerm[os]);
@@ -48,16 +50,18 @@ export const useLocationPermission = () => {
         if (
           status['ios.permission.LOCATION_WHEN_IN_USE'] === 'granted' ||
           status['ios.permission.LOCATION_WHEN_IN_USE'] === 'limited'
-        )
+        ) {
           return setGranted(true);
+        }
       } else {
         if (
           status['android.permission.ACCESS_COARSE_LOCATION'] === 'granted' ||
           status['android.permission.ACCESS_COARSE_LOCATION'] === 'limited' ||
           status['android.permission.ACCESS_FINE_LOCATION'] === 'granted' ||
           status['android.permission.ACCESS_FINE_LOCATION'] === 'limited'
-        )
+        ) {
           return setGranted(true);
+        }
       }
     };
 

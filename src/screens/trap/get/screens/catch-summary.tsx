@@ -56,11 +56,7 @@ export const CatchSummary = () => {
 
   return (
     <View flex={1} pb="xl">
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          paddingHorizontal: theme.spacing.l,
-        }}>
+      <ScrollView contentContainerStyle={style}>
         <Text variant="header">Sammanfattning</Text>
         <Text>Ny data</Text>
         <Text fontWeight="bold">
@@ -99,4 +95,9 @@ export const CatchSummary = () => {
       <Footer onBack={goPrevious} onNext={goNext} nextLabel="Avsluta" />
     </View>
   );
+};
+
+const style = {
+  flexGrow: 1,
+  paddingHorizontal: theme.spacing.l,
 };
