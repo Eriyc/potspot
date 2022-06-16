@@ -37,8 +37,9 @@ const TabIcon = (color: string, route: string) => {
 export const TabNavigator = () => {
   return (
     <Tab.Navigator
-      initialRouteName='Home'
+      initialRouteName="Home"
       screenOptions={({route}) => ({
+        tabBarShowLabel: false,
         tabBarIcon: ({color}) => TabIcon(color, route.name),
       })}>
       <Tab.Screen
@@ -49,7 +50,10 @@ export const TabNavigator = () => {
       <Tab.Screen
         name="settings"
         component={SettingsNavigator}
-        options={{headerShown: false}}
+        options={() => ({
+          headerShown: false,
+          tabBarHideOnKeyboard: true,
+        })}
       />
     </Tab.Navigator>
   );

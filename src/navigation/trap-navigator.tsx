@@ -17,6 +17,7 @@ export type TrapStackParamsList = {
   get: {id: number};
   create: undefined;
   'pick-bait-modal': {returnTo: keyof TrapStackParamsList; bait: number};
+  'trap-list': undefined;
 };
 
 export type TrapRoute<T extends keyof TrapStackParamsList> = RouteProp<
@@ -42,6 +43,7 @@ export const TrapNavigator = () => {
         component={TrapDetails}
         options={{title: 'Detaljer'}}
       />
+
       <Stack.Group screenOptions={{}}>
         <Stack.Screen
           name="set"

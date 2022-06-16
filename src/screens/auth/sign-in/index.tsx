@@ -41,7 +41,6 @@ export const SignInScreen = () => {
   return (
     <Screen>
       <View
-        justifyContent="center"
         flex={1}
         mt="xl"
         elevation={8}
@@ -75,6 +74,7 @@ export const SignInScreen = () => {
           label="Login"
           onPress={handleSubmit(onSubmit)}
           variant="secondary"
+          loading={signIn.isLoading}
         />
         <Pressable mt="m" alignItems="center" onPress={forgotPassword}>
           <Text>Glömt lösenordet?</Text>

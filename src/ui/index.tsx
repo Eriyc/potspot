@@ -10,4 +10,4 @@ export * from './utils';
 export * from './icons';
 export * from './constants';
 export * from './MapBase';
-export * from './checkbox'
+export * from './checkbox';

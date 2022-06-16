@@ -3,7 +3,7 @@ import {useLocation} from 'core/use-location';
 import React, {useRef, useState} from 'react';
 import {ViewStyle} from 'react-native';
 import {Crosshair} from 'react-native-feather';
-import {INITIAL_POS, MapBase, Pressable, Text, useTheme, View, WIDTH} from 'ui';
+import {INITIAL_POS, MapBase, Pressable, Text, useTheme, View} from 'ui';
 
 type MapPositionWidgetProps = {
   initialCoordinates?: [number, number];
@@ -25,8 +25,12 @@ export const MapPositionWidget = (props: MapPositionWidgetProps) => {
   };
 
   const setUserLocation = () => {
-    if (!locationGranted) return;
-    if (!camera.current) return;
+    if (!locationGranted) {
+      return;
+    }
+    if (!camera.current) {
+      return;
+    }
     handlePositionChanged(userLocation as [number, number]);
     camera.current.setCamera({
       animationDuration: 400,
@@ -58,16 +62,7 @@ export const MapPositionWidget = (props: MapPositionWidgetProps) => {
             <MapboxGL.PointAnnotation
               coordinate={props.initialCoordinates}
               id="trap-position">
-              <View
-                style={{
-                  backgroundColor: '#ec4899',
-                  borderWidth: 2,
-                  borderColor: 'white',
-                  height: 16,
-                  width: 16,
-                  borderRadius: 1000,
-                }}
-              />
+              <View style={pin} />
             </MapboxGL.PointAnnotation>
           )}
         </MapBase>
@@ -103,4 +98,13 @@ const mapStyle: ViewStyle = {
   right: 0,
   bottom: 0,
   position: 'absolute',
+};
+
+const pin = {
+  backgroundColor: '#ec4899',
+  borderWidth: 2,
+  borderColor: 'white',
+  height: 16,
+  width: 16,
+  borderRadius: 1000,
 };

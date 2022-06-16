@@ -12,16 +12,7 @@ export const DetailsMapWidget = ({coordinates}: DetailsMapWidgetProps) => {
         defaultSettings={{centerCoordinate: coordinates, zoomLevel: 11}}
       />
       <MapboxGL.PointAnnotation coordinate={coordinates} id="trap-position">
-        <View
-          style={{
-            backgroundColor: '#ec4899',
-            borderWidth: 2,
-            borderColor: 'white',
-            height: 16,
-            width: 16,
-            borderRadius: 1000,
-          }}
-        />
+        <View style={pin} />
       </MapboxGL.PointAnnotation>
     </MapBase>
   );
@@ -29,4 +20,13 @@ export const DetailsMapWidget = ({coordinates}: DetailsMapWidgetProps) => {
 
 const mapStyle = {
   height: 220,
+};
+
+const pin = {
+  backgroundColor: '#ec4899',
+  borderWidth: 2,
+  borderColor: 'white',
+  height: 16,
+  width: 16,
+  borderRadius: 1000,
 };

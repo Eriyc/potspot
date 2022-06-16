@@ -26,7 +26,9 @@ export const SetTrapScreen = () => {
   const [baitId, setBait] = useState<number | undefined>();
   const [pos, setPos] = useState(data!.pos);
 
-  if (!data) return <View />;
+  if (!data) {
+    return <View />;
+  }
 
   const trap = data as Trap;
 
@@ -44,7 +46,7 @@ export const SetTrapScreen = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={{flexGrow: 1}}>
+    <ScrollView contentContainerStyle={fill}>
       <AlertWidget trap={trap} />
       <MapPositionWidget
         initialCoordinates={trap.in_use ? trap.pos : undefined}
@@ -73,3 +75,5 @@ export const SetTrapScreen = () => {
     </ScrollView>
   );
 };
+
+const fill = {flexGrow: 1};

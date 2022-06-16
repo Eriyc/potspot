@@ -30,6 +30,7 @@ export const SignUpScreen = () => {
   return (
     <Screen>
       <View
+        mt="xl"
         elevation={8}
         shadowRadius={4}
         shadowOpacity={0.3}
@@ -54,6 +55,7 @@ export const SignUpScreen = () => {
           label="Skapa konto"
           onPress={handleSubmit(onSubmit)}
           variant="secondary"
+          loading={signUp.isLoading}
         />
       </View>
     </Screen>

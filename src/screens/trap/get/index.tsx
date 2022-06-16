@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Text, View} from 'ui';
+import {View} from 'ui';
 import {GetAvalibleCatchesIds, useGetState} from './get-trap-state';
 import {CatchSummary} from './screens/catch-summary';
 import {VittjaCrabFlow} from './screens/crab';
@@ -21,6 +21,7 @@ export const GetTrapScreen = () => {
     return () => {
       getState.reset();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (getState.current) {

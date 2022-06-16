@@ -3,11 +3,9 @@ import React from 'react';
 import {Info} from 'react-native-feather';
 import {SectionData} from '../types';
 
-export const InformationWidget : SectionData = ({
+export const InformationWidget: SectionData = {
   title: 'Information',
-  icon: (
-    <Info height={24} width={24} color={'black'} />
-  ),
+  icon: <Info height={24} width={24} color={'black'} />,
   data: [
     {
       external: true,
@@ -16,4 +14,4 @@ export const InformationWidget : SectionData = ({
         'https://www.havochvatten.se/fiske-och-handel/regler-och-lagar/arter-regler-for-fiske-och-rapportering/hummerfiske---regler.html',
     },
   ],
-});
+};

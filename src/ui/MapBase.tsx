@@ -1,4 +1,4 @@
-import MapboxGL, {Logger} from '@rnmapbox/maps';
+import MapboxGL from '@rnmapbox/maps';
 import {useLocation} from 'core/use-location';
 import React, {PropsWithChildren, useEffect} from 'react';
 import {LogBox, ViewStyle} from 'react-native';
@@ -24,8 +24,13 @@ const rasterSourceProps = {
   tileSize: 256,
 };
 
-export const MapBase = ({children, onPress, style, onRegionDidChange}: MapBaseProps) => {
-  const [_, granted] = useLocation();
+export const MapBase = ({
+  children,
+  onPress,
+  style,
+  onRegionDidChange,
+}: MapBaseProps) => {
+  const [, granted] = useLocation();
 
   useEffect(() => {
     return () => {
@@ -44,7 +49,7 @@ export const MapBase = ({children, onPress, style, onRegionDidChange}: MapBasePr
         <MapboxGL.RasterLayer
           id="stamenWatercolorLayer"
           sourceID={rasterSourceProps.id}
-          style={{rasterOpacity: 1}}
+          style={rasterStyle}
         />
       </MapboxGL.RasterSource>
 
@@ -52,3 +57,5 @@ export const MapBase = ({children, onPress, style, onRegionDidChange}: MapBasePr
     </MapboxGL.MapView>
   );
 };
+
+const rasterStyle = {rasterOpacity: 1};

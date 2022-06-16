@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import {Text, View} from 'ui';
 import {Lobster, useGetState} from '../get-trap-state';
 import {AmountScreen} from './amount';
-import {AmountWidget} from './amount/amount-widget';
-import {Button, Footer} from './common';
+import {Footer} from './common';
 import {GenderWidget} from './gender-widget';
 
 export const VittjaLobsterFlow = () => {
@@ -13,7 +12,9 @@ export const VittjaLobsterFlow = () => {
   const [gender, setGender] = useState<'male' | 'female' | undefined>();
   const [carapax, setCarapax] = useState(0);
 
-  if (!state.current) return <View />;
+  if (!state.current) {
+    return <View />;
+  }
 
   if (state.current.current === 0) {
     return <AmountScreen plural="hummer" singular="hummer" />;

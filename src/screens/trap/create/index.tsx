@@ -21,8 +21,7 @@ export const CreateNewTrapScreen = () => {
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={{flexGrow: 1, paddingBottom: theme.spacing.l}}>
+    <ScrollView contentContainerStyle={grow}>
       <MapPositionWidget onPositionChanged={setPos} />
       <View flex={1} paddingHorizontal="l">
         <Text variant="header">Ange namn på tinan</Text>
@@ -50,3 +49,5 @@ export const CreateNewTrapScreen = () => {
     </ScrollView>
   );
 };
+
+const grow = {flexGrow: 1, paddingBottom: theme.spacing.l};

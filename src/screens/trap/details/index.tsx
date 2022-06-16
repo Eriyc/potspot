@@ -3,7 +3,7 @@ import {Trap, useSingleTrap} from 'api/trap';
 import {TrapRoute} from 'navigation/trap-navigator';
 import React from 'react';
 import {ScrollView} from 'react-native';
-import {Screen, Text, View} from 'ui';
+import {Text, View} from 'ui';
 import {TrapAccessWidget} from './access-widget';
 import {ActionsWidget} from './actions-widget';
 import {BaitWidget} from './bait-widget';
@@ -28,13 +28,11 @@ export const TrapDetails = () => {
   const d = distance(pos, trap.pos);
 
   return (
-    <ScrollView contentContainerStyle={{flexGrow: 1}}>
+    <ScrollView contentContainerStyle={grow}>
       <DetailsMapWidget coordinates={trap.pos} />
       <View p="l">
         <View mb="m">
-          <Text variant="header">
-            {trap.displayname}
-          </Text>
+          <Text variant="header">{trap.displayname}</Text>
           {granted && <Text color="grey2">{Math.floor(d)} km bort</Text>}
         </View>
         {trap.created_by && (
@@ -43,8 +41,10 @@ export const TrapDetails = () => {
 
         {trap.bait && <BaitWidget baitId={trap.bait} />}
 
-        <ActionsWidget id={id} />
+        <ActionsWidget id={id} in_use={trap.in_use} />
       </View>
     </ScrollView>
   );
 };
+
+const grow = {flexGrow: 1};

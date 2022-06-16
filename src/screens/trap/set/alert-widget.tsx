@@ -1,4 +1,4 @@
-import {Trap, useSingleTrap} from 'api/trap';
+import {Trap} from 'api/trap';
 import React from 'react';
 import {Info} from 'react-native-feather';
 import {Text, useTheme, View} from 'ui';
@@ -9,7 +9,7 @@ type AlertWidgetProps = {
 export const AlertWidget = ({trap}: AlertWidgetProps) => {
   const theme = useTheme();
   if (!trap.in_use) {
-    return <View></View>;
+    return <View />;
   }
 
   return (

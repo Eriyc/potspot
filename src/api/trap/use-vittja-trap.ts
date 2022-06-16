@@ -5,7 +5,6 @@ import {TrapNavigationProp} from 'navigation/trap-navigator';
 import {useMutation, useQueryClient} from 'react-query';
 import {GetAvalibleCatchesIds} from 'screens/trap/get/get-trap-state';
 import {Trap} from './use-all-traps';
-import {useSingleTrap} from './use-single-trap';
 
 type UseVittjaTrapData = {
   data: Record<
@@ -20,7 +19,7 @@ const vittjaTrap = async (
   trapId: number,
   baitId: number,
 ) => {
-  Object.entries(data).forEach(([id, val]) => {
+  Object.entries(data).forEach(([, val]) => {
     const amount = val.amount;
     console.log(`${amount}x ${val.type}`);
     val.data.forEach(lobster => {
@@ -30,7 +29,7 @@ const vittjaTrap = async (
     });
   });
 
-  const {body, error} = await supabase.from('catch').insert({
+  const {error} = await supabase.from('catch').insert({
     created_by: uid,
     trap_id: trapId,
     position: `POINT(${pos[0]} ${pos[1]})`,

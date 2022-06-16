@@ -26,7 +26,9 @@ const SelectedPin = ({trap}: {trap: TrapFeatureType}) => {
         <Pressable
           p="m"
           onPress={() =>
-            navigation.navigate('details', {id: parseInt(trap.id!.toString())})
+            navigation.navigate('details', {
+              id: parseInt(trap.id!.toString(), 10),
+            })
           }>
           <Text>{trap.properties.displayname}</Text>
         </Pressable>
@@ -41,23 +43,28 @@ export const FullTrapMap = ({traps}: TrapMapProps) => {
 
   useEffect(() => {
     camera.current?.setCamera({
-      centerCoordinate: traps?.features.find(i => i.id == mapState.selectedTrap)
-        ?.geometry.coordinates,
+      centerCoordinate: traps?.features.find(
+        i => i.id === mapState.selectedTrap,
+      )?.geometry.coordinates,
       animationDuration: 200,
       zoomLevel: 10,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapState.selectedTrap]);
 
   const handlePinPress = ({features}: OnPressEvent) => {
     const trap = features[0];
     const id = trap.id;
 
-    if (!id) return;
-    mapState.setSelectedTrap(parseInt(id.toString()));
+    if (!id) {
+      return;
+    }
+    mapState.setSelectedTrap(parseInt(id.toString(), 10));
   };
 
   const selectedTrap = useMemo(
     () => traps?.features?.find(t => t.id === mapState.selectedTrap)!,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [mapState.selectedTrap],
   );
 
@@ -65,6 +72,7 @@ export const FullTrapMap = ({traps}: TrapMapProps) => {
     if (mapState.selectedTrap) {
       mapState.setSelectedTrap(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapState.selectedTrap]);
 
   return (

@@ -50,7 +50,7 @@ export const Cancel = () => {
 
 type PaginationButtonProps = {
   onPress?: () => boolean;
-  label?: string
+  label?: string;
 };
 export const Previous = ({onPress}: PaginationButtonProps) => {
   const getState = useGetState();

@@ -111,21 +111,27 @@ export const useGetState = create<GetState>((set, get) => ({
   reset: () => set({current: null, data: {}}),
   next: () => {
     const s = get();
-    if (!s.current) return;
+    if (!s.current) {
+      return;
+    }
 
     set({current: {...s.current, current: s.current.current + 1}});
   },
   previous: () => {
     const s = get();
-    if (!s.current) return;
+    if (!s.current) {
+      return;
+    }
 
     set({current: {...s.current, current: s.current.current - 1}});
   },
   setAmount: (amount, individually) => {
     const s = get();
-    if (!s.current) return;
+    if (!s.current) {
+      return;
+    }
 
-    let data = undefined;
+    let data: Array<Lobster | Crab | Other>;
     if (!individually) {
       data = Array<Lobster | Crab | Other>(amount).fill(
         defaultCatch[s.current.id],
@@ -144,7 +150,9 @@ export const useGetState = create<GetState>((set, get) => ({
   },
   complete: () => {
     const current = get().current;
-    if (!current) return;
+    if (!current) {
+      return;
+    }
 
     const data = get().data;
     const id = nanoid(5);
@@ -168,7 +176,9 @@ export const useGetState = create<GetState>((set, get) => ({
   },
   editCurrentData: (index, editedData) => {
     const s = get().current;
-    if (!s) return;
+    if (!s) {
+      return;
+    }
 
     const data = s.data;
     data[index] = editedData;

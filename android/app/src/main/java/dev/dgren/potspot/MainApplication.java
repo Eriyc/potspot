@@ -12,6 +12,7 @@ import com.facebook.soloader.SoLoader;
 import dev.dgren.potspot.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import com.rollbar.RollbarReactNative;
 
 //reanimated deps
 import com.facebook.react.bridge.JSIModulePackage;
@@ -64,6 +65,8 @@ public class MainApplication extends Application implements ReactApplication {
     // If you opted-in for the New Architecture, we enable the TurboModule system
     ReactFeatureFlags.useTurboModules = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
     SoLoader.init(this, /* native exopackage */ false);
+    RollbarReactNative.init(this, "f08e92b0b7444355ac7b98427c6a3db4", "production");
+
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 
