@@ -33,6 +33,10 @@ const getAllTraps = async (): Promise<GetTrapsGeojsonReturn['j']> => {
     throw error;
   }
 
+  if (!body.j.features) {
+    body.j.features = [];
+  }
+
   return body.j;
 };
 

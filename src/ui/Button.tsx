@@ -24,6 +24,7 @@ type Props = SpacingProps<Theme> &
     outline?: boolean;
     loading?: boolean;
     icon?: JSX.Element;
+    ripple?: string;
   };
 
 export const Button = ({
@@ -33,13 +34,17 @@ export const Button = ({
   icon,
   flex,
   padding = 'm',
+  borderColor,
+  backgroundColor,
+  ripple,
 }: Props) => {
   return (
     <View
       borderRadius={4}
       marginVertical="s"
       borderWidth={1}
-      bg="background"
+      borderColor={borderColor}
+      bg={backgroundColor || 'background'}
       flex={flex}
       overflow="hidden">
       <Pressable
@@ -47,7 +52,7 @@ export const Button = ({
         flexDirection="row"
         alignItems="center"
         padding={padding}
-        android_ripple={{borderless: true, color: theme.colors.grey3}}
+        android_ripple={{borderless: true, color: ripple || theme.colors.grey3}}
         onPress={onPress}>
         {loading ? <ActivityIndicator size="small" /> : icon}
         <Text>{label}</Text>

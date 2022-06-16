@@ -14,10 +14,17 @@ export const AlertWidget = ({trap}: AlertWidgetProps) => {
 
   return (
     <View bg="lightblue" p="m" m="m" flexDirection="row" alignItems="center">
-      <Info color={theme.colors.text} />
-      <Text ml="s" fontWeight="bold">
-        Tinan är redan i vattnet
-      </Text>
+      <View>
+        <Info color={theme.colors.text} />
+      </View>
+      <View>
+        <Text ml="s" fontWeight="bold">
+          Tinan är redan i vattnet
+        </Text>
+        <Text ml="s" fontWeight="normal" textBreakStrategy="highQuality">
+          Plats och/eller bete kommer ändras
+        </Text>
+      </View>
     </View>
   );
 };

@@ -19,8 +19,8 @@ buildscript {
             // fail due to paths longer than the OS limit
             ndkVersion = "23.1.7779620"
         } else {
-            // Otherwise we default to the side-by-side NDK version from AGP.
-            ndkVersion = "21.4.7075529"
+            // Otherwise we default to the pre-installed Codemagic NDK version.
+            ndkVersion = "22.0.7026061"
         }
     }
     repositories {

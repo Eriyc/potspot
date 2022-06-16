@@ -8,12 +8,15 @@ import {
 import {showErrorMessage} from 'ui/utils';
 import {ErrorFallback} from './ErrorFallback';
 
-setJSExceptionHandler((error, _isFatal) => {
-  if (error.message && !error.message.includes('permanent error: Canceled')) {
+setJSExceptionHandler((error, isFatal) => {
+  if ((error as any) !== 'Mapbox error') {
     rollbar.error(error);
+    showErrorMessage(error.message || (error as any));
   }
 
-  showErrorMessage(error.message);
+  if (isFatal) {
+    rollbar.critical(error);
+  }
 }, true);
 
 //For most use cases:

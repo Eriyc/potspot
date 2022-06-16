@@ -89,6 +89,8 @@ export const TrapsWidget = ({traps}: TrapsWidgetProps) => {
     [],
   );
 
+  console.log(traps);
+
   if (!traps || !traps.features) {
     return <View />;
   }
