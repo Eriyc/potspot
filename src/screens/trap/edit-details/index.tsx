@@ -30,3 +30,5 @@ export const EditTrapDetailsScreen = () => {
     </View>
   );
 };
+
+export {renderEditButton} from './edit-trap-button';

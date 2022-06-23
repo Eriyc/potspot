@@ -9,8 +9,10 @@ import {
   TrapOverviewScreen,
 } from 'screens/trap';
 import {NavigationProp, RouteProp} from '@react-navigation/native';
-import {EditTrapButton} from 'screens/trap/edit-details/edit-trap-button';
-import {EditTrapDetailsScreen} from 'screens/trap/edit-details';
+import {
+  EditTrapDetailsScreen,
+  renderEditButton,
+} from 'screens/trap/edit-details';
 
 export type TrapStackParamsList = {
   overview: undefined;
@@ -32,8 +34,6 @@ export type TrapNavigationProp<T extends keyof TrapStackParamsList> =
   NavigationProp<TrapStackParamsList, T>;
 
 const Stack = createStackNavigator<TrapStackParamsList>();
-
-const renderEditButton = (id: number) => <EditTrapButton id={id} />;
 
 export const TrapNavigator = () => {
   return (

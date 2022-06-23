@@ -9,6 +9,9 @@ import {Pressable, useTheme, View} from 'ui';
 type EditTrapButtonProps = {
   id: number;
 };
+
+export const renderEditButton = (id: number) => <EditTrapButton id={id} />;
+
 export const EditTrapButton = ({id}: EditTrapButtonProps) => {
   const {uid} = useAuth();
   const {data} = useSingleTrap(id);
