@@ -1,10 +1,6 @@
-import {
-  useFocusEffect,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import {Trap, useSingleTrap} from 'api/trap';
-import {TrapNavigationProp, TrapRoute} from 'navigation/trap-navigator';
+import {TrapRoute} from 'navigation/trap-navigator';
 import React from 'react';
 import {ScrollView} from 'react-native';
 import {Text, View} from 'ui';
@@ -20,11 +16,8 @@ export const TrapDetails = () => {
   const {
     params: {id},
   } = useRoute<TrapRoute<'details'>>();
-  const navigation = useNavigation<TrapNavigationProp<'details'>>();
   const [pos, granted] = useLocation();
   const {data} = useSingleTrap(id);
-
-  useFocusEffect(() => {});
 
   if (!data) {
     return <View />;
