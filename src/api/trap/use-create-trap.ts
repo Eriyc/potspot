@@ -12,7 +12,7 @@ type CreateTrapProps = {
 
 const createTrap = async ({pos, displayname}: CreateTrapProps) => {
   const {body, error} = await supabase
-    .rpc<Trap>('v1/trap/create', {
+    .rpc<Trap>('v1_trap_create', {
       details: {
         displayname: displayname,
         pos: JSON.stringify(pos),

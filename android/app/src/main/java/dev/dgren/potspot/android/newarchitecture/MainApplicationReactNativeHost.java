@@ -1,4 +1,4 @@
-package dev.dgren.potspot.newarchitecture;
+package dev.dgren.potspot.android.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import dev.dgren.potspot.BuildConfig;
-import dev.dgren.potspot.newarchitecture.components.MainComponentsRegistry;
-import dev.dgren.potspot.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import dev.dgren.potspot.android.BuildConfig;
+import dev.dgren.potspot.android.newarchitecture.components.MainComponentsRegistry;
+import dev.dgren.potspot.android.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

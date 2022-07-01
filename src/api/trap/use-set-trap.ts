@@ -8,8 +8,9 @@ type SetTrapData = {
   bait: number;
 };
 const setTrap = async (data: SetTrapData) => {
-  const {} = await supabase.rpc('v1/trap/move', {
+  const {} = await supabase.rpc('v1_trap_move', {
     details: {
+      id: data.id,
       pos: `POINT(${data.pos[0]} ${data.pos[1]})`,
       bait: data.bait,
       in_use: true,
