@@ -18,15 +18,9 @@ export const EditTrapButton = ({id}: EditTrapButtonProps) => {
   const theme = useTheme();
   const navigation = useNavigation<TrapNavigationProp<'details'>>();
 
-  const isOwner = uid === data?.created_by;
-
   const gotoEdit = () => {
     navigation.navigate('edit', {id: id});
   };
-
-  if (!isOwner) {
-    return <View />;
-  }
 
   return (
     <View mr="m" overflow="hidden" bg="white" borderRadius={32}>

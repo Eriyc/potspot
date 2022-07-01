@@ -10,10 +10,10 @@ type DeleteTrapProps = {
 const createTrap = async ({id}: DeleteTrapProps) => {
   console.log(id);
 
-  const {body, error} = await supabase.from('traps').delete().eq('id', id);
+  const {body, error} = await supabase.rpc('v1/trap/delete', {id: id});
 
   if (error) {
-    console.log('error', error);
+    console.log('error deleting trap:', error);
     throw error;
   }
 

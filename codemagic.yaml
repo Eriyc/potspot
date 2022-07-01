@@ -11,7 +11,7 @@ workflows:
         - keystore_credentials
         - production
       vars:
-        PACKAGE_NAME: 'dev.dgren.potspot' # <-- Put your package name here e.g. com.domain.myapp
+        PACKAGE_NAME: 'dev.dgren.potspot.android' # <-- Put your package name here e.g. com.domain.myapp
         NODE_OPTIONS: '--openssl-legacy-provider'
       node: latest
     triggering:

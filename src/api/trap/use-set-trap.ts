@@ -8,14 +8,15 @@ type SetTrapData = {
   bait: number;
 };
 const setTrap = async (data: SetTrapData) => {
-  const {error} = await supabase
-    .from('traps')
-    .update({
+  const {} = await supabase.rpc('v1/trap/move', {
+    details: {
       pos: `POINT(${data.pos[0]} ${data.pos[1]})`,
       bait: data.bait,
       in_use: true,
-    })
-    .eq('id', data.id);
+    },
+  });
+
+  const {error} = await supabase.from('traps').update({}).eq('id', data.id);
 
   if (error) {
     throw error;

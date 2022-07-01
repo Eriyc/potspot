@@ -27,7 +27,7 @@ type GetTrapsGeojsonReturn = {
 
 const getAllTraps = async (): Promise<GetTrapsGeojsonReturn['j']> => {
   const {error, body} = await supabase
-    .rpc<GetTrapsGeojsonReturn>('get_traps_geojson')
+    .rpc<GetTrapsGeojsonReturn>('v1/trap/fetch-all')
     .single();
   if (error) {
     throw error;

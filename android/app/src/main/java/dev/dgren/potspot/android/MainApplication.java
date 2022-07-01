@@ -1,4 +1,4 @@
-package dev.dgren.potspot;
+package dev.dgren.potspot.android;
 
 import android.app.Application;
 import android.content.Context;
@@ -9,7 +9,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.soloader.SoLoader;
-import dev.dgren.potspot.newarchitecture.MainApplicationReactNativeHost;
+import dev.dgren.potspot.android.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.rollbar.RollbarReactNative;
