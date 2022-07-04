@@ -12,6 +12,7 @@ export const AlertWidget = ({trap}: AlertWidgetProps) => {
     return <View />;
   }
 
+  const lastSet = new Date(trap.updated_at);
   return (
     <View bg="lightblue" p="m" m="m" flexDirection="row" alignItems="center">
       <View>
@@ -23,6 +24,10 @@ export const AlertWidget = ({trap}: AlertWidgetProps) => {
         </Text>
         <Text ml="s" fontWeight="normal" textBreakStrategy="highQuality">
           Plats och/eller bete kommer ändras
+        </Text>
+        <Text ml="s" fontWeight="normal" textBreakStrategy="highQuality">
+          Tinan sattes senast {lastSet.toLocaleDateString()}{' '}
+          {lastSet.toLocaleTimeString()}
         </Text>
       </View>
     </View>

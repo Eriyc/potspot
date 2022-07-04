@@ -9,6 +9,7 @@ export const DetailsMapWidget = ({coordinates}: DetailsMapWidgetProps) => {
   return (
     <MapBase style={mapStyle}>
       <MapboxGL.Camera
+        centerCoordinate={coordinates}
         defaultSettings={{centerCoordinate: coordinates, zoomLevel: 11}}
       />
       <MapboxGL.PointAnnotation coordinate={coordinates} id="trap-position">

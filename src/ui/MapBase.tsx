@@ -1,6 +1,6 @@
 import MapboxGL from '@rnmapbox/maps';
 import {useLocation} from 'core/use-location';
-import React, {PropsWithChildren, useEffect} from 'react';
+import React, {PropsWithChildren} from 'react';
 import {LogBox, ViewStyle} from 'react-native';
 
 type MapBaseProps = PropsWithChildren<{
@@ -32,12 +32,6 @@ export const MapBase = ({
 }: MapBaseProps) => {
   const [, granted] = useLocation();
 
-  useEffect(() => {
-    return () => {
-      console.log('unmounting');
-    };
-  }, []);
-
   return (
     <MapboxGL.MapView
       style={style}
@@ -50,6 +44,8 @@ export const MapBase = ({
           id="stamenWatercolorLayer"
           sourceID={rasterSourceProps.id}
           style={rasterStyle}
+          minZoomLevel={0}
+          maxZoomLevel={22}
         />
       </MapboxGL.RasterSource>
 

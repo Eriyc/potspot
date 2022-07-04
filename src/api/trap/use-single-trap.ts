@@ -7,7 +7,9 @@ const getTrap = async (id: number): Promise<Trap> => {
     throw Error('Trap not selected');
   }
 
-  const {body} = await supabase.rpc('v1_trap_fetch-single', {id: id}).single();
+  const {body} = await supabase
+    .rpc('v1_trap_fetch-single', {trap_id: id})
+    .single();
 
   return {...body, pos: body.pos.coordinates};
 };
