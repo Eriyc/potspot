@@ -6,6 +6,7 @@ import {useAuth} from 'core';
 import {NavigationContainer} from './navigation-container';
 import {TabNavigator} from './tab-navigator';
 import {AuthNavigator} from './auth-navigator';
+import {StatusBar} from 'react-native';
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,7 @@ export const Root = () => {
 
 export const RootNavigator = () => (
   <NavigationContainer>
+    <StatusBar barStyle={'dark-content'} />
     <Root />
   </NavigationContainer>
 );

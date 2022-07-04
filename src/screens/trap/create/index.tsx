@@ -38,6 +38,7 @@ export const CreateNewTrapScreen = () => {
         borderWidth={1}
         borderRadius={4}>
         <Pressable
+          disabled={mutation.isLoading}
           flex={1}
           p="l"
           justifyContent="center"
