@@ -2,7 +2,7 @@
 create or replace function public.handle_new_user() 
 returns trigger as $$
   plv8.execute('insert into public.accounts (id, email) values ($1, $2)', new.id, new.email)
-  var username = new.email.split('@')[0]
+  let username = new.email.split('@')[0]
   plv8.execute('insert into public.profiles (user_id, username) values ($1, $2)', new.id, username)
   
   return new;
