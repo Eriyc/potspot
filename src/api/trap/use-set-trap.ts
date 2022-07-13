@@ -1,4 +1,5 @@
 import {supabase} from 'api/client';
+import {rollbar} from 'core';
 import {useMutation, useQueryClient} from 'react-query';
 import {Trap} from './use-all-traps';
 
@@ -20,6 +21,8 @@ const setTrap = async (data: SetTrapData) => {
   const {error} = await supabase.from('traps').update({}).eq('id', data.id);
 
   if (error) {
+    console.log('Error updating trap position:', error);
+    rollbar.error(error);
     throw error;
   }
 

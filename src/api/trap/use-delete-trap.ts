@@ -7,9 +7,7 @@ type DeleteTrapProps = {
   id: number;
 };
 
-const createTrap = async ({id}: DeleteTrapProps) => {
-  console.log(id);
-
+const deleteTrap = async ({id}: DeleteTrapProps) => {
   const {body, error} = await supabase.rpc('v1_trap_delete', {id: id});
 
   if (error) {
@@ -24,7 +22,7 @@ const createTrap = async ({id}: DeleteTrapProps) => {
 export const useDeleteTrap = (props: DeleteTrapProps) => {
   const queryClient = useQueryClient();
   const navigation = useNavigation<TrapNavigationProp<'create'>>();
-  return useMutation('delete-trap', () => createTrap(props), {
+  return useMutation('delete-trap', () => deleteTrap(props), {
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: 'traps'});
       queryClient.refetchQueries({queryKey: 'traps'});

@@ -1,0 +1,1 @@
+export {useTrapCache} from './traps';

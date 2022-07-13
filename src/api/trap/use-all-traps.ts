@@ -1,4 +1,5 @@
 import {supabase} from 'api/client';
+import {useTrapCache} from 'core/cache';
 import {useQuery} from 'react-query';
 
 export type Trap = {
@@ -41,5 +42,13 @@ const getAllTraps = async (): Promise<GetTrapsGeojsonReturn['j']> => {
   return body.j;
 };
 
-export const useAllTraps = () =>
-  useQuery<GetTrapsGeojsonReturn['j'], Error>('traps', getAllTraps);
+export const useAllTraps = () => {
+  const trapCache = useTrapCache();
+  return useQuery<GetTrapsGeojsonReturn['j'], Error>('traps', getAllTraps, {
+    onSuccess: data => {
+      trapCache.updateCache(data.features);
+    },
+    initialData: {type: 'FeatureCollection', features: trapCache.cached},
+    initialDataUpdatedAt: trapCache.updatedAt,
+  });
+};
