@@ -1,5 +1,6 @@
 import {supabase} from 'api/client';
 import {useAuth} from 'core';
+import {useTrapCache} from 'core/cache';
 import {useMutation} from 'react-query';
 
 const signOut = async () => {
@@ -13,9 +14,12 @@ const signOut = async () => {
 };
 
 export const useSignOut = () => {
+  const trapCache = useTrapCache();
+
   const auth = useAuth();
   return useMutation<void, Error>(signOut, {
     onSuccess: () => {
+      trapCache.updateCache([]);
       auth.signOut();
     },
   });
